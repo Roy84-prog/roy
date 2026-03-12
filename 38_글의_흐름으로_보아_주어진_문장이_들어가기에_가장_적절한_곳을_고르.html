@@ -1,0 +1,1450 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>영어 지문 분석 학습지</title>
+<style>
+/* [인쇄 시 설정] */
+@media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .container { box-shadow: none; border: 1px solid #ddd; }
+    @page { margin: 10mm; size: A4; }
+    .page-break { page-break-before: always; }
+    .interactive-num { pointer-events: none; color: inherit; }
+    .translation-bubble { display: none !important; }
+    .header-btn { display: none !important; }
+    .custom-modal { display: none !important; }
+}
+
+:root {
+    --bg-color: #f9f9f9;
+    --font-eng: 'Times New Roman', serif;
+    --font-kor: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    --c-S: #0d47a1;
+    --c-V: #b71c1c;
+    --c-O: #7b1fa2;
+    --c-C: #1b5e20;
+    --c-M: #9e9e9e;
+    --c-con: #8e24aa;
+}
+
+body { font-family: var(--font-kor); font-size: 15px; color: #333; margin: 20px; line-height: 1.6; background: var(--bg-color); }
+
+.text-underline {
+    text-decoration: underline;
+    text-underline-position: under;
+    text-decoration-thickness: 1px;
+}
+
+.header-container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    min-width: 1000px;
+    max-width: 1600px;
+    margin: 0 auto 30px;
+    display: block;
+    position: relative;
+    min-height: 220px;
+}
+
+.header-btn {
+    position: absolute;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: background 0.3s, transform 0.1s;
+    z-index: 100;
+    width: 110px;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+.header-btn:active { transform: translateY(1px); }
+
+.btn-literal { top: 20px; right: 20px; background-color: #0277bd; }
+.btn-literal:hover { background-color: #01579b; }
+.btn-liberal { top: 55px; right: 20px; background-color: #546e7a; }
+.btn-liberal:hover { background-color: #455a64; }
+.btn-tips { top: 90px; right: 20px; background-color: #7b1fa2; }
+.btn-tips:hover { background-color: #4a148c; }
+.btn-logic { top: 125px; right: 20px; background-color: #00897b; }
+.btn-logic:hover { background-color: #00695c; }
+
+.btn-eng-all { top: 20px; left: 20px; background-color: #3949ab; }
+.btn-eng-all:hover { background-color: #283593; }
+.btn-eng-pure { top: 55px; left: 20px; background-color: #00695c; }
+.btn-eng-pure:hover { background-color: #004d40; }
+.btn-vis-clean { top: 90px; left: 20px; background-color: #455a64; }
+.btn-vis-clean:hover { background-color: #263238; }
+.btn-learning { top: 125px; left: 20px; background-color: #d84315; }
+.btn-learning:hover { background-color: #bf360c; }
+
+.btn-vocab { top: 20px; left: 50%; margin-left: -55px; background-color: #ef6c00; }
+.btn-vocab:hover { background-color: #e65100; }
+.btn-keys { top: 55px; left: 50%; margin-left: -55px; background-color: #c62828; }
+.btn-keys:hover { background-color: #b71c1c; }
+.btn-ans { top: 90px; left: 50%; margin-left: -55px; background-color: #2e7d32; }
+.btn-ans:hover { background-color: #1b5e20; }
+.btn-opts { top: 125px; left: 50%; margin-left: -55px; background-color: #5d4037; }
+.btn-opts:hover { background-color: #3e2723; }
+.btn-exam { top: 160px; left: 50%; margin-left: -55px; background-color: #d81b60; box-shadow: 0 0 8px rgba(216,27,96,0.5); }
+.btn-exam:hover { background-color: #ad1457; }
+
+.custom-modal {
+    display: none;
+    position: absolute;
+    top: 60px;
+    width: 600px;
+    max-width: 48vw;
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-literal { right: 20px; border: 3px solid #0277bd; top: 50px; }
+.modal-liberal { right: 20px; border: 3px solid #546e7a; top: 85px; }
+.modal-tips { right: 20px; border: 3px solid #7b1fa2; top: 120px; }
+.modal-logic { right: 20px; border: 3px solid #00897b; top: 155px; }
+
+.modal-eng-all { left: 20px; border: 3px solid #3949ab; top: 50px; }
+.modal-eng-pure { left: 20px; border: 3px solid #00695c; top: 85px; }
+.modal-vis-clean { left: 20px; border: 3px solid #455a64; top: 120px; width: 600px; }
+.modal-learning { left: 20px; border: 3px solid #d84315; top: 155px; width: 600px; }
+.modal-learning h3 { color: #d84315; }
+
+.modal-center { left: 50%; margin-left: -350px; width: 700px; }
+.modal-vocab { left: 50%; margin-left: -350px; border: 3px solid #ef6c00; top: 50px; width: 700px; }
+.modal-keys { left: 50%; margin-left: -350px; border: 3px solid #c62828; top: 85px; width: 700px; }
+.modal-ans { left: 50%; margin-left: -350px; border: 3px solid #2e7d32; top: 120px; width: 700px; }
+.modal-opts { left: 50%; margin-left: -350px; border: 3px solid #5d4037; top: 155px; width: 700px; }
+.modal-exam { left: 50%; margin-left: -350px; border: 3px solid #d81b60; top: 190px; width: 700px; }
+
+.custom-modal h3 {
+    margin-top: 0;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 8px;
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.modal-liberal h3 { color: #546e7a; }
+.modal-literal h3 { color: #0277bd; }
+.modal-tips h3 { color: #7b1fa2; }
+.modal-logic h3 { color: #00897b; }
+.modal-eng-all h3 { color: #3949ab; }
+.modal-eng-pure h3 { color: #00695c; }
+.modal-vis-clean h3 { color: #455a64; }
+.modal-vocab h3 { color: #ef6c00; }
+.modal-keys h3 { color: #c62828; }
+.modal-ans h3 { color: #2e7d32; }
+.modal-opts h3 { color: #5d4037; }
+.modal-exam h3 { color: #d81b60; }
+
+.modal-content {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #333;
+}
+
+.logic-section {
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 6px;
+    border-left-width: 4px;
+    border-left-style: solid;
+}
+.logic-section-intro { background-color: #f0f7ff; border-left-color: #1565c0; }
+.logic-section-body { background-color: #fffbf2; border-left-color: #ef6c00; }
+.logic-section-conc { background-color: #f3fcf5; border-left-color: #2e7d32; }
+.logic-section-none { background-color: #f5f5f5; border-left-color: #9e9e9e; }
+
+.logic-section-title {
+    display: block;
+    font-weight: 800;
+    font-size: 13px;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.logic-section-intro .logic-section-title { color: #1565c0; }
+.logic-section-body .logic-section-title { color: #ef6c00; }
+.logic-section-conc .logic-section-title { color: #2e7d32; }
+
+.trans-line, .eng-line {
+    margin-bottom: 10px;
+    padding-left: 4px;
+}
+.trans-line:last-child, .eng-line:last-child { margin-bottom: 0; }
+
+.modal-eng-all .modal-content,
+.modal-eng-pure .modal-content,
+.modal-vis-clean .modal-content {
+    font-family: var(--font-eng);
+    font-size: 16px;
+}
+
+.visual-source-text {
+    font-family: var(--font-eng);
+    font-size: 19px;
+    line-height: 2.2;
+}
+
+.trans-num { font-weight: bold; margin-right: 5px; color: #546e7a; }
+.eng-num { font-weight: bold; margin-right: 5px; color: #3949ab; font-family: var(--font-kor); font-size:13px; }
+.raw-num { font-weight: bold; margin-right: 5px; color: #00695c; font-family: var(--font-kor); font-size:13px; }
+
+.trans-summary {
+    display: inline-block;
+    font-size: 11px;
+    color: #555;
+    background-color: #fff;
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-left: 6px;
+    vertical-align: 1px;
+    font-weight: bold;
+    font-family: var(--font-kor);
+}
+
+.trans-logic {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    color: #1565c0;
+    background-color: #e3f2fd;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 4px;
+    vertical-align: 1px;
+    font-family: var(--font-kor);
+}
+
+.top-container {
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    min-width: 1000px;
+    max-width: 1600px;
+    margin: 0 auto 30px;
+    display: block;
+}
+
+.bottom-container {
+    display: flex;
+    gap: 40px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    min-width: 1000px;
+    max-width: 1600px;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+.b-left { flex: 40; display: flex; flex-direction: column; gap: 25px; border-right: 1px dashed #ddd; padding-right: 30px; }
+.b-right { flex: 60; display: flex; flex-direction: column; }
+
+.box-style {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.info-group { display: flex; flex-direction: column; gap: 10px; margin-top: 170px; }
+.ri-item { background-color: #fff; border: 1px solid #eee; border-left-width: 4px; border-left-style: solid; border-radius: 6px; padding: 12px 15px; font-size: 15px; line-height: 1.5; color: #444; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+.ri-material { border-left-color: #4caf50; }
+.ri-guide { border-left-color: #ff9800; }
+.ri-tip { border-left-color: #9c27b0; }
+.ri-label { font-weight: 800; margin-bottom: 4px; color: #222; font-size: 15.5px; display: block; }
+
+.topic-box { background-color: #e8f5e9; border-left: 5px solid #4caf50; padding: 12px 15px; font-size: 17.5px; color: #1b5e20; border-radius: 4px; }
+
+.answer-box { background-color: #e1f5fe; border: 1px solid #81d4fa; border-radius: 8px; padding: 20px; }
+.ans-header { font-weight: bold; color: #0277bd; font-size: 16px; margin-bottom: 12px; border-bottom: 1px solid #b3e5fc; padding-bottom: 8px; }
+.ans-content { font-size: 13.5px; color: #37474f; line-height: 1.6; }
+
+.options-box { border-top: 2px solid #333; background: #fff; padding-top:10px; }
+.option-item { margin-bottom: 8px; border: 1px solid #eee; border-radius: 6px; padding: 10px; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+.opt-header { margin-bottom: 3px; line-height: 1.3; }
+.opt-text { font-family: var(--font-eng); font-weight: bold; font-size: 16px; color: #000; }
+.opt-trans { font-size: 12.5px; color: #777; margin-bottom: 6px; display: block; line-height: 1.3; }
+.opt-analysis { background-color: #f9f9f9; padding: 6px 10px; border-radius: 4px; font-size: 13px; color: #444; border-left: 3px solid #ddd; line-height: 1.4; }
+.err-badge-wrong { font-size: 11px; background-color: #fff3e0; color: #ef6c00; padding: 1px 5px; border-radius: 3px; border: 1px solid #ffe0b2; margin-right: 5px; font-weight: bold; }
+.err-badge-correct { font-size: 11px; background-color: #e8f5e9; color: #2e7d32; padding: 1px 5px; border-radius: 3px; border: 1px solid #a5d6a7; margin-right: 5px; font-weight: bold; }
+
+.logic-box { background-color: #f5f5f5; border: 1px solid #e0e0e0; padding: 15px; border-radius: 8px; font-family: 'D2Coding', monospace; font-size: 12.5px; line-height: 1.7; color: #333; }
+.logic-box strong { font-size: 14px; color: #000; margin-bottom: 10px; display: block; }
+.scenario-box { background-color: #fff3e0; border: 1px solid #ffe0b2; border-radius: 8px; padding: 15px; }
+.scene-header { font-size: 15px; font-weight: 900; color: #e65100; margin-bottom: 12px; border-bottom: 2px solid #ffe0b2; padding-bottom: 6px; }
+.scene-content { font-size: 13px; color: #444; line-height: 1.5; background:#fff; padding:10px; border-radius:4px; border-left:4px solid #ff9800; }
+
+.learning-box { margin-top: 20px; }
+.learning-item { margin-bottom: 12px; }
+.learning-label { display: inline-block; font-size: 11px; font-weight: bold; color: #fff; padding: 2px 6px; border-radius: 4px; margin-bottom: 4px; vertical-align: 1px; }
+.logic-label { background-color: #7e57c2; }
+.grammar-label { background-color: #00897b; }
+.learning-list { margin: 5px 0 0 15px; padding: 0; list-style-type: disc; font-size: 13.5px; color: #444; }
+.learning-list li { margin-bottom: 4px; line-height: 1.5; }
+
+.difficulty-box {
+    background-color: #f1f8e9;
+    border: 1px solid #c5e1a5;
+    border-radius: 6px;
+    padding: 6px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-family: var(--font-eng);
+}
+.diff-label { font-weight: 900; font-size: 14px; color: #558b2f; letter-spacing: 0.5px; }
+.diff-stars { font-size: 16px; color: #fdd835; letter-spacing: 1px; }
+
+.visual-box-given {
+    border: 2px solid #333;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+.visual-box-summary {
+    border: 2px solid #333;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.question-header { font-weight: 800; font-size: 18px; color: #222; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #222; }
+.source-tag { font-size: 11px; color: #fff; background-color: #555; padding: 2px 7px; border-radius: 12px; margin-left: 8px; vertical-align: middle; font-weight: normal; }
+
+.source-text {
+    font-family: var(--font-eng);
+    font-size: 19px;
+    line-height: 3.4;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 0 30px 0;
+    color: #111;
+    display: block;
+}
+
+.line-justify { display: block; text-align: justify; text-align-last: justify; word-break: keep-all; }
+.line-last { display: block; text-align: left; text-align-last: left; }
+.line-with-sub { display: block; text-align: left; text-align-last: left; word-break: keep-all; }
+
+.interactive-num {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    transition: transform 0.2s ease;
+    z-index: 10;
+}
+.interactive-num:hover {
+    transform: scale(1.3);
+    color: #1565c0;
+}
+.translation-bubble {
+    visibility: hidden;
+    width: 480px;
+    max-width: 90vw;
+    background-color: #ffffff;
+    color: #333;
+    text-align: left !important;
+    text-align-last: left !important;
+    white-space: normal;
+    border-radius: 8px;
+    padding: 15px;
+    position: absolute;
+    z-index: 1000;
+    bottom: 140%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    font-family: var(--font-kor);
+    font-size: 14px;
+    line-height: 1.6;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+    border: 2px solid #333;
+    font-weight: normal;
+    pointer-events: none;
+    word-break: keep-all;
+}
+.translation-bubble::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+.interactive-num.active .translation-bubble {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.bubble-eng { font-family: var(--font-eng); font-size: 17px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed #ccc; line-height: 1.5; }
+.bubble-kor { font-size: 14px; color: #444; margin-bottom: 10px; line-height: 1.5; }
+.bubble-easy, .bubble-tip { background: #f1f3f5; padding: 8px 10px; border-radius: 6px; font-size: 12.5px; margin-top: 6px; color: #444; display: flex; align-items: flex-start; gap: 8px; }
+.bubble-easy .easy-label, .bubble-tip .syntax-label { flex-shrink: 0; margin-right: 0; font-size: 11px; padding: 2px 6px; }
+
+span[class^="highlight-"] {
+    border-radius: 4px; padding: 2px 4px; margin: 0 1px;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+    position: relative; z-index: 1;
+}
+span[class^="highlight-"]::before { content: none; display: none; }
+
+.highlight-subject { background-color: #fff9c4; border-bottom: 2px solid #fbc02d; }
+.highlight-feature { background-color: #fff9c4; border-bottom: 2px solid #fbc02d; }
+.highlight-clue { background-color: #e3f2fd; border-bottom: 2px solid #64b5f6; }
+
+.fill-text { font-weight: 900; text-decoration: underline; text-decoration-thickness: 2px; }
+
+.badge-them { display: inline-block; font-size: 11px; background-color: #7e57c2; color: #fff; padding: 2px 6px; border-radius: 4px; margin-right: 6px; font-weight: bold; vertical-align: 2px; font-family: var(--font-kor); }
+.badge-key { display: inline-block; font-size: 11px; background-color: #0277bd; color: #fff; padding: 2px 6px; border-radius: 4px; margin-right: 6px; font-weight: bold; vertical-align: 2px; font-family: var(--font-kor); }
+.header-badge-them { font-size: 12px; background-color: #ffebee; color: #c62828; border: 1px solid #ef9a9a; padding: 2px 8px; border-radius: 12px; margin-left: 8px; vertical-align: middle; font-weight: bold; }
+.header-badge-key { font-size: 12px; background-color: #fffde7; color: #f57f17; border: 1px solid #fff59d; padding: 2px 8px; border-radius: 12px; margin-left: 5px; vertical-align: middle; font-weight: bold; }
+
+.vocab-container { display: inline; position: relative; text-indent: 0; line-height: 1.0; }
+.vocab-text { color: inherit; border-bottom: 1px dotted #bbb; font-weight: inherit; }
+.vocab-sub { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); width: max-content; margin-top: 1px; font-size: 9px; color: #d32f2f; background-color: transparent; text-shadow: 1px 1px 0 #eeeeee, -1px -1px 0 #eeeeee, 1px -1px 0 #eeeeee, -1px 1px 0 #eeeeee; padding: 0 1px; font-weight: bold; font-family: var(--font-kor); z-index: 10; line-height: 1.1; pointer-events: none; }
+
+.syntax-box { display: inline; position: relative; padding-bottom: 1px; margin-right: 1px; border-bottom: none; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.syntax-box::before { position: absolute; top: -3px; left: 0; font-size: 6px; font-weight: normal; font-family: sans-serif; line-height: 1; }
+
+.S-box { color: var(--c-S) !important; font-weight: normal !important; } .S-box::before { content: 'S'; color: var(--c-S); }
+.V-box { color: var(--c-V) !important; font-weight: normal !important; } .V-box::before { content: 'V'; color: var(--c-V); }
+.O-box { color: var(--c-O) !important; font-weight: normal !important; } .O-box::before { content: 'O'; color: var(--c-O); }
+.C-box { color: var(--c-C) !important; font-weight: normal !important; } .C-box::before { content: 'C'; color: var(--c-C); }
+.M-box { color: var(--c-M) !important; font-weight: normal !important; } .M-box::before { content: 'M'; color: var(--c-M); }
+.con-box { color: var(--c-con) !important; font-weight: normal !important; } .con-box::before { content: "con"; color: var(--c-con); }
+.IO-box { color: var(--c-O) !important; font-weight: normal !important; } .IO-box::before { content: 'IO'; color: var(--c-O); }
+.DO-box { color: var(--c-O) !important; font-weight: normal !important; } .DO-box::before { content: 'DO'; color: var(--c-O); }
+
+.S-text { color: var(--c-S) !important; font-weight: 900 !important; }
+.V-text { color: var(--c-V) !important; font-weight: 900 !important; }
+.O-text { color: var(--c-O) !important; font-weight: 900 !important; }
+.C-text { color: var(--c-C) !important; font-weight: 900 !important; }
+.M-text { color: var(--c-M) !important; font-weight: 900 !important; }
+.con-text { color: var(--c-con) !important; font-weight: 900 !important; }
+.IO-text { color: var(--c-O) !important; font-weight: 900 !important; }
+.DO-text { color: var(--c-O) !important; font-weight: 900 !important; }
+
+.analysis-card { margin-bottom: 10px; border-bottom: 1px dashed #ddd; background-color: #fff; padding: 8px; border-radius: 4px; break-inside: avoid; }
+.analysis-card.card-them { background-color: #fff; border: 2px solid #e53935; border-left: 6px solid #e53935; border-bottom: 2px solid #e53935; box-shadow: 0 2px 8px rgba(229, 57, 53, 0.1); }
+.analysis-card.card-key { background-color: #fff; border: 2px solid #fbc02d; border-left: 6px solid #fbc02d; border-bottom: 2px solid #fbc02d; box-shadow: 0 2px 8px rgba(251, 192, 45, 0.1); }
+
+.analysis-card.bg-intro { background-color: #f0f7ff; border: 1px solid #bbdefb; }
+.analysis-card.bg-body { background-color: #fffbf2; border: 1px solid #ffecb3; }
+.analysis-card.bg-conc { background-color: #f3fcf5; border: 1px solid #c8e6c9; }
+
+.analysis-card.card-them { border: 2px solid #e53935; border-left: 6px solid #e53935; border-bottom: 2px solid #e53935; }
+.analysis-card.card-key { border: 2px solid #fbc02d; border-left: 6px solid #fbc02d; border-bottom: 2px solid #fbc02d; }
+
+.eng-sent { font-family: var(--font-eng); font-size: 22.5px; background-color: transparent; padding: 4px 12px; border-left: 4px solid var(--c-S); position: relative; margin-top: 15px; margin-bottom: 15px; line-height: 2.3; color: #5d4037; display: flex; flex-wrap: wrap; align-items: flex-start; }
+.chunk-pair { display: flex; flex-direction: column; vertical-align: top; margin-right: 6px; margin-bottom: 12px; max-width: 100%; }
+.eng-chunk { background-color: #f4f4f4; padding: 2px 8px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; word-break: keep-all; mix-blend-mode: multiply; color: #5d4037; }
+.kor-chunk { font-family: var(--font-kor); font-size: 19px; color: #5d4037; font-weight: 900; padding-left: 4px; margin-top: 6px; line-height: 1.4; word-break: keep-all; letter-spacing: -0.5px; }
+.slash-divider { color: #ccc; font-weight: 300; margin: 0 4px; font-size: 24px; margin-top: 4px; display: flex; align-items: center; }
+.num-badge { display: inline-block; background-color: #333; color: #fff; border-radius: 50%; width: 22px; height: 22px; text-align: center; line-height: 22px; font-size: 13px; font-weight: bold; margin-right: 0px; vertical-align: 1px; box-shadow: 1px 1px 2px rgba(0,0,0,0.2); font-family: var(--font-kor); }
+
+.kor-sent, .kor-sent * { font-size: 19px; color: #5d4037; font-weight: 900 !important; line-height: 2.0; word-break: keep-all; }
+.kor-sent { padding-left: 5px; margin-bottom: 3px; display: none; }
+
+.analysis-footer { margin-top: 8px; font-size: 13px; line-height: 1.7; word-break: keep-all; }
+
+.easy-exp-box { display: inline-block; position: relative; background: #f5f5f5; border: 2px solid #e0e0e0; border-radius: 12px; padding: 8px 12px; margin-top: 12px; margin-bottom: 5px; font-size: 14px; color: #424242; line-height: 1.5; font-weight: 500; }
+.easy-exp-box::after, .easy-exp-box::before { bottom: 100%; left: 20px; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+.easy-exp-box::after { border-color: rgba(245, 245, 245, 0); border-bottom-color: #f5f5f5; border-width: 8px; margin-left: -8px; }
+.easy-exp-box::before { border-color: rgba(224, 224, 224, 0); border-bottom-color: #e0e0e0; border-width: 11px; margin-left: -11px; }
+.easy-label { display: inline-block; background-color: #757575; color: #fff; padding: 0px 4px; border-radius: 3px; margin-right: 5px; font-weight: bold; vertical-align: 1px; font-size: 11px; }
+
+.syntax-tip { display: block; width: fit-content; max-width: 100%; margin-top: 6px; padding: 4px 8px; border: 1px solid #333; background-color: #fff; border-radius: 4px; font-size: 13px; color: #000; line-height: 1.4; box-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
+.syntax-label { display: inline-block; background-color: #333; color: #fff; padding: 0px 4px; border-radius: 2px; margin-right: 5px; font-weight: bold; vertical-align: 1px; font-size: 11px; }
+
+.exam-point-box { margin-top: 8px; padding: 8px 12px; background-color: #fffaf0; border: 1px dashed #f48fb1; border-radius: 6px; font-size: 12.5px; line-height: 1.5; color: #333; }
+.exam-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; color: #fff; margin-right: 6px; vertical-align: 1px; font-family: var(--font-kor); }
+.exam-badge-blank { background-color: #4caf50; }
+.exam-badge-implied { background-color: #9c27b0; }
+.exam-badge-grammar { background-color: #f44336; }
+.exam-target { font-weight: bold; color: #c2185b; text-decoration: underline; }
+
+.visual-exam-target { position: relative; }
+.visual-exam-label { position: absolute; bottom: 100%; left: 0; margin-bottom: 2px; font-size: 11px; color: #fff; padding: 2px 6px; border-radius: 4px; font-family: var(--font-kor); font-weight: 900; letter-spacing: 0.5px; box-shadow: 1px 1px 2px rgba(0,0,0,0.2); white-space: nowrap; line-height: 1; z-index: 5; }
+
+.inline-syntax-target { position: relative; border-bottom: 2px dotted #333; background-color: rgba(0, 0, 0, 0.05); }
+.inline-syntax-label { position: absolute; top: 100%; right: 0; margin-top: 2px; font-size: 11px; background-color: #333; color: #fff; padding: 2px 5px; border-radius: 4px; font-family: var(--font-kor); font-weight: 900; white-space: nowrap; line-height: 1; z-index: 4; box-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+
+.csat-container { background-color: #fcfaf2; border: 1px solid #e0dcd0; padding: 20px; border-radius: 8px; margin-top: 20px; }
+.csat-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; margin-bottom: 15px; }
+.csat-title { font-family: var(--font-kor); font-size: 16px; font-weight: 900; color: #333; display: flex; align-items: center; gap: 6px; }
+.csat-badge { background-color: #546e7a; color: white; font-size: 12px; padding: 2px 6px; border-radius: 4px; }
+.csat-subtitle { font-family: var(--font-kor); font-size: 12px; color: #7b909a; font-weight: bold; }
+.csat-text { font-family: var(--font-eng); font-size: 17px; line-height: 1.8; color: #222; margin-bottom: 25px; text-align: justify; }
+.csat-blank-ans { display: inline-block; border-bottom: 1px solid #333; min-width: 80px; text-align: center; font-weight: bold; color: #d32f2f; padding: 0 5px; }
+.csat-trans-header { font-family: var(--font-kor); font-size: 14px; font-weight: bold; color: #e6a822; margin-bottom: 10px; }
+.csat-trans-text { font-family: var(--font-kor); font-size: 14.5px; line-height: 32px; color: #444; background-image: repeating-linear-gradient(transparent, transparent 31px, #b0bec5 31px, #b0bec5 32px); background-position: 0 6px; padding-bottom: 8px; }
+
+.summary-badge { display: inline-block; font-family: var(--font-kor); font-size: 11px; color: #fff; background-color: #78909c; padding: 1px 8px; border-radius: 10px; font-weight: bold; margin-left: 6px; vertical-align: 1px; position: static; }
+
+.sent-container { display: flex; gap: 15px; align-items: flex-start; margin-bottom: 20px; }
+.sent-logic-col { flex: 0 0 130px; display: flex; flex-direction: column; gap: 10px; }
+.sent-analysis-col { flex: 1; min-width: 0; }
+.logic-flow-card { border-radius: 8px; padding: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #eee; font-size: 13px; }
+.logic-intro { background: #e3f2fd; border-color: #90caf9; color: #1565c0; }
+.logic-body { background: #fff8e1; border-color: #ffe082; color: #ef6c00; }
+.logic-conc { background: #e8f5e9; border-color: #a5d6a7; color: #2e7d32; }
+.logic-title { font-weight: bold; display: block; margin-bottom: 4px; font-size: 14px; }
+.logic-desc { line-height: 1.4; color: #333; }
+
+.flow-container { display: flex; justify-content: space-between; gap: 15px; margin-top: 15px; margin-bottom: 25px; }
+.flow-card { flex: 1; background: #fff; border-radius: 12px; padding: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; position: relative; border: 1px solid #eee; }
+.flow-card.flow-intro .flow-header { background: #e3f2fd; color: #1565c0; border-bottom: 2px solid #90caf9; }
+.flow-card.flow-body .flow-header { background: #fff8e1; color: #ef6c00; border-bottom: 2px solid #ffe082; }
+.flow-card.flow-conc .flow-header { background: #e8f5e9; color: #2e7d32; border-bottom: 2px solid #a5d6a7; }
+.flow-header { padding: 12px 15px; text-align: left; position: relative; }
+.flow-title { font-weight: 800; font-size: 15px; display: block; margin-bottom: 2px; }
+.flow-num-badge { display: inline-block; background: rgba(0,0,0,0.1); color: inherit; border-radius: 12px; padding: 1px 8px; font-size: 12px; font-weight: bold; margin-top: 4px; }
+.flow-content { padding: 15px; font-size: 13.5px; color: #444; line-height: 1.5; text-align: left; }
+.flow-arrow { align-self: center; font-size: 24px; color: #bdbdbd; font-weight: bold; flex-basis: 20px; text-align: center; }
+
+.sec-vocab { flex: 1.25; display: flex; flex-direction: column; margin-top: 0px; border: 1px solid #cfd8dc; border-radius: 8px; overflow: hidden; }
+.v-header { display: flex; background: #37474f; color: white; font-family: var(--font-eng, 'Montserrat', sans-serif); font-size: 11px; font-weight: 700; padding: 6px 0; border-bottom: 1px solid #cfd8dc; }
+.v-list { flex: 1; display: flex; flex-direction: column; overflow-y: hidden; background: white; }
+.v-row { display: flex; align-items: stretch; border-bottom: 1px solid #eceff1; padding: 0; min-height: 32px; flex: 1; }
+.v-row:nth-child(even) { background-color: #fafafa; }
+
+.cell { display: flex; align-items: center; padding: 1px 8px; box-sizing: border-box; overflow: hidden; }
+.cell.col-word, .cell.col-mean, .cell.col-context { border-right: 1px solid rgba(0,0,0,0.05); }
+.v-header .cell { justify-content: center; padding: 3px 8px; text-align: center; }
+.v-header .cell.col-word, .v-header .cell.col-mean, .v-header .cell.col-context { border-right: 1px solid rgba(255,255,255,0.2); }
+.cell:last-child { border-right: none; }
+
+.col-chk { width: 30px; justify-content: center; flex-shrink: 0; }
+.col-word { width: 16%; flex-shrink: 0; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+.col-mean { width: 38%; flex-shrink: 0; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+.col-context { width: 14%; flex-shrink: 0; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+.col-chunk { flex: 1; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+
+.v-row .col-chk { padding-top: 8px; align-items: flex-start; }
+
+.chk-box { width: 10px; height: 10px; border: 1px solid var(--c-brand, #003b6f); border-radius: 2px; background: white; margin-top:4px; }
+.word-txt { font-family: var(--font-eng, 'Montserrat', sans-serif); font-weight: 900; color: var(--c-brand, #003b6f); font-size: 16px; word-break: break-word; line-height: 1.2; }
+.word-pron { font-size: 12px; color: #616161; font-family: var(--font-eng); margin-top: 3px; }
+.word-ety { font-size: 11px; color: #8d6e63; font-family: var(--font-kor); margin-top: 3px; font-weight: 600; letter-spacing: -0.5px; word-break: keep-all; line-height: 1.2; }
+
+.vm-kor { font-weight: 800; color: #212121; font-size: 13.5px; line-height: 1.3; font-family: 'NanumSquareRound', sans-serif; display: block; width: 100%; }
+.vm-context { font-size: 12.5px; color: #00695c; line-height: 1.4; font-weight: bold; white-space: normal; word-break: keep-all; display: block; width: 100%; }
+
+.vch-en { font-family: var(--font-eng, 'Montserrat', sans-serif); font-weight: 600; color: var(--c-chunk-text, #263238); font-size: 14.5px; line-height: 1.3; margin-bottom: 3px; }
+.vch-ko { font-size: 13.5px; color: #78909c; line-height: 1.2; font-family: 'NanumSquareRound', sans-serif; }
+.c-hl { color: var(--c-chunk-hl, #d84315); font-weight: 900; }
+
+.rel-box { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; width: 100%; }
+.rel-item { display: inline-flex; align-items: center; font-size: 13.5px; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background: #f5f5f5; padding: 3px 6px; border-radius: 4px; line-height: 1; }
+.item-syn { color: #1b5e20; font-weight: 900; }
+.item-ant { color: #d32f2f; font-weight: 600; }
+.item-conf { color: #333; font-weight: 900; }
+.rel-item span { margin-right: 4px; font-size: 12px; padding: 2px 4px; border-radius: 2px; color: white; font-family: var(--font-kor); font-weight: bold; }
+
+.bg-syn { background-color: #26a69a; }
+.bg-ant { background-color: #ef5350; }
+.bg-conf { background-color: #ffa726; }
+
+table.modal-table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; border: 1px solid #e0e0e0; }
+table.modal-table th { background: #eee; padding: 6px; border: 1px solid #ccc; text-align: center; font-family: var(--font-kor); color:#444; }
+table.modal-table td { padding: 6px; border: 1px solid #ccc; vertical-align: middle; word-wrap: break-word; background:#fff; text-align:center; }
+table.modal-table td:nth-child(6) { text-align: left; }
+table.modal-table td:nth-child(7) { text-align: left; }
+table.modal-table col:nth-child(1) { width: 12%; }
+table.modal-table col:nth-child(2) { width: 12%; }
+table.modal-table col:nth-child(3) { width: 12%; }
+table.modal-table col:nth-child(4) { width: 12%; }
+table.modal-table col:nth-child(5) { width: 8%; }
+table.modal-table col:nth-child(6) { width: 20%; }
+table.modal-table col:nth-child(7) { width: 24%; }
+.vocab-word-bold { font-weight: 900; font-family: var(--font-eng); color: #000; font-size: 16px; }
+.vocab-pron { color: #555; font-size: 12px; }
+
+.analysis-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; border: 1px solid #e0e0e0; }
+.analysis-table th { background: #546e7a; color: #fff; padding: 8px; border: 1px solid #ddd; text-align: center; font-weight: bold; }
+.analysis-table td { padding: 8px; border: 1px solid #ddd; vertical-align: middle; background: #fff; text-align: left; }
+
+.slash { font-weight: 900; color: #000; margin: 0 3px; font-size: 1.1em; }
+.blank-filled { border-bottom: 2px solid #000; font-weight: 900; color: #000; padding: 0 2px; }
+.blank-empty { display: inline-block; width: 40px; height: 18px; border-bottom: 1px solid #333; vertical-align: middle; margin: 0 2px; }
+.err-wrong { color: #d32f2f; text-decoration: line-through; margin-right: 3px; }
+.err-right { color: #1565c0; font-weight: 900; margin-left: 3px; }
+.err-arrow { color: #555; font-size: 0.9em; font-weight: bold; }
+.star-red { color: #e53935; text-shadow: 1px 1px 0px #b71c1c; font-size: 1.1em; margin-right: 5px; vertical-align: -1px; }
+.star-yellow { color: #fbc02d; text-shadow: 1px 1px 0px #f57f17; font-size: 1.1em; margin-right: 5px; vertical-align: -1px; }
+</style>
+</head>
+<body>
+
+<div class="header-container">
+    <button class="header-btn btn-literal" onclick="toggleModal('modalLiteral')">직독직해 (Literal)</button>
+    <div class="custom-modal modal-right modal-literal" id="modalLiteral">
+        <span class="close-modal-btn" onclick="toggleModal('modalLiteral')">&times;</span>
+        <h3>직독직해 (Literal)</h3>
+        <div class="modal-content"><div class='logic-section logic-intro'><span class='logic-section-title'>[도입] 약용 식물의 생활 방식</span><div class='trans-line'><span class='trans-num'>2.</span>❷ <span class="S-text">인삼, 참마, 그리고 메이애플은</span> <span class="C-text">모두 작은 식물들</span><span class="V-text">이다</span> <span class="slash">/</span> <span class="V-text">겨울을 나는</span> <span class="slash">/</span> 영양분이 많은 땅속줄기나 뿌리로서.<span class='trans-summary'>[도입] 약용 식물의 겨울나기</span></div><div class='trans-line'><span class='trans-num'>3.</span>❸ <span class="star-red">★</span><span class="S-text">이 공유된 생활 방식은</span> <span class="V-text">설명한다</span> <span class="slash">/</span> <span class="O-text">왜 <span class="S-text">그것들이(이 식물들이)</span> <span class="C-text">모두 그렇게 풍부한지</span><span class="V-text">를</span> <span class="slash">/</span> <span class="highlight-subject">약용 화학 물질</span>이</span>.<span class='trans-summary'>[주제] 화학물질이 풍부한 이유</span></div></div><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 취약한 식물의 방어 기제</span><div class='trans-line'><span class='trans-num'>4.</span>❹ 빠르게 움직이는 동물들이나 껍질이 두꺼운 나무들과는 달리, <span class="slash">/</span> <span class="S-text">이 움직이지 않고 껍질이 얇은 식물들은</span> <span class="C-text">대단히 취약</span><span class="V-text">하다</span> <span class="slash">/</span> 포유류와 곤충들로부터의 공격에.<span class='trans-summary'>[원인] 식물의 형태적 취약성</span></div></div><div class='logic-section logic-section-none'><span class='logic-section-title'>기타</span><div class='trans-line'><span class='trans-num'>5.</span>❺ <span class="S-text">그들의 땅속 먹이 저장소는</span> <span class="C-text">특히 매력적</span><span class="V-text">이다</span> <span class="slash">/</span> 장차 포식자가 될 수 있는 존재들에게.<span class='trans-summary'>[부연] 포식자에게 매력적인 먹이</span></div></div><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 취약한 식물의 방어 기제</span><div class='trans-line'><span class='trans-num'>1.</span>❶ <span class="star-yellow">★</span><span class="S-text">그들이(식물들이)</span> <span class="V-text">부족하기</span> 때문에 <span class="slash">/</span> <span class="O-text">도망치거나 튼튼한 벽 뒤에 숨을 능력이</span>, <span class="slash">/</span> <span class="S-text">식물들의 유일한 <span class="highlight-subject">방어 선택지는</span></span> <span class="C-text"><span class="highlight-clue">화학 물질에 자신의 몸을 흠뻑 적시는 것</span><span class="V-text">이다</span> <span class="slash">/</span> <span class="V-text">엉망으로 만드는</span> <span class="slash">/</span> <span class="O-text">그들의 적들의 내장, 신경, 그리고 호르몬을</span></span>.<span class='trans-summary'>[해결책] 화학 물질을 통한 방어</span></div></div><div class='logic-section logic-conc'><span class='logic-section-title'>[결론] 인간의 의학적 활용</span><div class='trans-line'><span class='trans-num'>6.</span>❻ <span class="S-text">자연 선택이</span> <span class="V-text">설계했기</span> 때문에 <span class="slash">/</span> <span class="O-text"><span class="highlight-clue">그 방어용 화학 물질들을</span></span> 특별히 <span class="C-text">동물들의 생리 기능을 공격하도록</span>, <span class="slash">/</span> <span class="S-text">이 독들은</span> <span class="V-text">할 수 있다</span>, 세심한 인간의 손길 안에서, <span class="C-text">약으로</span> <span class="V-text">바뀔</span>.<span class='trans-summary'>[결론] 화학물질의 약용 전환</span></div><div class='trans-line'><span class='trans-num'>7.</span>❼ 딱 알맞은 복용량을 찾아냄으로써, <span class="slash">/</span> <span class="S-text">약초학자들은</span> <span class="V-text">바꿀 수 있다</span> <span class="slash">/</span> <span class="O-text">식물의 방어용 무기고를</span> <span class="slash">/</span> <span class="C-text">각성제, 혈액 희석제, 호르몬, 그리고 다른 약들의 인상적인 모음으로</span>.<span class='trans-summary'>[부연] 의학적 활용 사례</span></div></div></div>
+    </div>
+
+    <button class="header-btn btn-liberal" onclick="toggleModal('modalLiberal')">전체 해석 (의역)</button>
+    <div class="custom-modal modal-right modal-liberal" id="modalLiberal">
+        <span class="close-modal-btn" onclick="toggleModal('modalLiberal')">&times;</span>
+        <h3>전체 해석 (의역)</h3>
+        <div class="modal-content"><div class='logic-section logic-intro'><span class='logic-section-title'>[도입] 약용 식물의 생활 방식</span><div class='trans-line'><span class='trans-num'>2.</span>❷ <span class="S-text">인삼, 참마, 그리고 메이애플은</span> 영양분이 많은 땅속줄기나 뿌리로 <span class="V-text">겨울을 나는</span> <span class="C-text">작은 식물들</span><span class="V-text">이다</span>.</div><div class='trans-line'><span class='trans-num'>3.</span>❸ <span class="star-red">★</span><span class="S-text">이 공유된 생활 방식은</span> <span class="O-text">왜 <span class="S-text">그 식물들이</span> <span class="highlight-subject">약용 화학 물질</span>이 <span class="C-text">그렇게 풍부한지</span><span class="V-text">를</span></span> <span class="V-text">설명해 준다</span>.</div></div><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 취약한 식물의 방어 기제</span><div class='trans-line'><span class='trans-num'>4.</span>❹ 빠르게 움직이는 동물들이나 껍질이 두꺼운 나무들과 달리, <span class="S-text">이 움직이지 않고 껍질이 얇은 식물들은</span> 포유류와 곤충의 공격에 <span class="C-text">대단히 취약</span><span class="V-text">하다</span>.</div></div><div class='logic-section logic-section-none'><span class='logic-section-title'>기타</span><div class='trans-line'><span class='trans-num'>5.</span>❺ <span class="S-text">그들의 땅속 먹이 저장소는</span> 장차 포식자가 될 수 있는 존재들에게 <span class="C-text">특히 매력적</span><span class="V-text">이다</span>.</div></div><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 취약한 식물의 방어 기제</span><div class='trans-line'><span class='trans-num'>1.</span>❶ <span class="star-yellow">★</span><span class="S-text">식물들은</span> <span class="O-text">도망치거나 튼튼한 벽 뒤에 숨을 능력이</span> <span class="V-text">없기</span> 때문에, <span class="S-text">그들의 유일한 <span class="highlight-subject">방어 선택지는</span></span> <span class="O-text">적들의 내장, 신경, 호르몬을</span> <span class="V-text">엉망으로 만드는</span> <span class="C-text">화학 물질로 자신의 몸을 흠뻑 적시는 것</span><span class="V-text">이다</span>.</div></div><div class='logic-section logic-conc'><span class='logic-section-title'>[결론] 인간의 의학적 활용</span><div class='trans-line'><span class='trans-num'>6.</span>❻ <span class="S-text">자연 선택이</span> 특별히 <span class="C-text">동물의 생리 기능을 공격하도록</span> <span class="O-text"><span class="highlight-clue">그 방어용 화학 물질들을</span></span> <span class="V-text">설계했기</span> 때문에, <span class="S-text">이 독들은</span> 세심한 인간의 손길을 거쳐 <span class="C-text">약으로</span> <span class="V-text">바뀔 수 있다</span>.</div><div class='trans-line'><span class='trans-num'>7.</span>❼ 딱 알맞은 복용량을 찾아냄으로써, <span class="S-text">약초학자들은</span> <span class="O-text">식물의 방어용 무기고를</span> <span class="C-text">각성제, 혈액 희석제, 호르몬 및 다른 약재들의 훌륭한 모음으로</span> <span class="V-text">탈바꿈시킬 수 있다</span>.</div></div></div>
+    </div>
+
+    <button class="header-btn btn-tips" onclick="toggleModal('modalTips')">구문 팁 정리</button>
+    <div class="custom-modal modal-right modal-tips" id="modalTips">
+        <span class="close-modal-btn" onclick="toggleModal('modalTips')">&times;</span>
+        <h3>구문 팁 정리</h3>
+        <div class="modal-content"><div class='logic-section logic-intro'><span class='logic-section-title'>[도입] 약용 식물의 생활 방식</span><div class='trans-line'><span class='trans-num'>2.</span>[구문팁] <b>plants that overwinter</b>: 'that'은 주격 관계대명사이며, 선행사 'plants'가 복수이므로 동사도 복수형인 'overwinter'를 썼음.</div><div class='trans-line'><span class='trans-num'>3.</span>[구문팁] <b>why they are all so rich</b>: 'explains'의 목적어로 쓰인 간접의문문으로, <의문사+주어+동사>의 어순을 취함.</div></div><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 취약한 식물의 방어 기제</span><div class='trans-line'><span class='trans-num'>4.</span>[구문팁] <b>highly vulnerable</b>: 부사 'highly(매우, 대단히)'가 형용사 'vulnerable'을 수식함. 'high(높게)'를 쓰지 않도록 주의.</div></div><div class='logic-section logic-section-none'><span class='logic-section-title'>기타</span><div class='trans-line'><span class='trans-num'>5.</span>[구문팁] <b>stores of food are</b>: 주어의 핵이 복수 명사인 'stores'이므로 복수 동사 'are'가 쓰임.</div></div><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 취약한 식물의 방어 기제</span><div class='trans-line'><span class='trans-num'>1.</span>[구문팁] <b>to flee or to hide</b>: ability를 수식하는 to부정사의 형용사적 용법이 or를 중심으로 병렬 구조를 이루고 있음.<br>[구문팁] <b>chemicals that play havoc with</b>: 주격 관계대명사 that절이 선행사 chemicals를 수식. 선행사가 복수이므로 동사 원형 play를 사용.</div></div><div class='logic-section logic-conc'><span class='logic-section-title'>[결론] 인간의 의학적 활용</span><div class='trans-line'><span class='trans-num'>6.</span>[구문팁] <b>can, in careful human hands, be turned into</b>: 조동사 can과 본동사 be turned into 사이에 전치사구 in careful human hands가 삽입된 구조임.</div><div class='trans-line'><span class='trans-num'>7.</span>[구문팁] <b>turn A into B</b>: 'A를 B로 바꾸다'라는 숙어로, A(방어용 무기고)가 B(인상적인 약 모음)로 전환됨을 나타냄.</div></div></div>
+    </div>
+
+    <button class="header-btn btn-logic" onclick="toggleModal('modalLogic')">3단 논리 흐름</button>
+    <div class="custom-modal modal-right modal-logic" id="modalLogic">
+        <span class="close-modal-btn" onclick="toggleModal('modalLogic')">&times;</span>
+        <h3>3단 논리 흐름</h3>
+        <div class="modal-content">
+            <div style='margin-bottom:15px;'>
+                <div class='flow-card flow-intro'>
+                    <div class='flow-header'>
+                        <span class='flow-title'>[도입] 약용 식물의 생활 방식</span>
+                        <span class='flow-num-badge'>2 ~ 3</span>
+                    </div>
+                    <div class='flow-content'>인삼 등은 땅속에 영양을 저장하며 겨울을 나며, 이는 식물에 약용 <span class="fill-text">화학물질</span>이 풍부한 이유가 된다.</div>
+                </div>
+            </div>
+            
+            <div style='margin-bottom:15px;'>
+                <div class='flow-card flow-body'>
+                    <div class='flow-header'>
+                        <span class='flow-title'>[전개] 취약한 식물의 방어 기제</span>
+                        <span class='flow-num-badge'>4 ~ 1</span>
+                    </div>
+                    <div class='flow-content'>움직이지 못하고 취약한 식물은 포식자의 매력적인 표적이 되므로, 살아남기 위해 적을 공격하는 <span class="fill-text">독성</span> 화학 물질로 무장한다.</div>
+                </div>
+            </div>
+            
+            <div style='margin-bottom:15px;'>
+                <div class='flow-card flow-conc'>
+                    <div class='flow-header'>
+                        <span class='flow-title'>[결론] 인간의 의학적 활용</span>
+                        <span class='flow-num-badge'>6 ~ 7</span>
+                    </div>
+                    <div class='flow-content'>동물의 생리를 공격하도록 진화된 이 식물의 방어용 무기는, 인간이 알맞은 <span class="fill-text">복용량</span>을 찾아냄으로써 유용한 약으로 탈바꿈된다.</div>
+                </div>
+            </div>
+            </div>
+    </div>
+
+    <button class="header-btn btn-eng-all" onclick="toggleModal('modalEngAll')">영어 문장 전체 보기</button>
+    <div class="custom-modal modal-left modal-eng-all" id="modalEngAll">
+        <span class="close-modal-btn" onclick="toggleModal('modalEngAll')">&times;</span>
+        <h3>영어 문장 전체 보기</h3>
+        <div class="modal-content"><div class='logic-section logic-intro'><span class='logic-section-title'>[도입] 약용 식물의 생활 방식</span><div class='eng-line'><span class='eng-num'>2.</span>❷ <span class="syntax-box S-box">Ginseng, yam, and mayapple</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box">all small plants</span> <span class="slash">/</span> that <span class="syntax-box V-box"><span class="vocab-container"><span class="vocab-sub">겨울을 나다(=survive the winter)</span><span class="vocab-text">overwinter</span></span></span> <span class="slash">/</span> as nutritious underground stems or roots.</div><div class='eng-line'><span class='eng-num'>3.</span>❸ <span class="star-red">★</span><span class="syntax-box S-box">This shared way of living</span> <span class="syntax-box V-box">explains</span> <span class="slash">/</span> <span class="syntax-box O-box">why <span class="syntax-box S-box">they</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box">all so rich</span> <span class="slash">/</span> in <span class="highlight-subject"><span class="vocab-container"><span class="vocab-sub">약용의</span><span class="vocab-text">medicinal</span></span> chemicals</span></span>.</div></div><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 취약한 식물의 방어 기제</span><div class='eng-line'><span class='eng-num'>4.</span>❹ Unlike fast-moving animals or thick-barked trees, <span class="slash">/</span> <span class="syntax-box S-box">these <span class="vocab-container"><span class="vocab-sub">움직이지 않는(=fixed)</span><span class="vocab-text">stationary</span></span>, thin-skinned plants</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box"><span class="highlight-feature">highly <span class="vocab-container"><span class="vocab-sub">취약한(=susceptible)</span><span class="vocab-text">vulnerable</span></span></span></span> <span class="slash">/</span> to attack from mammals and insects.</div></div><div class='logic-section logic-section-none'><span class='logic-section-title'>기타</span><div class='eng-line'><span class='eng-num'>5.</span>❺ <span class="syntax-box S-box">Their underground stores of food</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box">particularly attractive</span> <span class="slash">/</span> to <span class="vocab-container"><span class="vocab-sub">장차 ~이 되려고 하는</span><span class="vocab-text">would-be</span></span> predators.</div></div><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 취약한 식물의 방어 기제</span><div class='eng-line'><span class='eng-num'>1.</span>❶ <span class="star-yellow">★</span>Because <span class="syntax-box S-box">they</span> <span class="syntax-box V-box"><span class="vocab-container"><span class="vocab-sub">부족하다</span><span class="vocab-text">lack</span></span></span> <span class="slash">/</span> <span class="syntax-box O-box">the ability to flee or to hide behind strong walls</span>, <span class="slash">/</span> <span class="syntax-box S-box">the plants' only <span class="highlight-subject">defensive option</span></span> <span class="syntax-box V-box">is</span> <span class="syntax-box C-box">to soak their bodies in <span class="highlight-clue">chemicals</span> <span class="slash">/</span> that <span class="syntax-box V-box"><span class="vocab-container"><span class="vocab-sub">~을 엉망으로 만들다(=ruin)</span><span class="vocab-text">play havoc with</span></span></span> <span class="syntax-box O-box">the guts, nerves, and hormones of their enemies</span></span>.</div></div><div class='logic-section logic-conc'><span class='logic-section-title'>[결론] 인간의 의학적 활용</span><div class='eng-line'><span class='eng-num'>6.</span>❻ Because <span class="syntax-box S-box"><span class="vocab-container"><span class="vocab-sub">자연 선택</span><span class="vocab-text">natural selection</span></span></span> <span class="syntax-box V-box">has designed</span> <span class="slash">/</span> <span class="syntax-box O-box"><span class="highlight-clue">the defensive chemicals</span></span> specifically <span class="syntax-box C-box">to attack the <span class="vocab-container"><span class="vocab-sub">생리 기능(=biological processes)</span><span class="vocab-text">physiology</span></span> of animals</span>, <span class="slash">/</span> <span class="syntax-box S-box">these poisons</span> <span class="syntax-box V-box">can</span>, in careful human hands, <span class="syntax-box V-box">be turned into</span> <span class="syntax-box C-box">medicines</span>.</div><div class='eng-line'><span class='eng-num'>7.</span>❼ By finding just the right <span class="vocab-container"><span class="vocab-sub">복용량</span><span class="vocab-text">dose</span></span>, <span class="slash">/</span> <span class="syntax-box S-box">herbalists</span> <span class="syntax-box V-box">can turn</span> <span class="slash">/</span> <span class="syntax-box O-box">the plants' defensive <span class="vocab-container"><span class="vocab-sub">무기고</span><span class="vocab-text">arsenal</span></span></span> <span class="slash">/</span> <span class="syntax-box C-box">into an impressive collection of stimulants, blood thinners, hormones, and other medicines</span>.</div></div></div>
+    </div>
+
+    <button class="header-btn btn-eng-pure" onclick="toggleModal('modalEngPure')">지문 읽기 (Pure)</button>
+    <div class="custom-modal modal-left modal-eng-pure" id="modalEngPure">
+        <span class="close-modal-btn" onclick="toggleModal('modalEngPure')">&times;</span>
+        <h3>지문 읽기 (Pure English)</h3>
+        <div class="modal-content"><div class='logic-section logic-intro'><span class='logic-section-title'>[도입] 약용 식물의 생활 방식</span><div class='eng-line'><span class='raw-num'>2.</span>Ginseng, yam, and mayapple are all small plants that overwinter as nutritious underground stems or roots.</div><div class='eng-line'><span class='raw-num'>3.</span>This shared way of living explains why they are all so rich in medicinal chemicals.</div></div><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 취약한 식물의 방어 기제</span><div class='eng-line'><span class='raw-num'>4.</span>Unlike fast-moving animals or thick-barked trees, these stationary, thin-skinned plants are highly vulnerable to attack from mammals and insects.</div></div><div class='logic-section logic-section-none'><span class='logic-section-title'>기타</span><div class='eng-line'><span class='raw-num'>5.</span>Their underground stores of food are particularly attractive to would-be predators.</div></div><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 취약한 식물의 방어 기제</span><div class='eng-line'><span class='raw-num'>1.</span>Because they lack the ability to flee or to hide behind strong walls, the plants' only defensive option is to soak their bodies in chemicals that play havoc with the guts, nerves, and hormones of their enemies.</div></div><div class='logic-section logic-conc'><span class='logic-section-title'>[결론] 인간의 의학적 활용</span><div class='eng-line'><span class='raw-num'>6.</span>Because natural selection has designed the defensive chemicals specifically to attack the physiology of animals, these poisons can, in careful human hands, be turned into medicines.</div><div class='eng-line'><span class='raw-num'>7.</span>By finding just the right dose, herbalists can turn the plants' defensive arsenal into an impressive collection of stimulants, blood thinners, hormones, and other medicines.</div></div></div>
+    </div>
+
+    <button class="header-btn btn-vis-clean" onclick="toggleModal('modalVisClean')">지문 원문 (Clean)</button>
+    <div class="custom-modal modal-left modal-vis-clean" id="modalVisClean">
+        <span class="close-modal-btn" onclick="toggleModal('modalVisClean')">&times;</span>
+        <h3>지문 원문 (Clean)</h3>
+        <div class="modal-content visual-source-text"><div class="visual-box-given"></div><div class="line-last" style="position: relative; padding-right: 28%; margin-bottom: 10px; width: 100%; box-sizing: border-box;"><span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S1 (해결책/방어): 포식자를 공격하는 **화학 물질(chemicals)**로 몸을 무장함 (제시문)</b></span>
+                            </span>
+                        </span>❶ <span class="star-yellow">★</span>Because they lack the ability to flee or to hide behind strong walls, the plants' only <span class="highlight-subject">defensive option</span> is to soak their bodies in <span class="highlight-clue">chemicals that play havoc with</span> the guts, nerves, and hormones of their enemies. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S2~S3 (도입): 약용 식물(인삼, 마 등)</b>은 땅속 영양분으로 겨울을 남</span>
+                            </span>
+                        </span>❷ Ginseng, yam, and mayapple are all small plants that overwinter as nutritious underground stems or roots. ( ① ) ❸ <span class="star-red">★</span>This shared way of living explains why they are all so rich in <span class="highlight-subject">medicinal chemicals</span>. ( ② ) <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S4~S5 (문제 제기)</b>: 연약하고 움직이지 못해 포식자의 좋은 먹잇감이 됨</span>
+                            </span>
+                        </span>❹ Unlike fast-moving animals or thick-barked trees, these stationary, thin-skinned plants are <span class="highlight-feature">highly vulnerable</span> to attack from mammals and insects. ( ③ ) ❺ Their underground stores of food are particularly attractive to would-be predators. ( ④ ) <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S6~S7 (결론/응용): 이 방어용 화학 물질(독)을 인간이 적절히 조절하여 **약(medicines)</b>**으로 사용함</span>
+                            </span>
+                        </span>❻ Because natural selection has designed <span class="highlight-clue">the defensive chemicals</span> specifically to attack the physiology of animals, these poisons can, in careful human hands, be turned into medicines. ( ⑤ ) ❼ By finding just the right dose, herbalists can turn the plants' defensive arsenal into an impressive collection of stimulants, blood thinners, hormones, and other medicines.</div></div>
+    </div>
+
+    <button class="header-btn btn-learning" onclick="toggleModal('modalLearning')">핵심 콕콕</button>
+    <div class="custom-modal modal-left modal-learning" id="modalLearning">
+        <span class="close-modal-btn" onclick="toggleModal('modalLearning')">&times;</span>
+        <h3>핵심 콕콕 (Logic & Grammar)</h3>
+        <div class="modal-content">
+            <div class="learning-item">
+                <span class="learning-label logic-label">논리</span>
+                <ul class="learning-list"><li><b>문제와 해결:</b> 식물의 형태적 취약성(vulnerable)이라는 문제 상황(Problem)에 대해, 독성 화학물질 생성이라는 해결책(Solution)을 제시하는 <b>구조</b>.</li><li><b>지시어 단서:</b> ❶번의 `chemicals`가 정답 위치 뒤인 ❻번의 `the defensive chemicals`와 `these poisons`로 이어지는 논리적 연결 고리 <b>파악</b>.</li></ul>
+            </div>
+            <div class="learning-item">
+                <span class="learning-label grammar-label">구문</span>
+                <ul class="learning-list"><li><b>간접의문문:</b> ❸번 `why they are...`에서 의문사절이 목적어로 쓰일 때의 평서문 어순 <b>주의</b>.</li><li><b>수일치와 병렬:</b> ❶번 관계대명사절 내의 선행사 수일치 `play` 및 to부정사 병렬 `to flee or to hide` 구조 <b>확인</b>.</li></ul>
+            </div>
+        </div>
+    </div>
+
+    <button class="header-btn btn-vocab" onclick="toggleModal('modalVocab')">핵심 어휘</button>
+    <div class="custom-modal modal-center modal-vocab" id="modalVocab">
+        <span class="close-modal-btn" onclick="toggleModal('modalVocab')">&times;</span>
+        <h3>핵심 어휘 10선</h3>
+        <div class="modal-content">
+        <table class='vocab-table modal-table'>
+            <colgroup><col width="12%"><col width="12%"><col width="12%"><col width="12%"><col width="8%"><col width="20%"><col width="24%"></colgroup>
+            <thead><tr><th>Word</th><th>Synonym</th><th>Antonym</th><th>Confusing</th><th>Pronunciation</th><th>Meaning</th><th>Chunk</th></tr></thead>
+            <tbody><tr>
+                <td class='vocab-word-bold'>flee</td>
+                <td>escape / run away</td>
+                <td>stay / remain</td>
+                <td>flea (벼룩)</td>
+                <td class='vocab-pron'>[플리]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>고대 영어 fleon (날다, 도망치다)</span></td>
+                <td style='text-align:left;'>도망치다, 달아나다</td>
+                <td style='text-align:left;'><b>the ability to <span style='color:#e53935; font-weight:bold;'>flee</span></b><br><span style='color:#777; font-size:11px;'>도망칠 능력</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>soak</td>
+                <td>drench / steep</td>
+                <td>dry / dehydrate</td>
+                <td>sock (양말)</td>
+                <td class='vocab-pron'>[소크]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>고대 영어 socian (담그다)</span></td>
+                <td style='text-align:left;'>흠뻑 적시다, 담그다</td>
+                <td style='text-align:left;'><b><span style='color:#e53935; font-weight:bold;'>soak</span> their bodies in chemicals</b><br><span style='color:#777; font-size:11px;'>화학 물질에 자신의 몸을 흠뻑 적시다</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>play havoc with</td>
+                <td>ruin / devastate</td>
+                <td>fix / improve</td>
+                <td>None</td>
+                <td class='vocab-pron'>[플레이 해벅 위드]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>관용구</span></td>
+                <td style='text-align:left;'>~을 엉망으로 만들다, 파괴하다</td>
+                <td style='text-align:left;'><b><span style='color:#e53935; font-weight:bold;'>play havoc with</span> the guts</b><br><span style='color:#777; font-size:11px;'>내장을 엉망으로 만들다</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>overwinter</td>
+                <td>survive the winter / hibernate</td>
+                <td>None</td>
+                <td>None</td>
+                <td class='vocab-pron'>[오버윈터]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>over(넘기다) + winter(겨울)</span></td>
+                <td style='text-align:left;'>겨울을 나다</td>
+                <td style='text-align:left;'><b><span style='color:#e53935; font-weight:bold;'>overwinter</span> as nutritious underground stems</b><br><span style='color:#777; font-size:11px;'>영양분이 많은 땅속줄기로 겨울을 나다</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>stationary</td>
+                <td>fixed / immobile</td>
+                <td>moving / mobile</td>
+                <td>stationery (문방구)</td>
+                <td class='vocab-pron'>[스테이셔너리]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>라틴어 stationarius (정지한)</span></td>
+                <td style='text-align:left;'>움직이지 않는, 고정된</td>
+                <td style='text-align:left;'><b>these <span style='color:#e53935; font-weight:bold;'>stationary</span>, thin-skinned plants</b><br><span style='color:#777; font-size:11px;'>이 움직이지 않고 껍질이 얇은 식물들</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>vulnerable</td>
+                <td>susceptible / defenseless</td>
+                <td>protected / immune</td>
+                <td>venerable (존경할 만한)</td>
+                <td class='vocab-pron'>[벌너러블]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>라틴어 vulnerare (상처를 입히다)</span></td>
+                <td style='text-align:left;'>취약한, 상처 입기 쉬운</td>
+                <td style='text-align:left;'><b>highly <span style='color:#e53935; font-weight:bold;'>vulnerable</span> to attack</b><br><span style='color:#777; font-size:11px;'>공격에 대단히 취약한</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>predator</td>
+                <td>hunter / carnivore</td>
+                <td>prey / victim</td>
+                <td>predecessor (전임자)</td>
+                <td class='vocab-pron'>[프레데터]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>라틴어 praedari (약탈하다)</span></td>
+                <td style='text-align:left;'>포식자</td>
+                <td style='text-align:left;'><b>attractive to would-be <span style='color:#e53935; font-weight:bold;'>predators</span></b><br><span style='color:#777; font-size:11px;'>장차 포식자가 될 수 있는 존재들에게 매력적인</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>physiology</td>
+                <td>bodily functions / biological processes</td>
+                <td>None</td>
+                <td>psychology (심리학)</td>
+                <td class='vocab-pron'>[피지올러지]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>라틴어 physiologia (자연에 대한 탐구)</span></td>
+                <td style='text-align:left;'>생리 기능, 생리학</td>
+                <td style='text-align:left;'><b>attack the <span style='color:#e53935; font-weight:bold;'>physiology</span> of animals</b><br><span style='color:#777; font-size:11px;'>동물들의 생리 기능을 공격하다</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>dose</td>
+                <td>amount / portion</td>
+                <td>None</td>
+                <td>doze (졸다)</td>
+                <td class='vocab-pron'>[도스]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>그리스어 dosis (주어진 것)</span></td>
+                <td style='text-align:left;'>복용량, 1회분</td>
+                <td style='text-align:left;'><b>finding just the right <span style='color:#e53935; font-weight:bold;'>dose</span></b><br><span style='color:#777; font-size:11px;'>딱 올바른 복용량을 찾아냄으로써</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>stimulant</td>
+                <td>tonic / energizer</td>
+                <td>depressant / sedative</td>
+                <td>simulate (모의실험하다)</td>
+                <td class='vocab-pron'>[스티뮬런트]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>라틴어 stimulare (자극하다)</span></td>
+                <td style='text-align:left;'>각성제, 자극제</td>
+                <td style='text-align:left;'><b>an impressive collection of <span style='color:#e53935; font-weight:bold;'>stimulants</span></b><br><span style='color:#777; font-size:11px;'>각성제의 인상적인 모음</span></td>
+            </tr></tbody>
+        </table>
+        </div>
+    </div>
+
+    <button class="header-btn btn-keys" onclick="toggleModal('modalKeys')">핵심 문장</button>
+    <div class="custom-modal modal-center modal-keys" id="modalKeys">
+        <span class="close-modal-btn" onclick="toggleModal('modalKeys')">&times;</span>
+        <h3>핵심 문장 3개</h3>
+        <div class="modal-content">
+            <div style="margin-bottom:15px; border-bottom:1px dashed #ddd; padding-bottom:10px;">
+                <div style="font-weight:bold; color:#0d47a1; margin-bottom:4px;">핵심 구문 <span style="font-size:11px; color:#666; font-weight:normal;">-</span></div>
+                <div style="font-family:'Times New Roman'; font-size:15px; margin-bottom:4px;">Because they lack the ability to flee or to hide behind strong walls, the plants' only defensive option is to soak their bodies in chemicals <span style="color:#d32f2f; font-weight:bold;">that play havoc with the guts, nerves, and hormones of their enemies</span>.</div>
+                <div style="font-size:13px; color:#333; margin-bottom:4px;">그들은 도망치거나 튼튼한 벽 뒤에 숨을 능력이 부족하기 때문에, 식물들의 유일한 방어 선택지는 적들의 내장, 신경, 그리고 호르몬을 엉망으로 만드는 화학 물질에 자신의 몸을 흠뻑 적시는 것이다.</div>
+                <div style="font-size:12px; color:#555; background:#f9f9f9; padding:4px;">💡 [주격 관계대명사] 선행사 'chemicals'를 수식하는 주격 관계대명사절 <span style="color:#d32f2f; font-weight:bold;">that play havoc with...</span>의 수일치(복수 동사 play)와 해석을 연습할 수 있는 핵심 문장입니다.</div>
+            </div>
+            
+            <div style="margin-bottom:15px; border-bottom:1px dashed #ddd; padding-bottom:10px;">
+                <div style="font-weight:bold; color:#0d47a1; margin-bottom:4px;">주제문 <span style="font-size:11px; color:#666; font-weight:normal;">-</span></div>
+                <div style="font-family:'Times New Roman'; font-size:15px; margin-bottom:4px;">This shared way of living explains <span style="color:#d32f2f; font-weight:bold;">why they are all so rich in medicinal chemicals</span>.</div>
+                <div style="font-size:13px; color:#333; margin-bottom:4px;">이러한 공유된 생활 방식은 왜 그것들이 모두 약용 화학 물질이 그렇게 풍부한지를 설명해 준다.</div>
+                <div style="font-size:12px; color:#555; background:#f9f9f9; padding:4px;">💡 [간접의문문/요지] 글의 전체적인 핵심 내용을 포괄하는 문장이며, <span style="color:#d32f2f; font-weight:bold;">의문사+주어+동사 (why they are...)</span> 어순의 간접의문문 명사절을 포함하고 있습니다.</div>
+            </div>
+            
+            <div style="margin-bottom:15px; border-bottom:1px dashed #ddd; padding-bottom:10px;">
+                <div style="font-weight:bold; color:#0d47a1; margin-bottom:4px;">재진술 <span style="font-size:11px; color:#666; font-weight:normal;">-</span></div>
+                <div style="font-family:'Times New Roman'; font-size:15px; margin-bottom:4px;">Because natural selection has designed the defensive chemicals specifically to attack the physiology of animals, these poisons can, <span style="color:#d32f2f; font-weight:bold;">in careful human hands</span>, be turned into medicines.</div>
+                <div style="font-size:13px; color:#333; margin-bottom:4px;">자연 선택은 그 방어용 화학 물질들을 동물의 생리 기능을 공격하도록 특별히 설계했기 때문에, 이 독들은 세심한 인간의 손길 안에서 약으로 바뀔 수 있다.</div>
+                <div style="font-size:12px; color:#555; background:#f9f9f9; padding:4px;">💡 [삽입구/수동태] 주제가 응용되는 결론부입니다. 부사구 <span style="color:#d32f2f; font-weight:bold;">in careful human hands</span>가 조동사와 본동사 사이에 삽입된 구조를 파악하고, 수동태 'be turned into'를 정확히 해석해야 합니다.</div>
+            </div>
+            </div>
+    </div>
+
+    <button class="header-btn btn-ans" onclick="toggleModal('modalAns')">정답 및 해설</button>
+    <div class="custom-modal modal-center modal-ans" id="modalAns">
+        <span class="close-modal-btn" onclick="toggleModal('modalAns')">&times;</span>
+        <h3>정답 및 해설</h3>
+        <div class="modal-content">
+        <div style="font-size:16px; font-weight:bold; color:#0277bd; margin-bottom:15px;">정답: ④</div>
+        <div style="margin-bottom:15px;"><strong>[해설 요약]</strong><br>제시문(❶)은 식물이 방어 수단으로 적을 공격하는 화학 물질을 사용한다는 내용입니다. ❺번 문장까지 식물이 왜 방어 수단을 필요로 하는지(매우 취약하고 포식자에게 매력적임) 설명한 뒤, ④번 자리에 해결책인 제시문이 들어가야 합니다. 이어서 ❻번 문장의 'the defensive chemicals'와 'these poisons'가 제시문의 'chemicals'를 직접적으로 지칭하며 논리적으로 완벽하게 이어집니다.</div>
+        <div style="margin-bottom:15px;"><strong>[논리적 근거]</strong><br><ul style="padding-left:20px;"><li>소재 및 방향성: 식물이 자신을 보호하기 위해 지닌 <span class="highlight-subject">defensive option</span>(방어 선택지)로서의 <span class="highlight-subject">medicinal chemicals</span>(약용 화학물질).</li><br><li>단서 1 (S1): "<span class="highlight-clue">chemicals that play havoc with</span>" (적을 엉망으로 만드는 화학물질)</li><br><li>단서 2 (S6): "<span class="highlight-clue">the defensive chemicals</span>" (그 방어용 화학물질)</li></ul></div>
+        <div><strong>[논리 연결]</strong><br>"[지문] 포식자에게 매력적임 (S5)" → "[지문(제시문)] 화학 물질로 몸을 적시는 방어 수단 선택 (S1)" → **[정답] 그 방어용 화학물질을 약으로 활용 (S6)**</div>
+        </div>
+    </div>
+
+    <button class="header-btn btn-opts" onclick="toggleModal('modalOpts')">선택지 분석</button>
+    <div class="custom-modal modal-center modal-opts" id="modalOpts">
+        <span class="close-modal-btn" onclick="toggleModal('modalOpts')">&times;</span>
+        <h3>선택지 분석</h3>
+        <div class="modal-content"><div style='font-size:14px; font-weight:800; margin-top:8px; margin-bottom:6px; color:#1565c0; border-bottom:1px dashed #ccc; padding-bottom:4px;'>📌 38. 글의 흐름으로 보아, 주어진 문장이 들어가기에 가장 적절한 곳을 고르시오.</div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>①</span></div>
+                <span class='opt-trans'>앞 문장의 'This shared way of living'은 ❷번 문장의 겨울을 나는 방식을 지칭하므로, 흐름을 끊고 제시문이 들어갈 수 없습니다.</span>
+                <div class='opt-analysis'><span class='err-badge-wrong'>무관한 위치</span> 논리 단절</div>
+            </div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>②</span></div>
+                <span class='opt-trans'>식물이 왜 약용 화학물질이 풍부한지 그 배경(취약함)을 ❹번에서 막 설명하기 시작하는 단계이므로 제시문이 들어가기엔 너무 이릅니다.</span>
+                <div class='opt-analysis'><span class='err-badge-wrong'>무관한 위치</span> 논리 단절</div>
+            </div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>③</span></div>
+                <span class='opt-trans'>❹, ❺번 문장은 식물이 포식자에게 얼마나 취약하고 먹잇감으로서 매력적인지를 연달아 설명하는 부분이므로, 두 문장 사이를 끊을 수 없습니다.</span>
+                <div class='opt-analysis'><span class='err-badge-wrong'>무관한 위치</span> 흐름 단절</div>
+            </div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>④</span></div>
+                <span class='opt-trans'>❺번 문장까지 포식자의 표적이 되기 쉬운 이유를 설명한 후, 이에 대한 대응책으로 제시문(화학물질 방어)이 들어가고, ❻번 문장의 'the defensive chemicals'로 자연스럽게 지칭됩니다.</span>
+                <div class='opt-analysis'><span class='err-badge-correct'>정답</span> </div>
+            </div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>⑤</span></div>
+                <span class='opt-trans'>❻번 문장에서 화학 물질이 약으로 쓰일 수 있다는 내용이 이미 나왔고 ❼번에서 어떻게 쓰이는지 상술하므로, 방어 기제를 처음 소개하는 제시문이 들어갈 수 없습니다.</span>
+                <div class='opt-analysis'><span class='err-badge-wrong'>무관한 위치</span> 순서 역전</div>
+            </div></div>
+    </div>
+
+    <button class="header-btn btn-exam" onclick="toggleModal('modalExam')">내신 출제 포인트</button>
+    <div class="custom-modal modal-center modal-exam" id="modalExam">
+        <span class="close-modal-btn" onclick="toggleModal('modalExam')">&times;</span>
+        <h3>내신 변형 문제 예측 5선</h3>
+        <div class="modal-content">
+                <div style='margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;'>
+                    <div style='margin-bottom:4px;'><strong>S1.</strong> <span class='exam-badge exam-badge-blank'>빈칸</span> <span class='exam-target'>soak their bodies in chemicals</span></div>
+                    <div style='font-size:13px; color:#555; margin-bottom:2px;'><strong>Paraphrase:</strong> ① arm themselves with toxic substances ② utilize chemical defenses</div>
+                    <div style='font-size:13px; color:#444;'>💡 <strong>출제이유:</strong> 움직일 수 없는 식물이 포식자로부터 살아남기 위해 선택한 핵심적인 생존 전략(주제)을 나타내는 부분임.</div>
+                </div>
+                
+                <div style='margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;'>
+                    <div style='margin-bottom:4px;'><strong>S7.</strong> <span class='exam-badge exam-badge-implied'>함축</span> <span class='exam-target'>the plants' defensive arsenal</span></div>
+                    <div style='font-size:13px; color:#555; margin-bottom:2px;'><strong>Meaning:</strong> the toxic chemicals plants produce to deter predators</div>
+                    <div style='font-size:13px; color:#444;'>💡 <strong>출제이유:</strong> 식물이 적을 공격하기 위해 만든 내장/신경 파괴 화학 물질을 '무기고(arsenal)'라는 단어로 비유하여 표현함.</div>
+                </div>
+                
+                <div style='margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;'>
+                    <div style='margin-bottom:4px;'><strong>S1.</strong> <span class='exam-badge exam-badge-grammar'>어법</span> <span class='exam-target'>play</span></div>
+                    <div style='font-size:13px; color:#555; margin-bottom:2px;'><strong>Distractor:</strong> plays</div>
+                    <div style='font-size:13px; color:#444;'>💡 <strong>출제이유:</strong> [수일치] 주격 관계대명사 that의 선행사는 복수형인 chemicals이므로 복수 동사인 play를 써야 함.</div>
+                </div>
+                
+                <div style='margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;'>
+                    <div style='margin-bottom:4px;'><strong>S3.</strong> <span class='exam-badge exam-badge-grammar'>어법</span> <span class='exam-target'>why they are</span></div>
+                    <div style='font-size:13px; color:#555; margin-bottom:2px;'><strong>Distractor:</strong> why are they</div>
+                    <div style='font-size:13px; color:#444;'>💡 <strong>출제이유:</strong> [간접의문문] explains의 목적어 역할을 하는 명사절이므로 의문문 어순이 아닌 <의문사+주어+동사> 어순이 되어야 함.</div>
+                </div>
+                
+                <div style='margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;'>
+                    <div style='margin-bottom:4px;'><strong>S6.</strong> <span class='exam-badge exam-badge-blank'>빈칸</span> <span class='exam-target'>be turned into medicines</span></div>
+                    <div style='font-size:13px; color:#555; margin-bottom:2px;'><strong>Paraphrase:</strong> ① be converted into healing remedies ② serve as pharmacological treatments</div>
+                    <div style='font-size:13px; color:#444;'>💡 <strong>출제이유:</strong> 식물의 방어용 독성 물질이 인간의 개입을 통해 유익한 용도(약)로 바뀐다는 글의 최종 결론부에 해당함.</div>
+                </div>
+                </div>
+    </div>
+
+    <div class="info-group">
+        
+        <div class="difficulty-box">
+            <span class="diff-label">DIFFICULTY</span>
+            <span class="diff-stars">★★★☆☆</span>
+        </div>
+        
+
+        <div class="ri-item ri-material">
+            <span class="ri-label">소재</span>
+            식물의 방어용 화학 물질과 약용 식물 소재_EN: Plant defensive chemicals and medicinal plants <span class='header-badge-them'>★주제문: S3</span><span class='header-badge-key'>★재진술: S1</span>
+        </div>
+
+        <div class="topic-box">
+            <strong style="font-size:17.5px;">Topic & Summary</strong><br>
+            <div style="margin-top:6px;">도망치거나 숨을 수 없는 작고 취약한 식물들은 포식자로부터 자신을 보호하기 위해 방어용 화학 물질을 만들어내며, 이것이 오늘날 유용한 약으로 사용된다.</div>
+        </div>
+
+        <div class="ri-item ri-guide">
+            <span class="ri-label">수업 가이드</span>
+            얘들아, 문장 삽입 문제의 치트키는 지시어와 대명사야! 박스 문장(제시문)을 보면 식물이 방어 수단으로 뭘 쓴다고 했어? 'chemicals(화학 물질)'을 쓴다고 했지. 그리고 쭉 읽어 내려가는데 5번 문장까지는 식물이 왜 약한지, 얼마나 맛있는 먹잇감인지 배경 설명만 줄기차게 나와. 그러다가 6번 문장에 'the defensive chemicals(그 방어용 화학 물질)'이 떡하니 등장하네? 앞에 화학 물질 이야기가 나온 적이 없는데 'the'를 붙일 수 있을까? 절대 안 되지. 그러니까 5번 뒤에 박스 문장이 들어가서 화학 물질을 처음 소개해주고, 6번이 'the'로 받아주는 흐름이 완벽한 거야.
+        </div>
+        <div class="ri-item ri-tip">
+            <span class="ri-label">집중 Tip</span>
+            'turn A into B (A를 B로 바꾸다)' 구문이 6번에서는 수동태(be turned into)로, 7번에서는 능동태(turn ~ into)로 연달아 쓰였으니 두 문장의 형태 변화를 눈여겨보세요.
+        </div>
+    </div>
+</div>
+
+<div class="top-container">
+    
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+                    <span class="logic-desc" style="font-weight: 900;"><b>S2~S3 (도입): 약용 식물(인삼, 마 등)</b>은 땅속 영양분으로 겨울을 남</span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-intro">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❷ <span class="syntax-box S-box">Ginseng, yam, and mayapple</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box">all small <span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>plants</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❷ <span class="S-text">인삼, 참마, 그리고 메이애플은</span> <span class="C-text">모두 작은 식물들</span><span class="V-text">이다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">that <span class="syntax-box V-box"><span class="vocab-container"><span class="vocab-sub">겨울을 나다(=survive the winter)</span><span class="vocab-text">overwinter</span></span></span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="V-text">겨울을 나는</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">as nutritious underground stems or roots.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">영양분이 많은 땅속줄기나 뿌리로서. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[도입] 약용 식물의 겨울나기</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>인삼이나 마 같은 식물들은 추운 겨울을 버티기 위해 영양분을 땅속 뿌리에 잔뜩 저장해 둬. Mark: [도입] 약용 식물의 겨울나기</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>plants that overwinter</b>: 'that'은 주격 관계대명사이며, 선행사 'plants'가 복수이므로 동사도 복수형인 'overwinter'를 썼음.</div></div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card logic-intro">
+                    <div style="margin-bottom:6px;">
+                        <span class="logic-title" style="display:inline; margin-bottom:0;">[도입] 약용 식물의 생활 방식</span>
+                        <span style="font-size:12px; font-weight:bold; opacity:0.8; margin-left:5px;">2 ~ 3</span>
+                    </div>
+                    <span class="logic-desc">인삼 등은 땅속에 영양을 저장하며 겨울을 나며, 이는 식물에 약용 <span class="fill-text">화학물질</span>이 풍부한 이유가 된다.</span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-intro card-them">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❸ <span class="star-red">★</span><span class="syntax-box S-box">This shared way of living</span> <span class="syntax-box V-box">explains</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❸ <span class="star-red">★</span><span class="S-text">이 공유된 생활 방식은</span> <span class="V-text">설명한다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box O-box"><span class="visual-exam-target" style="border-bottom: 2px dashed #f44336; background-color: rgba(244, 67, 54, 0.15);"><span class="visual-exam-label" style="background-color: #f44336;">어법주의</span><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>why <span class="syntax-box S-box">they</span> <span class="syntax-box V-box">are</span></span> <span class="syntax-box C-box">all so rich</span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text">왜 <span class="S-text">그것들이(이 식물들이)</span> <span class="C-text">모두 그렇게 풍부한지</span><span class="V-text">를</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">in <span class="highlight-subject"><span class="vocab-container"><span class="vocab-sub">약용의</span><span class="vocab-text">medicinal</span></span> chemicals</span></span>.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="highlight-subject">약용 화학 물질</span>이</span>. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[주제] 화학물질이 풍부한 이유</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>이렇게 땅속에 영양분을 모아두는 특징 때문에, 이 식물들은 몸속에 약으로 쓸 수 있는 화학 물질을 많이 가지게 된 거야.</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>why they are all so rich</b>: 'explains'의 목적어로 쓰인 간접의문문으로, <의문사+주어+동사>의 어순을 취함.</div></div>
+                        
+                    <div class='exam-point-box'>
+                        <div style='margin-bottom:3px;'><span class='exam-badge exam-badge-grammar'>어법주의</span> <span class='exam-target'>why they are</span> ➔ 오답함정: why are they</div>
+                        <div style='font-size:11px; color:#666;'>💡 [간접의문문] explains의 목적어 역할을 하는 명사절이므로 의문문 어순이 아닌 <의문사+주어+동사> 어순이 되어야 함.</div>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+                    <span class="logic-desc" style="font-weight: 900;"><b>S4~S5 (문제 제기)</b>: 연약하고 움직이지 못해 포식자의 좋은 먹잇감이 됨</span>
+                </div>
+                
+                <div class="logic-flow-card logic-body">
+                    <div style="margin-bottom:6px;">
+                        <span class="logic-title" style="display:inline; margin-bottom:0;">[전개] 취약한 식물의 방어 기제</span>
+                        <span style="font-size:12px; font-weight:bold; opacity:0.8; margin-left:5px;">4 ~ 1</span>
+                    </div>
+                    <span class="logic-desc">움직이지 못하고 취약한 식물은 포식자의 매력적인 표적이 되므로, 살아남기 위해 적을 공격하는 <span class="fill-text">독성</span> 화학 물질로 무장한다.</span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-body">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❹ Unlike fast-moving animals or thick-barked trees,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❹ 빠르게 움직이는 동물들이나 껍질이 두꺼운 나무들과는 달리,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box S-box">these <span class="vocab-container"><span class="vocab-sub">움직이지 않는(=fixed)</span><span class="vocab-text">stationary</span></span>, thin-skinned plants</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box"><span class="highlight-feature"><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>highly <span class="vocab-container"><span class="vocab-sub">취약한(=susceptible)</span><span class="vocab-text">vulnerable</span></span></span></span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text">이 움직이지 않고 껍질이 얇은 식물들은</span> <span class="C-text">대단히 취약</span><span class="V-text">하다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">to attack from mammals and insects.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">포유류와 곤충들로부터의 공격에. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[원인] 식물의 형태적 취약성</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>왜 약용 성분이 생겼을까? 동물은 도망치면 되고 큰 나무는 껍질이 단단한데, 이런 작은 식물들은 꼼짝도 못 하고 연약해서 벌레나 짐승한테 먹히기 딱 좋거든.</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>highly vulnerable</b>: 부사 'highly(매우, 대단히)'가 형용사 'vulnerable'을 수식함. 'high(높게)'를 쓰지 않도록 주의.</div></div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❺ <span class="syntax-box S-box">Their underground <span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>stores of food</span> <span class="syntax-box V-box">are</span></span> <span class="syntax-box C-box">particularly attractive</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❺ <span class="S-text">그들의 땅속 먹이 저장소는</span> <span class="C-text">특히 매력적</span><span class="V-text">이다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">to <span class="vocab-container"><span class="vocab-sub">장차 ~이 되려고 하는</span><span class="vocab-text">would-be</span></span> predators.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">장차 포식자가 될 수 있는 존재들에게. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[부연] 포식자에게 매력적인 먹이</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>게다가 아까 말했듯이 겨울을 나려고 뿌리에 영양분을 듬뿍 저장해 놨으니, 배고픈 동물들한테 얼마나 맛있는 먹잇감이겠어.</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>stores of food are</b>: 주어의 핵이 복수 명사인 'stores'이므로 복수 동사 'are'가 쓰임.</div></div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+                    <span class="logic-desc" style="font-weight: 900;"><b>S1 (해결책/방어): 포식자를 공격하는 **화학 물질(chemicals)**로 몸을 무장함 (제시문)</b></span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-body card-key">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❶ <span class="star-yellow">★</span>Because <span class="syntax-box S-box">they</span> <span class="syntax-box V-box"><span class="vocab-container"><span class="vocab-sub">부족하다</span><span class="vocab-text">lack</span></span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❶ <span class="star-yellow">★</span><span class="S-text">그들이(식물들이)</span> <span class="V-text">부족하기</span> 때문에</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box O-box">the ability <span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>to flee or to hide</span> behind strong walls</span>,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text">도망치거나 튼튼한 벽 뒤에 숨을 능력이</span>,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box S-box">the plants' only <span class="highlight-subject">defensive option</span></span> <span class="syntax-box V-box">is</span> <span class="syntax-box C-box">to <span class="visual-exam-target" style="border-bottom: 2px dashed #4caf50; background-color: rgba(76, 175, 80, 0.15);"><span class="visual-exam-label" style="background-color: #4caf50;">빈칸출제</span>soak their bodies in <span class="highlight-clue"><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>chemicals</span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text">식물들의 유일한 <span class="highlight-subject">방어 선택지는</span></span> <span class="C-text"><span class="highlight-clue">화학 물질에 자신의 몸을 흠뻑 적시는 것</span><span class="V-text">이다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">that <span class="syntax-box V-box"><span class="visual-exam-target" style="border-bottom: 2px dashed #f44336; background-color: rgba(244, 67, 54, 0.15);"><span class="visual-exam-label" style="background-color: #f44336;">어법주의</span>play</span> havoc with</span></span> <span class="syntax-box O-box">the guts, nerves, and hormones of their enemies</span></span>.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="V-text">엉망으로 만드는</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text">그들의 적들의 내장, 신경, 그리고 호르몬을</span></span>. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[해결책] 화학 물질을 통한 방어</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>그래서 식물들이 낸 묘안이 뭐야? 바로 독품기! 적의 뱃속이나 신경을 망가뜨리는 독한 화학 물질을 몸 안에 가득 채워서, 자기를 먹은 놈들이 혼쭐나게 만드는 게 유일한 생존 방법이었던 거지.</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>to flee or to hide</b>: ability를 수식하는 to부정사의 형용사적 용법이 or를 중심으로 병렬 구조를 이루고 있음.<br>[구문팁] <b>chemicals that play havoc with</b>: 주격 관계대명사 that절이 선행사 chemicals를 수식. 선행사가 복수이므로 동사 원형 play를 사용.</div></div>
+                        
+                    <div class='exam-point-box'>
+                        <div style='margin-bottom:3px;'><span class='exam-badge exam-badge-blank'>빈칸출제</span> <span class='exam-target'>soak their bodies in chemicals</span> ➔ 변형: ① arm themselves with toxic substances ② utilize chemical defenses</div>
+                        <div style='font-size:11px; color:#666;'>💡 움직일 수 없는 식물이 포식자로부터 살아남기 위해 선택한 핵심적인 생존 전략(주제)을 나타내는 부분임.</div>
+                    </div>
+                    
+                    <div class='exam-point-box'>
+                        <div style='margin-bottom:3px;'><span class='exam-badge exam-badge-grammar'>어법주의</span> <span class='exam-target'>play</span> ➔ 오답함정: plays</div>
+                        <div style='font-size:11px; color:#666;'>💡 [수일치] 주격 관계대명사 that의 선행사는 복수형인 chemicals이므로 복수 동사인 play를 써야 함.</div>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+                    <span class="logic-desc" style="font-weight: 900;"><b>S6~S7 (결론/응용): 이 방어용 화학 물질(독)을 인간이 적절히 조절하여 **약(medicines)</b>**으로 사용함</span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-conc">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❻ Because <span class="syntax-box S-box"><span class="vocab-container"><span class="vocab-sub">자연 선택</span><span class="vocab-text">natural selection</span></span></span> <span class="syntax-box V-box">has designed</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❻ <span class="S-text">자연 선택이</span> <span class="V-text">설계했기</span> 때문에</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box O-box"><span class="highlight-clue">the defensive chemicals</span></span> specifically <span class="syntax-box C-box">to attack the <span class="vocab-container"><span class="vocab-sub">생리 기능(=biological processes)</span><span class="vocab-text">physiology</span></span> of animals</span>,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text"><span class="highlight-clue">그 방어용 화학 물질들을</span></span> 특별히 <span class="C-text">동물들의 생리 기능을 공격하도록</span>,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box S-box">these poisons</span> <span class="syntax-box V-box"><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>can</span>, in careful human hands, <span class="syntax-box V-box"><span class="visual-exam-target" style="border-bottom: 2px dashed #4caf50; background-color: rgba(76, 175, 80, 0.15);"><span class="visual-exam-label" style="background-color: #4caf50;">빈칸출제</span>be turned into</span></span> <span class="syntax-box C-box">medicines</span></span>.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text">이 독들은</span> <span class="V-text">할 수 있다</span>, 세심한 인간의 손길 안에서, <span class="C-text">약으로</span> <span class="V-text">바뀔</span>. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[결론] 화학물질의 약용 전환</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>결국 진화(자연 선택)를 통해 식물은 동물의 몸에 작용하는 약물을 갖게 된 거야. 그런데 이 물질을 사람이 조심스럽게 잘 조절해서 쓰면, 병을 고치는 약이 될 수 있다는 놀라운 사실!</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>can, in careful human hands, be turned into</b>: 조동사 can과 본동사 be turned into 사이에 전치사구 in careful human hands가 삽입된 구조임.</div></div>
+                        
+                    <div class='exam-point-box'>
+                        <div style='margin-bottom:3px;'><span class='exam-badge exam-badge-blank'>빈칸출제</span> <span class='exam-target'>be turned into medicines</span> ➔ 변형: ① be converted into healing remedies ② serve as pharmacological treatments</div>
+                        <div style='font-size:11px; color:#666;'>💡 식물의 방어용 독성 물질이 인간의 개입을 통해 유익한 용도(약)로 바뀐다는 글의 최종 결론부에 해당함.</div>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card logic-conc">
+                    <div style="margin-bottom:6px;">
+                        <span class="logic-title" style="display:inline; margin-bottom:0;">[결론] 인간의 의학적 활용</span>
+                        <span style="font-size:12px; font-weight:bold; opacity:0.8; margin-left:5px;">6 ~ 7</span>
+                    </div>
+                    <span class="logic-desc">동물의 생리를 공격하도록 진화된 이 식물의 방어용 무기는, 인간이 알맞은 <span class="fill-text">복용량</span>을 찾아냄으로써 유용한 약으로 탈바꿈된다.</span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-conc">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❼ By finding just the right <span class="vocab-container"><span class="vocab-sub">복용량</span><span class="vocab-text">dose</span></span>,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❼ 딱 알맞은 복용량을 찾아냄으로써,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box S-box">herbalists</span> <span class="syntax-box V-box">can turn</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text">약초학자들은</span> <span class="V-text">바꿀 수 있다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box O-box"><span class="visual-exam-target" style="border-bottom: 2px dashed #9c27b0; background-color: rgba(156, 39, 176, 0.15);"><span class="visual-exam-label" style="background-color: #9c27b0;">함축의미</span>the plants' defensive <span class="vocab-container"><span class="vocab-sub">무기고</span><span class="vocab-text">arsenal</span></span></span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text">식물의 방어용 무기고를</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box C-box">into an impressive collection of stimulants, blood thinners, hormones, and other medicines</span>.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="C-text">각성제, 혈액 희석제, 호르몬, 그리고 다른 약들의 인상적인 모음으로</span>. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[부연] 의학적 활용 사례</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>독도 잘 쓰면 약이 된다고 하지? 약초 전문가들이 딱 적당한 양만 찾아내면, 식물이 적을 죽이려고 만든 무기(화학물질)가 사람에게는 활력을 주는 약이나 피를 맑게 하는 훌륭한 약으로 변신하는 거야.</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>turn A into B</b>: 'A를 B로 바꾸다'라는 숙어로, A(방어용 무기고)가 B(인상적인 약 모음)로 전환됨을 나타냄.</div></div>
+                        
+                    <div class='exam-point-box'>
+                        <div style='margin-bottom:3px;'><span class='exam-badge exam-badge-implied'>함축의미</span> <span class='exam-target'>the plants' defensive arsenal</span> ➔ 의미: the toxic chemicals plants produce to deter predators</div>
+                        <div style='font-size:11px; color:#666;'>💡 식물이 적을 공격하기 위해 만든 내장/신경 파괴 화학 물질을 '무기고(arsenal)'라는 단어로 비유하여 표현함.</div>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+</div>
+
+<div class="bottom-container">
+    <div class="b-left">
+        <div class="info-group" style="margin-top: 0;">
+            <div class="ri-item ri-material">
+                <span class="ri-label">소재</span>
+                식물의 방어용 화학 물질과 약용 식물 소재_EN: Plant defensive chemicals and medicinal plants <span class='header-badge-them'>★주제문: S3</span><span class='header-badge-key'>★재진술: S1</span>
+            </div>
+
+            <div class="topic-box">
+                <strong style="font-size:17.5px;">Topic & Summary</strong><br>
+                <div style="margin-top:6px;">도망치거나 숨을 수 없는 작고 취약한 식물들은 포식자로부터 자신을 보호하기 위해 방어용 화학 물질을 만들어내며, 이것이 오늘날 유용한 약으로 사용된다.</div>
+            </div>
+
+            <div class="ri-item ri-guide">
+                <span class="ri-label">수업 가이드</span>
+                얘들아, 문장 삽입 문제의 치트키는 지시어와 대명사야! 박스 문장(제시문)을 보면 식물이 방어 수단으로 뭘 쓴다고 했어? 'chemicals(화학 물질)'을 쓴다고 했지. 그리고 쭉 읽어 내려가는데 5번 문장까지는 식물이 왜 약한지, 얼마나 맛있는 먹잇감인지 배경 설명만 줄기차게 나와. 그러다가 6번 문장에 'the defensive chemicals(그 방어용 화학 물질)'이 떡하니 등장하네? 앞에 화학 물질 이야기가 나온 적이 없는데 'the'를 붙일 수 있을까? 절대 안 되지. 그러니까 5번 뒤에 박스 문장이 들어가서 화학 물질을 처음 소개해주고, 6번이 'the'로 받아주는 흐름이 완벽한 거야.
+            </div>
+            <div class="ri-item ri-tip">
+                <span class="ri-label">집중 Tip</span>
+                'turn A into B (A를 B로 바꾸다)' 구문이 6번에서는 수동태(be turned into)로, 7번에서는 능동태(turn ~ into)로 연달아 쓰였으니 두 문장의 형태 변화를 눈여겨보세요.
+            </div>
+        </div>
+
+        <div class="answer-box">
+            <div class="ans-header">정답: ④</div>
+            <div class="ans-content">
+                <strong>[해설 요약]</strong><br>제시문(❶)은 식물이 방어 수단으로 적을 공격하는 화학 물질을 사용한다는 내용입니다. ❺번 문장까지 식물이 왜 방어 수단을 필요로 하는지(매우 취약하고 포식자에게 매력적임) 설명한 뒤, ④번 자리에 해결책인 제시문이 들어가야 합니다. 이어서 ❻번 문장의 'the defensive chemicals'와 'these poisons'가 제시문의 'chemicals'를 직접적으로 지칭하며 논리적으로 완벽하게 이어집니다.<br><br>
+                <strong>[논리적 근거]</strong><br>
+                <ul style="margin:5px 0 0 20px; padding:0; list-style-type:circle;"><li>소재 및 방향성: 식물이 자신을 보호하기 위해 지닌 <span class="highlight-subject">defensive option</span>(방어 선택지)로서의 <span class="highlight-subject">medicinal chemicals</span>(약용 화학물질).</li><br><li>단서 1 (S1): "<span class="highlight-clue">chemicals that play havoc with</span>" (적을 엉망으로 만드는 화학물질)</li><br><li>단서 2 (S6): "<span class="highlight-clue">the defensive chemicals</span>" (그 방어용 화학물질)</li></ul><br>
+                <strong>[논리 연결]</strong><br>"[지문] 포식자에게 매력적임 (S5)" → "[지문(제시문)] 화학 물질로 몸을 적시는 방어 수단 선택 (S1)" → **[정답] 그 방어용 화학물질을 약으로 활용 (S6)**
+            </div>
+        </div>
+
+        <div class="box-style options-box">
+            <strong style="font-size:14px; display:block; margin-bottom:15px; border-bottom:1px solid #ddd; padding-bottom:5px;">선택지 분석 (Why & Why not?)</strong>
+            <div style='font-size:14px; font-weight:800; margin-top:8px; margin-bottom:6px; color:#1565c0; border-bottom:1px dashed #ccc; padding-bottom:4px;'>📌 38. 글의 흐름으로 보아, 주어진 문장이 들어가기에 가장 적절한 곳을 고르시오.</div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>①</span></div>
+                <span class='opt-trans'>앞 문장의 'This shared way of living'은 ❷번 문장의 겨울을 나는 방식을 지칭하므로, 흐름을 끊고 제시문이 들어갈 수 없습니다.</span>
+                <div class='opt-analysis'><span class='err-badge-wrong'>무관한 위치</span> 논리 단절</div>
+            </div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>②</span></div>
+                <span class='opt-trans'>식물이 왜 약용 화학물질이 풍부한지 그 배경(취약함)을 ❹번에서 막 설명하기 시작하는 단계이므로 제시문이 들어가기엔 너무 이릅니다.</span>
+                <div class='opt-analysis'><span class='err-badge-wrong'>무관한 위치</span> 논리 단절</div>
+            </div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>③</span></div>
+                <span class='opt-trans'>❹, ❺번 문장은 식물이 포식자에게 얼마나 취약하고 먹잇감으로서 매력적인지를 연달아 설명하는 부분이므로, 두 문장 사이를 끊을 수 없습니다.</span>
+                <div class='opt-analysis'><span class='err-badge-wrong'>무관한 위치</span> 흐름 단절</div>
+            </div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>④</span></div>
+                <span class='opt-trans'>❺번 문장까지 포식자의 표적이 되기 쉬운 이유를 설명한 후, 이에 대한 대응책으로 제시문(화학물질 방어)이 들어가고, ❻번 문장의 'the defensive chemicals'로 자연스럽게 지칭됩니다.</span>
+                <div class='opt-analysis'><span class='err-badge-correct'>정답</span> </div>
+            </div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>⑤</span></div>
+                <span class='opt-trans'>❻번 문장에서 화학 물질이 약으로 쓰일 수 있다는 내용이 이미 나왔고 ❼번에서 어떻게 쓰이는지 상술하므로, 방어 기제를 처음 소개하는 제시문이 들어갈 수 없습니다.</span>
+                <div class='opt-analysis'><span class='err-badge-wrong'>무관한 위치</span> 순서 역전</div>
+            </div>
+        </div>
+
+        <div class="logic-box">
+            <strong>문장별 논리 전개 (Micro Flow)</strong>
+            <b>S2~S3 (도입): 약용 식물(인삼, 마 등)</b>은 땅속 영양분으로 겨울을 남<br>↓<br><b>S4~S5 (문제 제기)</b>: 연약하고 움직이지 못해 포식자의 좋은 먹잇감이 됨<br>↓<br><b>S1 (해결책/방어): 포식자를 공격하는 **화학 물질(chemicals)**로 몸을 무장함 (제시문)</b><br>↓<br><b>S6~S7 (결론/응용): 이 방어용 화학 물질(독)을 인간이 적절히 조절하여 **약(medicines)</b>**으로 사용함
+        </div>
+
+        <div class="scenario-box">
+            <div class="scene-header">지문 마킹 시뮬레이션</div>
+            <div class="scene-content">❶ ... is to soak their bodies in <span class="highlight-clue">chemicals</span> ... (제시문) 
+  ↓ (화학 물질 등장) 
+❻ Because natural selection has designed <span class="highlight-clue">the defensive chemicals</span> ... (지시어 연결)</div>
+        </div>
+
+        <div class="box-style learning-box">
+            <strong style="font-size:14px; display:block; margin-bottom:10px; border-bottom:1px solid #ddd; padding-bottom:5px;">Learning Points (핵심 콕콕)</strong>
+            <div class="learning-item">
+                <span class="learning-label logic-label">논리</span>
+                <ul class="learning-list"><li><b>문제와 해결:</b> 식물의 형태적 취약성(vulnerable)이라는 문제 상황(Problem)에 대해, 독성 화학물질 생성이라는 해결책(Solution)을 제시하는 <b>구조</b>.</li><li><b>지시어 단서:</b> ❶번의 `chemicals`가 정답 위치 뒤인 ❻번의 `the defensive chemicals`와 `these poisons`로 이어지는 논리적 연결 고리 <b>파악</b>.</li></ul>
+            </div>
+            <div class="learning-item">
+                <span class="learning-label grammar-label">구문</span>
+                <ul class="learning-list"><li><b>간접의문문:</b> ❸번 `why they are...`에서 의문사절이 목적어로 쓰일 때의 평서문 어순 <b>주의</b>.</li><li><b>수일치와 병렬:</b> ❶번 관계대명사절 내의 선행사 수일치 `play` 및 to부정사 병렬 `to flee or to hide` 구조 <b>확인</b>.</li></ul>
+            </div>
+        </div>
+
+        
+            <div class="csat-container">
+                <div class="csat-header">
+                    <div class="csat-title"><span class="csat-badge">S</span> 요약문 빈칸 완성 & 해석</div>
+                    <div class="csat-subtitle">* 정답이 채워진 요약문과 해석입니다.</div>
+                </div>
+                <div class="csat-text">Although vulnerable plants evolved (A) <span class="csat-blank-ans">defensive</span> chemicals as a survival mechanism against predators, humans have managed to utilize these toxic substances for (B) <span class="csat-blank-ans">medicinal</span> purposes.</div>
+                <div class="csat-trans-header">▼ 해석 및 구문 분석 (Interpretation)</div>
+                <div class="csat-trans-text">취약한 식물들이 포식자에 대항하는 생존 기제로서 "방어용" 화학 물질을 진화시켰지만, 인간은 이 독성 물질들을 "약용" 목적으로 활용해 왔다.</div>
+            </div>
+            
+
+    </div>
+
+    <div class="b-right">
+        <strong style="font-size:14px; display:block; margin-bottom:15px;">글의 흐름 (3단 구조)</strong>
+        <div class="flow-container">
+            
+            <div class='flow-card flow-intro'>
+                <div class='flow-header'>
+                    <span class='flow-title'>[도입] 약용 식물의 생활 방식</span>
+                    <span class='flow-num-badge'>2 ~ 3</span>
+                </div>
+                <div class='flow-content'>인삼 등은 땅속에 영양을 저장하며 겨울을 나며, 이는 식물에 약용 <span class="fill-text">화학물질</span>이 풍부한 이유가 된다.</div>
+            </div>
+            <div class='flow-arrow'>→</div>
+            
+            <div class='flow-card flow-body'>
+                <div class='flow-header'>
+                    <span class='flow-title'>[전개] 취약한 식물의 방어 기제</span>
+                    <span class='flow-num-badge'>4 ~ 1</span>
+                </div>
+                <div class='flow-content'>움직이지 못하고 취약한 식물은 포식자의 매력적인 표적이 되므로, 살아남기 위해 적을 공격하는 <span class="fill-text">독성</span> 화학 물질로 무장한다.</div>
+            </div>
+            <div class='flow-arrow'>→</div>
+            
+            <div class='flow-card flow-conc'>
+                <div class='flow-header'>
+                    <span class='flow-title'>[결론] 인간의 의학적 활용</span>
+                    <span class='flow-num-badge'>6 ~ 7</span>
+                </div>
+                <div class='flow-content'>동물의 생리를 공격하도록 진화된 이 식물의 방어용 무기는, 인간이 알맞은 <span class="fill-text">복용량</span>을 찾아냄으로써 유용한 약으로 탈바꿈된다.</div>
+            </div>
+            
+            
+        </div>
+
+        <div class="question-header" style="margin-top: 40px;">38. 글의 흐름으로 보아, 주어진 문장이 들어가기에 가장 적절한 곳을 고르시오. <span class="source-tag">2026학년도 모의평가 (추정)</span></div>
+        <div class="source-text"><div class="visual-box-given" style="padding-bottom: 5px;"><div class="line-justify" style="position: relative; padding-right: 28%; margin-bottom: 10px; width: 100%; box-sizing: border-box;"><span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S1 (해결책/방어): 포식자를 공격하는 **화학 물질(chemicals)**로 몸을 무장함 (제시문)</b></span>
+                            </span>
+                        </span><span class="interactive-num" onclick="toggleBubble(this)">❶<span class="translation-bubble"><div class="bubble-eng">❶ <span class="star-yellow">★</span>Because <span class="syntax-box S-box">they</span> <span class="syntax-box V-box">lack</span> <span class="slash">/</span> <span class="syntax-box O-box">the ability to flee or to hide behind strong walls</span>, <span class="slash">/</span> <span class="syntax-box S-box">the plants' only <span class="highlight-subject">defensive option</span></span> <span class="syntax-box V-box">is</span> <span class="syntax-box C-box">to soak their bodies in <span class="highlight-clue">chemicals</span> <span class="slash">/</span> that <span class="syntax-box V-box">play havoc with</span> <span class="syntax-box O-box">the guts, nerves, and hormones of their enemies</span></span>.</div><div class="bubble-kor">❶ <span class="star-yellow">★</span><span class="S-text">그들이(식물들이)</span> <span class="V-text">부족하기</span> 때문에 <span class="slash">/</span> <span class="O-text">도망치거나 튼튼한 벽 뒤에 숨을 능력이</span>, <span class="slash">/</span> <span class="S-text">식물들의 유일한 <span class="highlight-subject">방어 선택지는</span></span> <span class="C-text"><span class="highlight-clue">화학 물질에 자신의 몸을 흠뻑 적시는 것</span><span class="V-text">이다</span> <span class="slash">/</span> <span class="V-text">엉망으로 만드는</span> <span class="slash">/</span> <span class="O-text">그들의 적들의 내장, 신경, 그리고 호르몬을</span></span>. <span class='summary-badge'>[해결책] 화학 물질을 통한 방어</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>그래서 식물들이 낸 묘안이 뭐야? 바로 독품기! 적의 뱃속이나 신경을 망가뜨리는 독한 화학 물질을 몸 안에 가득 채워서, 자기를 먹은 놈들이 혼쭐나게 만드는 게 유일한 생존 방법이었던 거지.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[어법] <b>to flee or to hide</b>: ability를 수식하는 to부정사의 형용사적 용법이 or를 중심으로 병렬 구조를 이루고 있음.<br>[서술형] <b>chemicals that play havoc with</b>: 주격 관계대명사 that절이 선행사 chemicals를 수식. 선행사가 복수이므로 동사 원형 play를 사용.</div></div></span></span> <span class="star-yellow">★</span>Because they <span class="vocab-container"><span class="vocab-sub">부족하다</span><span class="vocab-text">lack</span></span> the ability to flee or to hide behind strong walls, the plants' only <span class="highlight-subject">defensive option</span> is to <span class="visual-exam-target" style="border-bottom: 2px dashed #4caf50; background-color: rgba(76, 175, 80, 0.15);"><span class="visual-exam-label" style="background-color: #4caf50;">빈칸출제</span>soak their bodies in <span class="highlight-clue">chemicals</span> that <span class="visual-exam-target" style="border-bottom: 2px dashed #f44336; background-color: rgba(244, 67, 54, 0.15);"><span class="visual-exam-label" style="background-color: #f44336;">어법주의</span>play</span> havoc with</span> the guts, nerves, and hormones of their enemies. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S2~S3 (도입): 약용 식물(인삼, 마 등)</b>은 땅속 영양분으로 겨울을 남</span>
+                            </span>
+                        </span><span class="interactive-num" onclick="toggleBubble(this)">❷<span class="translation-bubble"><div class="bubble-eng">❷ <span class="syntax-box S-box">Ginseng, yam, and mayapple</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box">all small plants</span> <span class="slash">/</span> that <span class="syntax-box V-box">overwinter</span> <span class="slash">/</span> as nutritious underground stems or roots.</div><div class="bubble-kor">❷ <span class="S-text">인삼, 참마, 그리고 메이애플은</span> <span class="C-text">모두 작은 식물들</span><span class="V-text">이다</span> <span class="slash">/</span> <span class="V-text">겨울을 나는</span> <span class="slash">/</span> 영양분이 많은 땅속줄기나 뿌리로서. <span class='summary-badge'>[도입] 약용 식물의 겨울나기</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>인삼이나 마 같은 식물들은 추운 겨울을 버티기 위해 영양분을 땅속 뿌리에 잔뜩 저장해 둬. Mark: [도입] 약용 식물의 겨울나기</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[어법] <b>plants that overwinter</b>: 'that'은 주격 관계대명사이며, 선행사 'plants'가 복수이므로 동사도 복수형인 'overwinter'를 썼음.</div></div></span></span> Ginseng, yam, and mayapple are all small plants that <span class="vocab-container"><span class="vocab-sub">겨울을 나다(=survive the winter)</span><span class="vocab-text">overwinter</span></span> as nutritious underground stems or roots. ( ① ) <span class="interactive-num" onclick="toggleBubble(this)">❸<span class="translation-bubble"><div class="bubble-eng">❸ <span class="star-red">★</span><span class="syntax-box S-box">This shared way of living</span> <span class="syntax-box V-box">explains</span> <span class="slash">/</span> <span class="syntax-box O-box">why <span class="syntax-box S-box">they</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box">all so rich</span> <span class="slash">/</span> in <span class="highlight-subject">medicinal chemicals</span></span>.</div><div class="bubble-kor">❸ <span class="star-red">★</span><span class="S-text">이 공유된 생활 방식은</span> <span class="V-text">설명한다</span> <span class="slash">/</span> <span class="O-text">왜 <span class="S-text">그것들이(이 식물들이)</span> <span class="C-text">모두 그렇게 풍부한지</span><span class="V-text">를</span> <span class="slash">/</span> <span class="highlight-subject">약용 화학 물질</span>이</span>. <span class='summary-badge'>[주제] 화학물질이 풍부한 이유</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>이렇게 땅속에 영양분을 모아두는 특징 때문에, 이 식물들은 몸속에 약으로 쓸 수 있는 화학 물질을 많이 가지게 된 거야.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[서술형] <b>why they are all so rich</b>: 'explains'의 목적어로 쓰인 간접의문문으로, <의문사+주어+동사>의 어순을 취함.</div></div></span></span> <span class="star-red">★</span>This shared way of living explains <span class="visual-exam-target" style="border-bottom: 2px dashed #f44336; background-color: rgba(244, 67, 54, 0.15);"><span class="visual-exam-label" style="background-color: #f44336;">어법주의</span>why they are</span> all so rich in <span class="highlight-subject"><span class="vocab-container"><span class="vocab-sub">약용의</span><span class="vocab-text">medicinal</span></span> chemicals</span>. ( ② ) <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S4~S5 (문제 제기)</b>: 연약하고 움직이지 못해 포식자의 좋은 먹잇감이 됨</span>
+                            </span>
+                        </span><span class="interactive-num" onclick="toggleBubble(this)">❹<span class="translation-bubble"><div class="bubble-eng">❹ Unlike fast-moving animals or thick-barked trees, <span class="slash">/</span> <span class="syntax-box S-box">these stationary, thin-skinned plants</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box"><span class="highlight-feature">highly vulnerable</span></span> <span class="slash">/</span> to attack from mammals and insects.</div><div class="bubble-kor">❹ 빠르게 움직이는 동물들이나 껍질이 두꺼운 나무들과는 달리, <span class="slash">/</span> <span class="S-text">이 움직이지 않고 껍질이 얇은 식물들은</span> <span class="C-text">대단히 취약</span><span class="V-text">하다</span> <span class="slash">/</span> 포유류와 곤충들로부터의 공격에. <span class='summary-badge'>[원인] 식물의 형태적 취약성</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>왜 약용 성분이 생겼을까? 동물은 도망치면 되고 큰 나무는 껍질이 단단한데, 이런 작은 식물들은 꼼짝도 못 하고 연약해서 벌레나 짐승한테 먹히기 딱 좋거든.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[어법] <b>highly vulnerable</b>: 부사 'highly(매우, 대단히)'가 형용사 'vulnerable'을 수식함. 'high(높게)'를 쓰지 않도록 주의.</div></div></span></span> Unlike fast-moving animals or thick-barked trees, these <span class="vocab-container"><span class="vocab-sub">움직이지 않는(=fixed)</span><span class="vocab-text">stationary</span></span>, thin-skinned plants are <span class="highlight-feature">highly <span class="vocab-container"><span class="vocab-sub">취약한(=susceptible)</span><span class="vocab-text">vulnerable</span></span></span> to attack from mammals and insects. ( ③ ) <span class="interactive-num" onclick="toggleBubble(this)">❺<span class="translation-bubble"><div class="bubble-eng">❺ <span class="syntax-box S-box">Their underground stores of food</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box">particularly attractive</span> <span class="slash">/</span> to would-be predators.</div><div class="bubble-kor">❺ <span class="S-text">그들의 땅속 먹이 저장소는</span> <span class="C-text">특히 매력적</span><span class="V-text">이다</span> <span class="slash">/</span> 장차 포식자가 될 수 있는 존재들에게. <span class='summary-badge'>[부연] 포식자에게 매력적인 먹이</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>게다가 아까 말했듯이 겨울을 나려고 뿌리에 영양분을 듬뿍 저장해 놨으니, 배고픈 동물들한테 얼마나 맛있는 먹잇감이겠어.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[구조] <b>stores of food are</b>: 주어의 핵이 복수 명사인 'stores'이므로 복수 동사 'are'가 쓰임.</div></div></span></span> Their underground stores of food are particularly attractive to <span class="vocab-container"><span class="vocab-sub">장차 ~이 되려고 하는</span><span class="vocab-text">would-be</span></span> predators. ( ④ ) <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S6~S7 (결론/응용): 이 방어용 화학 물질(독)을 인간이 적절히 조절하여 **약(medicines)</b>**으로 사용함</span>
+                            </span>
+                        </span><span class="interactive-num" onclick="toggleBubble(this)">❻<span class="translation-bubble"><div class="bubble-eng">❻ Because <span class="syntax-box S-box">natural selection</span> <span class="syntax-box V-box">has designed</span> <span class="slash">/</span> <span class="syntax-box O-box"><span class="highlight-clue">the defensive chemicals</span></span> specifically <span class="syntax-box C-box">to attack the physiology of animals</span>, <span class="slash">/</span> <span class="syntax-box S-box">these poisons</span> <span class="syntax-box V-box">can</span>, in careful human hands, <span class="syntax-box V-box">be turned into</span> <span class="syntax-box C-box">medicines</span>.</div><div class="bubble-kor">❻ <span class="S-text">자연 선택이</span> <span class="V-text">설계했기</span> 때문에 <span class="slash">/</span> <span class="O-text"><span class="highlight-clue">그 방어용 화학 물질들을</span></span> 특별히 <span class="C-text">동물들의 생리 기능을 공격하도록</span>, <span class="slash">/</span> <span class="S-text">이 독들은</span> <span class="V-text">할 수 있다</span>, 세심한 인간의 손길 안에서, <span class="C-text">약으로</span> <span class="V-text">바뀔</span>. <span class='summary-badge'>[결론] 화학물질의 약용 전환</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>결국 진화(자연 선택)를 통해 식물은 동물의 몸에 작용하는 약물을 갖게 된 거야. 그런데 이 물질을 사람이 조심스럽게 잘 조절해서 쓰면, 병을 고치는 약이 될 수 있다는 놀라운 사실!</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[구조] <b>can, in careful human hands, be turned into</b>: 조동사 can과 본동사 be turned into 사이에 전치사구 in careful human hands가 삽입된 구조임.</div></div></span></span> Because <span class="vocab-container"><span class="vocab-sub">자연 선택</span><span class="vocab-text">natural selection</span></span> has designed <span class="highlight-clue">the defensive chemicals</span> specifically to attack the <span class="vocab-container"><span class="vocab-sub">생리 기능(=biological processes)</span><span class="vocab-text">physiology</span></span> of animals, these poisons can, in careful human hands, <span class="visual-exam-target" style="border-bottom: 2px dashed #4caf50; background-color: rgba(76, 175, 80, 0.15);"><span class="visual-exam-label" style="background-color: #4caf50;">빈칸출제</span>be turned into medicines</span>. ( ⑤ ) <span class="interactive-num" onclick="toggleBubble(this)">❼<span class="translation-bubble"><div class="bubble-eng">❼ By finding just the right dose, <span class="slash">/</span> <span class="syntax-box S-box">herbalists</span> <span class="syntax-box V-box">can turn</span> <span class="slash">/</span> <span class="syntax-box O-box">the plants' defensive arsenal</span> <span class="slash">/</span> <span class="syntax-box C-box">into an impressive collection of stimulants, blood thinners, hormones, and other medicines</span>.</div><div class="bubble-kor">❼ 딱 알맞은 복용량을 찾아냄으로써, <span class="slash">/</span> <span class="S-text">약초학자들은</span> <span class="V-text">바꿀 수 있다</span> <span class="slash">/</span> <span class="O-text">식물의 방어용 무기고를</span> <span class="slash">/</span> <span class="C-text">각성제, 혈액 희석제, 호르몬, 그리고 다른 약들의 인상적인 모음으로</span>. <span class='summary-badge'>[부연] 의학적 활용 사례</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>독도 잘 쓰면 약이 된다고 하지? 약초 전문가들이 딱 적당한 양만 찾아내면, 식물이 적을 죽이려고 만든 무기(화학물질)가 사람에게는 활력을 주는 약이나 피를 맑게 하는 훌륭한 약으로 변신하는 거야.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[구조] <b>turn A into B</b>: 'A를 B로 바꾸다'라는 숙어로, A(방어용 무기고)가 B(인상적인 약 모음)로 전환됨을 나타냄.</div></div></span></span> By finding just the right <span class="vocab-container"><span class="vocab-sub">복용량</span><span class="vocab-text">dose</span></span>, herbalists can turn <span class="visual-exam-target" style="border-bottom: 2px dashed #9c27b0; background-color: rgba(156, 39, 176, 0.15);"><span class="visual-exam-label" style="background-color: #9c27b0;">함축의미</span>the plants' defensive <span class="vocab-container"><span class="vocab-sub">무기고</span><span class="vocab-text">arsenal</span></span></span> into an impressive collection of stimulants, blood thinners, hormones, and other medicines.</div></div></div>
+
+        <span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">Vocabulary</span>
+        
+        <div class="sec-vocab">
+            <div class="v-header">
+                <div class="cell col-chk">Chk</div>
+                <div class="cell col-word">Word</div>
+                <div class="cell col-mean">Mean & Syn / Ant</div>
+                <div class="cell col-context">Context</div>
+                <div class="cell col-chunk">Chunk Example</div>
+            </div>
+            <div class="v-list">
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">flee</span><div class="word-pron">[플리]</div><div class="word-ety">고대 영어 fleon (날다, 도망치다)</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">도망치다, 달아나다</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>escape / run away</div><div class="rel-item item-ant"><span class="bg-ant">반</span>stay / remain</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>flea (벼룩)</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en">the ability to <span class="c-hl">flee</span></span><br><span class="vch-ko">도망칠 능력</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">soak</span><div class="word-pron">[소크]</div><div class="word-ety">고대 영어 socian (담그다)</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">흠뻑 적시다, 담그다</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>drench / steep</div><div class="rel-item item-ant"><span class="bg-ant">반</span>dry / dehydrate</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>sock (양말)</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en"><span class="c-hl">soak</span> their bodies in chemicals</span><br><span class="vch-ko">화학 물질에 자신의 몸을 흠뻑 적시다</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">play havoc with</span><div class="word-pron">[플레이 해벅 위드]</div><div class="word-ety">관용구</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">~을 엉망으로 만들다, 파괴하다</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>ruin / devastate</div><div class="rel-item item-ant"><span class="bg-ant">반</span>fix / improve</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en"><span class="c-hl">play havoc with</span> the guts</span><br><span class="vch-ko">내장을 엉망으로 만들다</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">overwinter</span><div class="word-pron">[오버윈터]</div><div class="word-ety">over(넘기다) + winter(겨울)</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">겨울을 나다</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>survive the winter / hibernate</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en"><span class="c-hl">overwinter</span> as nutritious underground stems</span><br><span class="vch-ko">영양분이 많은 땅속줄기로 겨울을 나다</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">stationary</span><div class="word-pron">[스테이셔너리]</div><div class="word-ety">라틴어 stationarius (정지한)</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">움직이지 않는, 고정된</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>fixed / immobile</div><div class="rel-item item-ant"><span class="bg-ant">반</span>moving / mobile</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>stationery (문방구)</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en">these <span class="c-hl">stationary</span>, thin-skinned plants</span><br><span class="vch-ko">이 움직이지 않고 껍질이 얇은 식물들</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">vulnerable</span><div class="word-pron">[벌너러블]</div><div class="word-ety">라틴어 vulnerare (상처를 입히다)</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">취약한, 상처 입기 쉬운</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>susceptible / defenseless</div><div class="rel-item item-ant"><span class="bg-ant">반</span>protected / immune</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>venerable (존경할 만한)</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en">highly <span class="c-hl">vulnerable</span> to attack</span><br><span class="vch-ko">공격에 대단히 취약한</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">predator</span><div class="word-pron">[프레데터]</div><div class="word-ety">라틴어 praedari (약탈하다)</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">포식자</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>hunter / carnivore</div><div class="rel-item item-ant"><span class="bg-ant">반</span>prey / victim</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>predecessor (전임자)</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en">attractive to would-be <span class="c-hl">predators</span></span><br><span class="vch-ko">장차 포식자가 될 수 있는 존재들에게 매력적인</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">physiology</span><div class="word-pron">[피지올러지]</div><div class="word-ety">라틴어 physiologia (자연에 대한 탐구)</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">생리 기능, 생리학</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>bodily functions / biological processes</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>psychology (심리학)</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en">attack the <span class="c-hl">physiology</span> of animals</span><br><span class="vch-ko">동물들의 생리 기능을 공격하다</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">dose</span><div class="word-pron">[도스]</div><div class="word-ety">그리스어 dosis (주어진 것)</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">복용량, 1회분</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>amount / portion</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>doze (졸다)</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en">finding just the right <span class="c-hl">dose</span></span><br><span class="vch-ko">딱 올바른 복용량을 찾아냄으로써</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">stimulant</span><div class="word-pron">[스티뮬런트]</div><div class="word-ety">라틴어 stimulare (자극하다)</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">각성제, 자극제</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>tonic / energizer</div><div class="rel-item item-ant"><span class="bg-ant">반</span>depressant / sedative</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>simulate (모의실험하다)</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en">an impressive collection of <span class="c-hl">stimulants</span></span><br><span class="vch-ko">각성제의 인상적인 모음</span></div>
+            </div>
+            </div>
+        </div>
+        
+
+        <span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">Key Sentences Analysis</span>
+        <table class="analysis-table">
+            <colgroup><col width="12%"> <col width="10%"> <col width="35%"> <col width="25%"> <col width="18%"></colgroup>
+            <thead><tr><th style="text-align:center;">출처</th><th style="text-align:center;">종류</th><th style="text-align:center;">영어 문장</th><th style="text-align:center;">한글 해석</th><th style="text-align:center;">선정 사유</th></tr></thead>
+            <tbody><tr><td style='text-align:center; color:#555;'>-</td><td style='text-align:center; font-weight:bold; color:#0d47a1;'>핵심 구문</td><td style='font-family:Times New Roman; font-size:14px; text-align:left;'>Because they lack the ability to flee or to hide behind strong walls, the plants' only defensive option is to soak their bodies in chemicals <span style="color:#d32f2f; font-weight:bold;">that play havoc with the guts, nerves, and hormones of their enemies</span>.</td><td style='font-size:13px; text-align:left;'>그들은 도망치거나 튼튼한 벽 뒤에 숨을 능력이 부족하기 때문에, 식물들의 유일한 방어 선택지는 적들의 내장, 신경, 그리고 호르몬을 엉망으로 만드는 화학 물질에 자신의 몸을 흠뻑 적시는 것이다.</td><td style='font-size:12px; color:#555; text-align:left;'>[주격 관계대명사] 선행사 'chemicals'를 수식하는 주격 관계대명사절 <span style="color:#d32f2f; font-weight:bold;">that play havoc with...</span>의 수일치(복수 동사 play)와 해석을 연습할 수 있는 핵심 문장입니다.</td></tr><tr><td style='text-align:center; color:#555;'>-</td><td style='text-align:center; font-weight:bold; color:#0d47a1;'>주제문</td><td style='font-family:Times New Roman; font-size:14px; text-align:left;'>This shared way of living explains <span style="color:#d32f2f; font-weight:bold;">why they are all so rich in medicinal chemicals</span>.</td><td style='font-size:13px; text-align:left;'>이러한 공유된 생활 방식은 왜 그것들이 모두 약용 화학 물질이 그렇게 풍부한지를 설명해 준다.</td><td style='font-size:12px; color:#555; text-align:left;'>[간접의문문/요지] 글의 전체적인 핵심 내용을 포괄하는 문장이며, <span style="color:#d32f2f; font-weight:bold;">의문사+주어+동사 (why they are...)</span> 어순의 간접의문문 명사절을 포함하고 있습니다.</td></tr><tr><td style='text-align:center; color:#555;'>-</td><td style='text-align:center; font-weight:bold; color:#0d47a1;'>재진술</td><td style='font-family:Times New Roman; font-size:14px; text-align:left;'>Because natural selection has designed the defensive chemicals specifically to attack the physiology of animals, these poisons can, <span style="color:#d32f2f; font-weight:bold;">in careful human hands</span>, be turned into medicines.</td><td style='font-size:13px; text-align:left;'>자연 선택은 그 방어용 화학 물질들을 동물의 생리 기능을 공격하도록 특별히 설계했기 때문에, 이 독들은 세심한 인간의 손길 안에서 약으로 바뀔 수 있다.</td><td style='font-size:12px; color:#555; text-align:left;'>[삽입구/수동태] 주제가 응용되는 결론부입니다. 부사구 <span style="color:#d32f2f; font-weight:bold;">in careful human hands</span>가 조동사와 본동사 사이에 삽입된 구조를 파악하고, 수동태 'be turned into'를 정확히 해석해야 합니다.</td></tr></tbody>
+        </table>
+
+        <span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">True / False 문제 분석</span>
+        <div style='font-size:13px; color:#777;'>True/False 데이터가 없습니다.</div>
+
+        <span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">영영 풀이 (English Definitions)</span>
+        <div style='font-size:13px; color:#777;'>영영 풀이 데이터가 없습니다.</div>
+    </div>
+</div>
+
+<script>
+function toggleBubble(element) {
+    const all = document.querySelectorAll('.interactive-num');
+    const wasActive = element.classList.contains('active');
+    all.forEach(el => el.classList.remove('active'));
+    if (!wasActive) {
+        element.classList.add('active');
+    }
+}
+
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('.interactive-num')) {
+        const all = document.querySelectorAll('.interactive-num');
+        all.forEach(el => el.classList.remove('active'));
+    }
+});
+
+let currentZIndex = 1000;
+
+function toggleModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal.style.display === 'block') {
+        modal.style.display = 'none';
+    } else {
+        currentZIndex++;
+        modal.style.zIndex = currentZIndex;
+        modal.style.display = 'block';
+    }
+}
+</script>
+
+</body>
+</html>
