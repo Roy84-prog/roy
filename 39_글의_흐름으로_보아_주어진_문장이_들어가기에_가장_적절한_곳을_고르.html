@@ -1,0 +1,1468 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>영어 지문 분석 학습지</title>
+<style>
+/* [인쇄 시 설정] */
+@media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .container { box-shadow: none; border: 1px solid #ddd; }
+    @page { margin: 10mm; size: A4; }
+    .page-break { page-break-before: always; }
+    .interactive-num { pointer-events: none; color: inherit; }
+    .translation-bubble { display: none !important; }
+    .header-btn { display: none !important; }
+    .custom-modal { display: none !important; }
+}
+
+:root {
+    --bg-color: #f9f9f9;
+    --font-eng: 'Times New Roman', serif;
+    --font-kor: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    --c-S: #0d47a1;
+    --c-V: #b71c1c;
+    --c-O: #7b1fa2;
+    --c-C: #1b5e20;
+    --c-M: #9e9e9e;
+    --c-con: #8e24aa;
+}
+
+body { font-family: var(--font-kor); font-size: 15px; color: #333; margin: 20px; line-height: 1.6; background: var(--bg-color); }
+
+.text-underline {
+    text-decoration: underline;
+    text-underline-position: under;
+    text-decoration-thickness: 1px;
+}
+
+.header-container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    min-width: 1000px;
+    max-width: 1600px;
+    margin: 0 auto 30px;
+    display: block;
+    position: relative;
+    min-height: 220px;
+}
+
+.header-btn {
+    position: absolute;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: background 0.3s, transform 0.1s;
+    z-index: 100;
+    width: 110px;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+.header-btn:active { transform: translateY(1px); }
+
+.btn-literal { top: 20px; right: 20px; background-color: #0277bd; }
+.btn-literal:hover { background-color: #01579b; }
+.btn-liberal { top: 55px; right: 20px; background-color: #546e7a; }
+.btn-liberal:hover { background-color: #455a64; }
+.btn-tips { top: 90px; right: 20px; background-color: #7b1fa2; }
+.btn-tips:hover { background-color: #4a148c; }
+.btn-logic { top: 125px; right: 20px; background-color: #00897b; }
+.btn-logic:hover { background-color: #00695c; }
+
+.btn-eng-all { top: 20px; left: 20px; background-color: #3949ab; }
+.btn-eng-all:hover { background-color: #283593; }
+.btn-eng-pure { top: 55px; left: 20px; background-color: #00695c; }
+.btn-eng-pure:hover { background-color: #004d40; }
+.btn-vis-clean { top: 90px; left: 20px; background-color: #455a64; }
+.btn-vis-clean:hover { background-color: #263238; }
+.btn-learning { top: 125px; left: 20px; background-color: #d84315; }
+.btn-learning:hover { background-color: #bf360c; }
+
+.btn-vocab { top: 20px; left: 50%; margin-left: -55px; background-color: #ef6c00; }
+.btn-vocab:hover { background-color: #e65100; }
+.btn-keys { top: 55px; left: 50%; margin-left: -55px; background-color: #c62828; }
+.btn-keys:hover { background-color: #b71c1c; }
+.btn-ans { top: 90px; left: 50%; margin-left: -55px; background-color: #2e7d32; }
+.btn-ans:hover { background-color: #1b5e20; }
+.btn-opts { top: 125px; left: 50%; margin-left: -55px; background-color: #5d4037; }
+.btn-opts:hover { background-color: #3e2723; }
+.btn-exam { top: 160px; left: 50%; margin-left: -55px; background-color: #d81b60; box-shadow: 0 0 8px rgba(216,27,96,0.5); }
+.btn-exam:hover { background-color: #ad1457; }
+
+.custom-modal {
+    display: none;
+    position: absolute;
+    top: 60px;
+    width: 600px;
+    max-width: 48vw;
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-literal { right: 20px; border: 3px solid #0277bd; top: 50px; }
+.modal-liberal { right: 20px; border: 3px solid #546e7a; top: 85px; }
+.modal-tips { right: 20px; border: 3px solid #7b1fa2; top: 120px; }
+.modal-logic { right: 20px; border: 3px solid #00897b; top: 155px; }
+
+.modal-eng-all { left: 20px; border: 3px solid #3949ab; top: 50px; }
+.modal-eng-pure { left: 20px; border: 3px solid #00695c; top: 85px; }
+.modal-vis-clean { left: 20px; border: 3px solid #455a64; top: 120px; width: 600px; }
+.modal-learning { left: 20px; border: 3px solid #d84315; top: 155px; width: 600px; }
+.modal-learning h3 { color: #d84315; }
+
+.modal-center { left: 50%; margin-left: -350px; width: 700px; }
+.modal-vocab { left: 50%; margin-left: -350px; border: 3px solid #ef6c00; top: 50px; width: 700px; }
+.modal-keys { left: 50%; margin-left: -350px; border: 3px solid #c62828; top: 85px; width: 700px; }
+.modal-ans { left: 50%; margin-left: -350px; border: 3px solid #2e7d32; top: 120px; width: 700px; }
+.modal-opts { left: 50%; margin-left: -350px; border: 3px solid #5d4037; top: 155px; width: 700px; }
+.modal-exam { left: 50%; margin-left: -350px; border: 3px solid #d81b60; top: 190px; width: 700px; }
+
+.custom-modal h3 {
+    margin-top: 0;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 8px;
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.modal-liberal h3 { color: #546e7a; }
+.modal-literal h3 { color: #0277bd; }
+.modal-tips h3 { color: #7b1fa2; }
+.modal-logic h3 { color: #00897b; }
+.modal-eng-all h3 { color: #3949ab; }
+.modal-eng-pure h3 { color: #00695c; }
+.modal-vis-clean h3 { color: #455a64; }
+.modal-vocab h3 { color: #ef6c00; }
+.modal-keys h3 { color: #c62828; }
+.modal-ans h3 { color: #2e7d32; }
+.modal-opts h3 { color: #5d4037; }
+.modal-exam h3 { color: #d81b60; }
+
+.modal-content {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #333;
+}
+
+.logic-section {
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 6px;
+    border-left-width: 4px;
+    border-left-style: solid;
+}
+.logic-section-intro { background-color: #f0f7ff; border-left-color: #1565c0; }
+.logic-section-body { background-color: #fffbf2; border-left-color: #ef6c00; }
+.logic-section-conc { background-color: #f3fcf5; border-left-color: #2e7d32; }
+.logic-section-none { background-color: #f5f5f5; border-left-color: #9e9e9e; }
+
+.logic-section-title {
+    display: block;
+    font-weight: 800;
+    font-size: 13px;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.logic-section-intro .logic-section-title { color: #1565c0; }
+.logic-section-body .logic-section-title { color: #ef6c00; }
+.logic-section-conc .logic-section-title { color: #2e7d32; }
+
+.trans-line, .eng-line {
+    margin-bottom: 10px;
+    padding-left: 4px;
+}
+.trans-line:last-child, .eng-line:last-child { margin-bottom: 0; }
+
+.modal-eng-all .modal-content,
+.modal-eng-pure .modal-content,
+.modal-vis-clean .modal-content {
+    font-family: var(--font-eng);
+    font-size: 16px;
+}
+
+.visual-source-text {
+    font-family: var(--font-eng);
+    font-size: 19px;
+    line-height: 2.2;
+}
+
+.trans-num { font-weight: bold; margin-right: 5px; color: #546e7a; }
+.eng-num { font-weight: bold; margin-right: 5px; color: #3949ab; font-family: var(--font-kor); font-size:13px; }
+.raw-num { font-weight: bold; margin-right: 5px; color: #00695c; font-family: var(--font-kor); font-size:13px; }
+
+.trans-summary {
+    display: inline-block;
+    font-size: 11px;
+    color: #555;
+    background-color: #fff;
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-left: 6px;
+    vertical-align: 1px;
+    font-weight: bold;
+    font-family: var(--font-kor);
+}
+
+.trans-logic {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    color: #1565c0;
+    background-color: #e3f2fd;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 4px;
+    vertical-align: 1px;
+    font-family: var(--font-kor);
+}
+
+.top-container {
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    min-width: 1000px;
+    max-width: 1600px;
+    margin: 0 auto 30px;
+    display: block;
+}
+
+.bottom-container {
+    display: flex;
+    gap: 40px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    min-width: 1000px;
+    max-width: 1600px;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+.b-left { flex: 40; display: flex; flex-direction: column; gap: 25px; border-right: 1px dashed #ddd; padding-right: 30px; }
+.b-right { flex: 60; display: flex; flex-direction: column; }
+
+.box-style {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.info-group { display: flex; flex-direction: column; gap: 10px; margin-top: 170px; }
+.ri-item { background-color: #fff; border: 1px solid #eee; border-left-width: 4px; border-left-style: solid; border-radius: 6px; padding: 12px 15px; font-size: 15px; line-height: 1.5; color: #444; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+.ri-material { border-left-color: #4caf50; }
+.ri-guide { border-left-color: #ff9800; }
+.ri-tip { border-left-color: #9c27b0; }
+.ri-label { font-weight: 800; margin-bottom: 4px; color: #222; font-size: 15.5px; display: block; }
+
+.topic-box { background-color: #e8f5e9; border-left: 5px solid #4caf50; padding: 12px 15px; font-size: 17.5px; color: #1b5e20; border-radius: 4px; }
+
+.answer-box { background-color: #e1f5fe; border: 1px solid #81d4fa; border-radius: 8px; padding: 20px; }
+.ans-header { font-weight: bold; color: #0277bd; font-size: 16px; margin-bottom: 12px; border-bottom: 1px solid #b3e5fc; padding-bottom: 8px; }
+.ans-content { font-size: 13.5px; color: #37474f; line-height: 1.6; }
+
+.options-box { border-top: 2px solid #333; background: #fff; padding-top:10px; }
+.option-item { margin-bottom: 8px; border: 1px solid #eee; border-radius: 6px; padding: 10px; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+.opt-header { margin-bottom: 3px; line-height: 1.3; }
+.opt-text { font-family: var(--font-eng); font-weight: bold; font-size: 16px; color: #000; }
+.opt-trans { font-size: 12.5px; color: #777; margin-bottom: 6px; display: block; line-height: 1.3; }
+.opt-analysis { background-color: #f9f9f9; padding: 6px 10px; border-radius: 4px; font-size: 13px; color: #444; border-left: 3px solid #ddd; line-height: 1.4; }
+.err-badge-wrong { font-size: 11px; background-color: #fff3e0; color: #ef6c00; padding: 1px 5px; border-radius: 3px; border: 1px solid #ffe0b2; margin-right: 5px; font-weight: bold; }
+.err-badge-correct { font-size: 11px; background-color: #e8f5e9; color: #2e7d32; padding: 1px 5px; border-radius: 3px; border: 1px solid #a5d6a7; margin-right: 5px; font-weight: bold; }
+
+.logic-box { background-color: #f5f5f5; border: 1px solid #e0e0e0; padding: 15px; border-radius: 8px; font-family: 'D2Coding', monospace; font-size: 12.5px; line-height: 1.7; color: #333; }
+.logic-box strong { font-size: 14px; color: #000; margin-bottom: 10px; display: block; }
+.scenario-box { background-color: #fff3e0; border: 1px solid #ffe0b2; border-radius: 8px; padding: 15px; }
+.scene-header { font-size: 15px; font-weight: 900; color: #e65100; margin-bottom: 12px; border-bottom: 2px solid #ffe0b2; padding-bottom: 6px; }
+.scene-content { font-size: 13px; color: #444; line-height: 1.5; background:#fff; padding:10px; border-radius:4px; border-left:4px solid #ff9800; }
+
+.learning-box { margin-top: 20px; }
+.learning-item { margin-bottom: 12px; }
+.learning-label { display: inline-block; font-size: 11px; font-weight: bold; color: #fff; padding: 2px 6px; border-radius: 4px; margin-bottom: 4px; vertical-align: 1px; }
+.logic-label { background-color: #7e57c2; }
+.grammar-label { background-color: #00897b; }
+.learning-list { margin: 5px 0 0 15px; padding: 0; list-style-type: disc; font-size: 13.5px; color: #444; }
+.learning-list li { margin-bottom: 4px; line-height: 1.5; }
+
+.difficulty-box {
+    background-color: #f1f8e9;
+    border: 1px solid #c5e1a5;
+    border-radius: 6px;
+    padding: 6px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-family: var(--font-eng);
+}
+.diff-label { font-weight: 900; font-size: 14px; color: #558b2f; letter-spacing: 0.5px; }
+.diff-stars { font-size: 16px; color: #fdd835; letter-spacing: 1px; }
+
+.visual-box-given {
+    border: 2px solid #333;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+.visual-box-summary {
+    border: 2px solid #333;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.question-header { font-weight: 800; font-size: 18px; color: #222; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #222; }
+.source-tag { font-size: 11px; color: #fff; background-color: #555; padding: 2px 7px; border-radius: 12px; margin-left: 8px; vertical-align: middle; font-weight: normal; }
+
+.source-text {
+    font-family: var(--font-eng);
+    font-size: 19px;
+    line-height: 3.4;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 0 30px 0;
+    color: #111;
+    display: block;
+}
+
+.line-justify { display: block; text-align: justify; text-align-last: justify; word-break: keep-all; }
+.line-last { display: block; text-align: left; text-align-last: left; }
+.line-with-sub { display: block; text-align: left; text-align-last: left; word-break: keep-all; }
+
+.interactive-num {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    transition: transform 0.2s ease;
+    z-index: 10;
+}
+.interactive-num:hover {
+    transform: scale(1.3);
+    color: #1565c0;
+}
+.translation-bubble {
+    visibility: hidden;
+    width: 480px;
+    max-width: 90vw;
+    background-color: #ffffff;
+    color: #333;
+    text-align: left !important;
+    text-align-last: left !important;
+    white-space: normal;
+    border-radius: 8px;
+    padding: 15px;
+    position: absolute;
+    z-index: 1000;
+    bottom: 140%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    font-family: var(--font-kor);
+    font-size: 14px;
+    line-height: 1.6;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+    border: 2px solid #333;
+    font-weight: normal;
+    pointer-events: none;
+    word-break: keep-all;
+}
+.translation-bubble::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+.interactive-num.active .translation-bubble {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.bubble-eng { font-family: var(--font-eng); font-size: 17px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed #ccc; line-height: 1.5; }
+.bubble-kor { font-size: 14px; color: #444; margin-bottom: 10px; line-height: 1.5; }
+.bubble-easy, .bubble-tip { background: #f1f3f5; padding: 8px 10px; border-radius: 6px; font-size: 12.5px; margin-top: 6px; color: #444; display: flex; align-items: flex-start; gap: 8px; }
+.bubble-easy .easy-label, .bubble-tip .syntax-label { flex-shrink: 0; margin-right: 0; font-size: 11px; padding: 2px 6px; }
+
+span[class^="highlight-"] {
+    border-radius: 4px; padding: 2px 4px; margin: 0 1px;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+    position: relative; z-index: 1;
+}
+span[class^="highlight-"]::before { content: none; display: none; }
+
+.highlight-subject { background-color: #fff9c4; border-bottom: 2px solid #fbc02d; }
+.highlight-feature { background-color: #fff9c4; border-bottom: 2px solid #fbc02d; }
+.highlight-clue { background-color: #e3f2fd; border-bottom: 2px solid #64b5f6; }
+
+.fill-text { font-weight: 900; text-decoration: underline; text-decoration-thickness: 2px; }
+
+.badge-them { display: inline-block; font-size: 11px; background-color: #7e57c2; color: #fff; padding: 2px 6px; border-radius: 4px; margin-right: 6px; font-weight: bold; vertical-align: 2px; font-family: var(--font-kor); }
+.badge-key { display: inline-block; font-size: 11px; background-color: #0277bd; color: #fff; padding: 2px 6px; border-radius: 4px; margin-right: 6px; font-weight: bold; vertical-align: 2px; font-family: var(--font-kor); }
+.header-badge-them { font-size: 12px; background-color: #ffebee; color: #c62828; border: 1px solid #ef9a9a; padding: 2px 8px; border-radius: 12px; margin-left: 8px; vertical-align: middle; font-weight: bold; }
+.header-badge-key { font-size: 12px; background-color: #fffde7; color: #f57f17; border: 1px solid #fff59d; padding: 2px 8px; border-radius: 12px; margin-left: 5px; vertical-align: middle; font-weight: bold; }
+
+.vocab-container { display: inline; position: relative; text-indent: 0; line-height: 1.0; }
+.vocab-text { color: inherit; border-bottom: 1px dotted #bbb; font-weight: inherit; }
+.vocab-sub { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); width: max-content; margin-top: 1px; font-size: 9px; color: #d32f2f; background-color: transparent; text-shadow: 1px 1px 0 #eeeeee, -1px -1px 0 #eeeeee, 1px -1px 0 #eeeeee, -1px 1px 0 #eeeeee; padding: 0 1px; font-weight: bold; font-family: var(--font-kor); z-index: 10; line-height: 1.1; pointer-events: none; }
+
+.syntax-box { display: inline; position: relative; padding-bottom: 1px; margin-right: 1px; border-bottom: none; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.syntax-box::before { position: absolute; top: -3px; left: 0; font-size: 6px; font-weight: normal; font-family: sans-serif; line-height: 1; }
+
+.S-box { color: var(--c-S) !important; font-weight: normal !important; } .S-box::before { content: 'S'; color: var(--c-S); }
+.V-box { color: var(--c-V) !important; font-weight: normal !important; } .V-box::before { content: 'V'; color: var(--c-V); }
+.O-box { color: var(--c-O) !important; font-weight: normal !important; } .O-box::before { content: 'O'; color: var(--c-O); }
+.C-box { color: var(--c-C) !important; font-weight: normal !important; } .C-box::before { content: 'C'; color: var(--c-C); }
+.M-box { color: var(--c-M) !important; font-weight: normal !important; } .M-box::before { content: 'M'; color: var(--c-M); }
+.con-box { color: var(--c-con) !important; font-weight: normal !important; } .con-box::before { content: "con"; color: var(--c-con); }
+.IO-box { color: var(--c-O) !important; font-weight: normal !important; } .IO-box::before { content: 'IO'; color: var(--c-O); }
+.DO-box { color: var(--c-O) !important; font-weight: normal !important; } .DO-box::before { content: 'DO'; color: var(--c-O); }
+
+.S-text { color: var(--c-S) !important; font-weight: 900 !important; }
+.V-text { color: var(--c-V) !important; font-weight: 900 !important; }
+.O-text { color: var(--c-O) !important; font-weight: 900 !important; }
+.C-text { color: var(--c-C) !important; font-weight: 900 !important; }
+.M-text { color: var(--c-M) !important; font-weight: 900 !important; }
+.con-text { color: var(--c-con) !important; font-weight: 900 !important; }
+.IO-text { color: var(--c-O) !important; font-weight: 900 !important; }
+.DO-text { color: var(--c-O) !important; font-weight: 900 !important; }
+
+.analysis-card { margin-bottom: 10px; border-bottom: 1px dashed #ddd; background-color: #fff; padding: 8px; border-radius: 4px; break-inside: avoid; }
+.analysis-card.card-them { background-color: #fff; border: 2px solid #e53935; border-left: 6px solid #e53935; border-bottom: 2px solid #e53935; box-shadow: 0 2px 8px rgba(229, 57, 53, 0.1); }
+.analysis-card.card-key { background-color: #fff; border: 2px solid #fbc02d; border-left: 6px solid #fbc02d; border-bottom: 2px solid #fbc02d; box-shadow: 0 2px 8px rgba(251, 192, 45, 0.1); }
+
+.analysis-card.bg-intro { background-color: #f0f7ff; border: 1px solid #bbdefb; }
+.analysis-card.bg-body { background-color: #fffbf2; border: 1px solid #ffecb3; }
+.analysis-card.bg-conc { background-color: #f3fcf5; border: 1px solid #c8e6c9; }
+
+.analysis-card.card-them { border: 2px solid #e53935; border-left: 6px solid #e53935; border-bottom: 2px solid #e53935; }
+.analysis-card.card-key { border: 2px solid #fbc02d; border-left: 6px solid #fbc02d; border-bottom: 2px solid #fbc02d; }
+
+.eng-sent { font-family: var(--font-eng); font-size: 22.5px; background-color: transparent; padding: 4px 12px; border-left: 4px solid var(--c-S); position: relative; margin-top: 15px; margin-bottom: 15px; line-height: 2.3; color: #5d4037; display: flex; flex-wrap: wrap; align-items: flex-start; }
+.chunk-pair { display: flex; flex-direction: column; vertical-align: top; margin-right: 6px; margin-bottom: 12px; max-width: 100%; }
+.eng-chunk { background-color: #f4f4f4; padding: 2px 8px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; word-break: keep-all; mix-blend-mode: multiply; color: #5d4037; }
+.kor-chunk { font-family: var(--font-kor); font-size: 19px; color: #5d4037; font-weight: 900; padding-left: 4px; margin-top: 6px; line-height: 1.4; word-break: keep-all; letter-spacing: -0.5px; }
+.slash-divider { color: #ccc; font-weight: 300; margin: 0 4px; font-size: 24px; margin-top: 4px; display: flex; align-items: center; }
+.num-badge { display: inline-block; background-color: #333; color: #fff; border-radius: 50%; width: 22px; height: 22px; text-align: center; line-height: 22px; font-size: 13px; font-weight: bold; margin-right: 0px; vertical-align: 1px; box-shadow: 1px 1px 2px rgba(0,0,0,0.2); font-family: var(--font-kor); }
+
+.kor-sent, .kor-sent * { font-size: 19px; color: #5d4037; font-weight: 900 !important; line-height: 2.0; word-break: keep-all; }
+.kor-sent { padding-left: 5px; margin-bottom: 3px; display: none; }
+
+.analysis-footer { margin-top: 8px; font-size: 13px; line-height: 1.7; word-break: keep-all; }
+
+.easy-exp-box { display: inline-block; position: relative; background: #f5f5f5; border: 2px solid #e0e0e0; border-radius: 12px; padding: 8px 12px; margin-top: 12px; margin-bottom: 5px; font-size: 14px; color: #424242; line-height: 1.5; font-weight: 500; }
+.easy-exp-box::after, .easy-exp-box::before { bottom: 100%; left: 20px; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+.easy-exp-box::after { border-color: rgba(245, 245, 245, 0); border-bottom-color: #f5f5f5; border-width: 8px; margin-left: -8px; }
+.easy-exp-box::before { border-color: rgba(224, 224, 224, 0); border-bottom-color: #e0e0e0; border-width: 11px; margin-left: -11px; }
+.easy-label { display: inline-block; background-color: #757575; color: #fff; padding: 0px 4px; border-radius: 3px; margin-right: 5px; font-weight: bold; vertical-align: 1px; font-size: 11px; }
+
+.syntax-tip { display: block; width: fit-content; max-width: 100%; margin-top: 6px; padding: 4px 8px; border: 1px solid #333; background-color: #fff; border-radius: 4px; font-size: 13px; color: #000; line-height: 1.4; box-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
+.syntax-label { display: inline-block; background-color: #333; color: #fff; padding: 0px 4px; border-radius: 2px; margin-right: 5px; font-weight: bold; vertical-align: 1px; font-size: 11px; }
+
+.exam-point-box { margin-top: 8px; padding: 8px 12px; background-color: #fffaf0; border: 1px dashed #f48fb1; border-radius: 6px; font-size: 12.5px; line-height: 1.5; color: #333; }
+.exam-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; color: #fff; margin-right: 6px; vertical-align: 1px; font-family: var(--font-kor); }
+.exam-badge-blank { background-color: #4caf50; }
+.exam-badge-implied { background-color: #9c27b0; }
+.exam-badge-grammar { background-color: #f44336; }
+.exam-target { font-weight: bold; color: #c2185b; text-decoration: underline; }
+
+.visual-exam-target { position: relative; }
+.visual-exam-label { position: absolute; bottom: 100%; left: 0; margin-bottom: 2px; font-size: 11px; color: #fff; padding: 2px 6px; border-radius: 4px; font-family: var(--font-kor); font-weight: 900; letter-spacing: 0.5px; box-shadow: 1px 1px 2px rgba(0,0,0,0.2); white-space: nowrap; line-height: 1; z-index: 5; }
+
+.inline-syntax-target { position: relative; border-bottom: 2px dotted #333; background-color: rgba(0, 0, 0, 0.05); }
+.inline-syntax-label { position: absolute; top: 100%; right: 0; margin-top: 2px; font-size: 11px; background-color: #333; color: #fff; padding: 2px 5px; border-radius: 4px; font-family: var(--font-kor); font-weight: 900; white-space: nowrap; line-height: 1; z-index: 4; box-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+
+.csat-container { background-color: #fcfaf2; border: 1px solid #e0dcd0; padding: 20px; border-radius: 8px; margin-top: 20px; }
+.csat-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; margin-bottom: 15px; }
+.csat-title { font-family: var(--font-kor); font-size: 16px; font-weight: 900; color: #333; display: flex; align-items: center; gap: 6px; }
+.csat-badge { background-color: #546e7a; color: white; font-size: 12px; padding: 2px 6px; border-radius: 4px; }
+.csat-subtitle { font-family: var(--font-kor); font-size: 12px; color: #7b909a; font-weight: bold; }
+.csat-text { font-family: var(--font-eng); font-size: 17px; line-height: 1.8; color: #222; margin-bottom: 25px; text-align: justify; }
+.csat-blank-ans { display: inline-block; border-bottom: 1px solid #333; min-width: 80px; text-align: center; font-weight: bold; color: #d32f2f; padding: 0 5px; }
+.csat-trans-header { font-family: var(--font-kor); font-size: 14px; font-weight: bold; color: #e6a822; margin-bottom: 10px; }
+.csat-trans-text { font-family: var(--font-kor); font-size: 14.5px; line-height: 32px; color: #444; background-image: repeating-linear-gradient(transparent, transparent 31px, #b0bec5 31px, #b0bec5 32px); background-position: 0 6px; padding-bottom: 8px; }
+
+.summary-badge { display: inline-block; font-family: var(--font-kor); font-size: 11px; color: #fff; background-color: #78909c; padding: 1px 8px; border-radius: 10px; font-weight: bold; margin-left: 6px; vertical-align: 1px; position: static; }
+
+.sent-container { display: flex; gap: 15px; align-items: flex-start; margin-bottom: 20px; }
+.sent-logic-col { flex: 0 0 130px; display: flex; flex-direction: column; gap: 10px; }
+.sent-analysis-col { flex: 1; min-width: 0; }
+.logic-flow-card { border-radius: 8px; padding: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #eee; font-size: 13px; }
+.logic-intro { background: #e3f2fd; border-color: #90caf9; color: #1565c0; }
+.logic-body { background: #fff8e1; border-color: #ffe082; color: #ef6c00; }
+.logic-conc { background: #e8f5e9; border-color: #a5d6a7; color: #2e7d32; }
+.logic-title { font-weight: bold; display: block; margin-bottom: 4px; font-size: 14px; }
+.logic-desc { line-height: 1.4; color: #333; }
+
+.flow-container { display: flex; justify-content: space-between; gap: 15px; margin-top: 15px; margin-bottom: 25px; }
+.flow-card { flex: 1; background: #fff; border-radius: 12px; padding: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; position: relative; border: 1px solid #eee; }
+.flow-card.flow-intro .flow-header { background: #e3f2fd; color: #1565c0; border-bottom: 2px solid #90caf9; }
+.flow-card.flow-body .flow-header { background: #fff8e1; color: #ef6c00; border-bottom: 2px solid #ffe082; }
+.flow-card.flow-conc .flow-header { background: #e8f5e9; color: #2e7d32; border-bottom: 2px solid #a5d6a7; }
+.flow-header { padding: 12px 15px; text-align: left; position: relative; }
+.flow-title { font-weight: 800; font-size: 15px; display: block; margin-bottom: 2px; }
+.flow-num-badge { display: inline-block; background: rgba(0,0,0,0.1); color: inherit; border-radius: 12px; padding: 1px 8px; font-size: 12px; font-weight: bold; margin-top: 4px; }
+.flow-content { padding: 15px; font-size: 13.5px; color: #444; line-height: 1.5; text-align: left; }
+.flow-arrow { align-self: center; font-size: 24px; color: #bdbdbd; font-weight: bold; flex-basis: 20px; text-align: center; }
+
+.sec-vocab { flex: 1.25; display: flex; flex-direction: column; margin-top: 0px; border: 1px solid #cfd8dc; border-radius: 8px; overflow: hidden; }
+.v-header { display: flex; background: #37474f; color: white; font-family: var(--font-eng, 'Montserrat', sans-serif); font-size: 11px; font-weight: 700; padding: 6px 0; border-bottom: 1px solid #cfd8dc; }
+.v-list { flex: 1; display: flex; flex-direction: column; overflow-y: hidden; background: white; }
+.v-row { display: flex; align-items: stretch; border-bottom: 1px solid #eceff1; padding: 0; min-height: 32px; flex: 1; }
+.v-row:nth-child(even) { background-color: #fafafa; }
+
+.cell { display: flex; align-items: center; padding: 1px 8px; box-sizing: border-box; overflow: hidden; }
+.cell.col-word, .cell.col-mean, .cell.col-context { border-right: 1px solid rgba(0,0,0,0.05); }
+.v-header .cell { justify-content: center; padding: 3px 8px; text-align: center; }
+.v-header .cell.col-word, .v-header .cell.col-mean, .v-header .cell.col-context { border-right: 1px solid rgba(255,255,255,0.2); }
+.cell:last-child { border-right: none; }
+
+.col-chk { width: 30px; justify-content: center; flex-shrink: 0; }
+.col-word { width: 16%; flex-shrink: 0; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+.col-mean { width: 38%; flex-shrink: 0; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+.col-context { width: 14%; flex-shrink: 0; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+.col-chunk { flex: 1; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+
+.v-row .col-chk { padding-top: 8px; align-items: flex-start; }
+
+.chk-box { width: 10px; height: 10px; border: 1px solid var(--c-brand, #003b6f); border-radius: 2px; background: white; margin-top:4px; }
+.word-txt { font-family: var(--font-eng, 'Montserrat', sans-serif); font-weight: 900; color: var(--c-brand, #003b6f); font-size: 16px; word-break: break-word; line-height: 1.2; }
+.word-pron { font-size: 12px; color: #616161; font-family: var(--font-eng); margin-top: 3px; }
+.word-ety { font-size: 11px; color: #8d6e63; font-family: var(--font-kor); margin-top: 3px; font-weight: 600; letter-spacing: -0.5px; word-break: keep-all; line-height: 1.2; }
+
+.vm-kor { font-weight: 800; color: #212121; font-size: 13.5px; line-height: 1.3; font-family: 'NanumSquareRound', sans-serif; display: block; width: 100%; }
+.vm-context { font-size: 12.5px; color: #00695c; line-height: 1.4; font-weight: bold; white-space: normal; word-break: keep-all; display: block; width: 100%; }
+
+.vch-en { font-family: var(--font-eng, 'Montserrat', sans-serif); font-weight: 600; color: var(--c-chunk-text, #263238); font-size: 14.5px; line-height: 1.3; margin-bottom: 3px; }
+.vch-ko { font-size: 13.5px; color: #78909c; line-height: 1.2; font-family: 'NanumSquareRound', sans-serif; }
+.c-hl { color: var(--c-chunk-hl, #d84315); font-weight: 900; }
+
+.rel-box { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; width: 100%; }
+.rel-item { display: inline-flex; align-items: center; font-size: 13.5px; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background: #f5f5f5; padding: 3px 6px; border-radius: 4px; line-height: 1; }
+.item-syn { color: #1b5e20; font-weight: 900; }
+.item-ant { color: #d32f2f; font-weight: 600; }
+.item-conf { color: #333; font-weight: 900; }
+.rel-item span { margin-right: 4px; font-size: 12px; padding: 2px 4px; border-radius: 2px; color: white; font-family: var(--font-kor); font-weight: bold; }
+
+.bg-syn { background-color: #26a69a; }
+.bg-ant { background-color: #ef5350; }
+.bg-conf { background-color: #ffa726; }
+
+table.modal-table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; border: 1px solid #e0e0e0; }
+table.modal-table th { background: #eee; padding: 6px; border: 1px solid #ccc; text-align: center; font-family: var(--font-kor); color:#444; }
+table.modal-table td { padding: 6px; border: 1px solid #ccc; vertical-align: middle; word-wrap: break-word; background:#fff; text-align:center; }
+table.modal-table td:nth-child(6) { text-align: left; }
+table.modal-table td:nth-child(7) { text-align: left; }
+table.modal-table col:nth-child(1) { width: 12%; }
+table.modal-table col:nth-child(2) { width: 12%; }
+table.modal-table col:nth-child(3) { width: 12%; }
+table.modal-table col:nth-child(4) { width: 12%; }
+table.modal-table col:nth-child(5) { width: 8%; }
+table.modal-table col:nth-child(6) { width: 20%; }
+table.modal-table col:nth-child(7) { width: 24%; }
+.vocab-word-bold { font-weight: 900; font-family: var(--font-eng); color: #000; font-size: 16px; }
+.vocab-pron { color: #555; font-size: 12px; }
+
+.analysis-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; border: 1px solid #e0e0e0; }
+.analysis-table th { background: #546e7a; color: #fff; padding: 8px; border: 1px solid #ddd; text-align: center; font-weight: bold; }
+.analysis-table td { padding: 8px; border: 1px solid #ddd; vertical-align: middle; background: #fff; text-align: left; }
+
+.slash { font-weight: 900; color: #000; margin: 0 3px; font-size: 1.1em; }
+.blank-filled { border-bottom: 2px solid #000; font-weight: 900; color: #000; padding: 0 2px; }
+.blank-empty { display: inline-block; width: 40px; height: 18px; border-bottom: 1px solid #333; vertical-align: middle; margin: 0 2px; }
+.err-wrong { color: #d32f2f; text-decoration: line-through; margin-right: 3px; }
+.err-right { color: #1565c0; font-weight: 900; margin-left: 3px; }
+.err-arrow { color: #555; font-size: 0.9em; font-weight: bold; }
+.star-red { color: #e53935; text-shadow: 1px 1px 0px #b71c1c; font-size: 1.1em; margin-right: 5px; vertical-align: -1px; }
+.star-yellow { color: #fbc02d; text-shadow: 1px 1px 0px #f57f17; font-size: 1.1em; margin-right: 5px; vertical-align: -1px; }
+</style>
+</head>
+<body>
+
+<div class="header-container">
+    <button class="header-btn btn-literal" onclick="toggleModal('modalLiteral')">직독직해 (Literal)</button>
+    <div class="custom-modal modal-right modal-literal" id="modalLiteral">
+        <span class="close-modal-btn" onclick="toggleModal('modalLiteral')">&times;</span>
+        <h3>직독직해 (Literal)</h3>
+        <div class="modal-content"><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 통념의 반박과 통계적 현실</span><div class='trans-line'><span class='trans-num'>2.</span>❷ 만약 <span class="S-text">당신이</span> <span class="C-text">어린 운동선수</span><span class="V-text">라면</span>, <span class="slash">/</span> <span class="S-text">당신, 당신의 부모님, 그리고 당신의 코치들은</span> <span class="V-text">원한다</span> <span class="O-text">당신이</span> <span class="C-text">지금 성공을 경험하기를</span> <span class="slash">/</span> 왜냐하면 <span class="S-text">당신과 그들이</span> <span class="V-text">믿기 때문이다</span> <span class="slash">/</span> <span class="S-text"><span class="highlight-subject">조기 성공이</span></span> <span class="C-text">강력한 전조가 된다</span><span class="V-text">고</span> <span class="slash">/</span> 당신의 스포츠에서 이후의 성공의.<span class='trans-summary'>[도입] 조기 성공에 대한 바람</span></div><div class='trans-line'><span class='trans-num'>3.</span>❸ <span class="S-text">우리의 스포츠 문화는</span> <span class="V-text">사로잡혀 있다</span> <span class="slash">/</span> "<span class="highlight-subject">천재</span>"와 "반드시 성공할 아이"에, <span class="slash">/</span> 그런데 그들은 <span class="V-text">보여준다</span> <span class="O-text">일찍 우위를</span> 어떤 스포츠에서.<span class='trans-summary'>[통념] '천재'에 대한 문화적 집착</span></div><div class='trans-line'><span class='trans-num'>1.</span>❶ <span class="star-red">★</span>그러나, <span class="slash">/</span> 비록 <span class="V-text">있어왔을지라도</span> <span class="S-text">천재들이</span> <span class="slash">/</span> <그들은> <span class="V-text">나아간</span> 그들의 경력 후반에 큰 성공으로, <span class="slash">/</span> <span class="S-text"><span class="highlight-clue">이러한 인식은</span></span> <span class="C-text"><span class="highlight-clue">현실인 만큼이나 환상</span><span class="V-text">이기도 하다</span></span>.<span class='trans-summary'>[반박] 인식의 허상 지적</span></div><div class='trans-line'><span class='trans-num'>4.</span>❹ 예를 들어, <span class="slash">/</span> 수천 명의 어린 야구 선수들 중에서 <span class="slash">/</span> 수년에 걸쳐 리틀 리그 월드 시리즈에서 <span class="V-text">겨루어 온</span>, <span class="slash">/</span> <span class="S-text">50명도 안 되는 선수들이</span> <span class="V-text">나아갔다</span> <span class="slash">/</span> 메이저리그 경력으로.<span class='trans-summary'>[예시] 리틀 리그 통계의 한계</span></div><div class='trans-line'><span class='trans-num'>5.</span>❺ 사실, <span class="slash">/</span> <span class="S-text">천재들은</span> <span class="C-text">통계적으로 희귀한 일</span><span class="V-text">이다</span>, <span class="slash">/</span> 그리고 <span class="S-text">그 '반드시 성공할 아이들'은</span> 종종 <span class="V-text">정말로 실패한다</span> <span class="slash">/</span> 그들의 운동 경력 후반에.<span class='trans-summary'>[상술] 천재의 통계적 희소성</span></div></div><div class='logic-section logic-conc'><span class='logic-section-title'>[결론] 진정한 성공의 조건</span><div class='trans-line'><span class='trans-num'>6.</span>❻ <span class="star-yellow">★</span>대개, <span class="slash">/</span> <span class="S-text">바로 그 선수들</span><span class="V-text">이다</span> <span class="slash">/</span> <그들은> 그것을 <span class="V-text">계속한다</span> <span class="slash">/</span> 좌절, 정체기, 그리고 실패를 겪으면서 <span class="slash">/</span> 궁극적으로 그것을 <span class="V-text">"해내는"</span> (성공하는) 것은.<span class='trans-summary'>[핵심] 성공의 진정한 조건 (인내)</span></div><div class='trans-line'><span class='trans-num'>7.</span>❼ <span class="S-text">초기의 당신의 노력은</span> <span class="slash">/</span> <span class="S-text">당신이</span> 스포츠 목표를 위해 <span class="V-text">애쓸</span> 때 <span class="slash">/</span> <span class="V-text">바쳐져야 한다</span> <span class="slash">/</span> 미래에 성공을 위해 당신 스스로를 준비하는 데에, <span class="slash">/</span> <그때는> <span class="S-text">그것이</span> 가장 <span class="V-text">중요한</span> (때이다), <span class="slash">/</span> 빠르고 즉각적인 성공을 성취하는 데가 아니라.<span class='trans-summary'>[제언] 미래를 위한 준비의 중요성</span></div></div></div>
+    </div>
+
+    <button class="header-btn btn-liberal" onclick="toggleModal('modalLiberal')">전체 해석 (의역)</button>
+    <div class="custom-modal modal-right modal-liberal" id="modalLiberal">
+        <span class="close-modal-btn" onclick="toggleModal('modalLiberal')">&times;</span>
+        <h3>전체 해석 (의역)</h3>
+        <div class="modal-content"><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 통념의 반박과 통계적 현실</span><div class='trans-line'><span class='trans-num'>2.</span>❷ 만약 <span class="S-text">당신이</span> <span class="C-text">어린 운동선수</span><span class="V-text">라면</span>, <span class="S-text">당신과 그들(부모님, 코치들)이</span> <span class="S-text"><span class="highlight-subject">조기 성공이</span></span> 당신의 스포츠 분야에서 훗날 거둘 성공의 <span class="C-text">강력한 예측 변수</span><span class="V-text">라고</span> <span class="V-text">믿기 때문에</span>, <span class="S-text">당신, 당신의 부모님, 그리고 코치들은</span> <span class="O-text">당신이</span> <span class="C-text">지금 당장 성공을 맛보기를</span> <span class="V-text">원한다</span>.</div><div class='trans-line'><span class='trans-num'>3.</span>❸ <span class="S-text">우리의 스포츠 문화는</span> 어떤 스포츠에서 <span class="O-text">일찍부터 두각을</span> <span class="V-text">나타내는</span> "<span class="highlight-subject">천재</span>"나 "반드시 대성할 유망주"에 <span class="V-text">사로잡혀 있다</span>.</div><div class='trans-line'><span class='trans-num'>1.</span>❶ <span class="star-red">★</span>그러나, 비록 경력 후반까지 큰 성공을 <span class="V-text">거둔</span> <span class="S-text">천재들이</span> <span class="V-text">있었을지라도</span>, <span class="S-text"><span class="highlight-clue">이러한 인식은</span></span> <span class="C-text"><span class="highlight-clue">현실인 동시에 환상에 불과</span><span class="V-text">하다</span></span>.</div><div class='trans-line'><span class='trans-num'>4.</span>❹ 예를 들어, 수년에 걸쳐 리틀 리그 월드 시리즈에서 <span class="V-text">경쟁했던</span> 수천 명의 어린 야구 선수들 중 메이저리그에 <span class="V-text">진출한</span> <span class="S-text">선수는 50명도 채 되지 않는다</span>.</div><div class='trans-line'><span class='trans-num'>5.</span>❺ 사실, <span class="S-text">천재들은</span> <span class="C-text">통계적으로도 희귀하며</span>, <span class="S-text">반드시 대성할 것이라던 그 유망주들은</span> 선수 경력 후반에 이르러 종종 <span class="V-text">실패의 쓴맛을 본다</span>.</div></div><div class='logic-section logic-conc'><span class='logic-section-title'>[결론] 진정한 성공의 조건</span><div class='trans-line'><span class='trans-num'>6.</span>❻ <span class="star-yellow">★</span>대개 궁극적으로 <span class="V-text">성공을 거두는</span> 것은 좌절, 정체기, 실패를 겪으면서도 굴하지 않고 계속 <span class="V-text">나아가는</span> <span class="S-text">선수들</span><span class="V-text">이다</span>.</div><div class='trans-line'><span class='trans-num'>7.</span>❼ <span class="S-text">당신이</span> 스포츠 목표를 향해 <span class="V-text">나아갈</span> 때 <span class="S-text">초기에 기울이는 노력은</span> 눈앞의 빠르고 즉각적인 성공을 거두는 것이 아니라, <span class="S-text">그것이</span> 가장 <span class="V-text">중요해지는</span> 미래의 성공을 위해 스스로를 준비하는 데 <span class="V-text">온전히 쏟아야 한다</span>.</div></div></div>
+    </div>
+
+    <button class="header-btn btn-tips" onclick="toggleModal('modalTips')">구문 팁 정리</button>
+    <div class="custom-modal modal-right modal-tips" id="modalTips">
+        <span class="close-modal-btn" onclick="toggleModal('modalTips')">&times;</span>
+        <h3>구문 팁 정리</h3>
+        <div class="modal-content"><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 통념의 반박과 통계적 현실</span><div class='trans-line'><span class='trans-num'>2.</span>[구문팁] <b>want you to experience</b>: 동사 want는 목적격 보어로 to부정사를 취하는 5형식 동사임.</div><div class='trans-line'><span class='trans-num'>3.</span>[구문팁] <b>, who show</b>: 관계대명사의 계속적 용법으로 쓰였으며, 선행사가 phenom과 kid (두 명 이상의 부류)이므로 복수 동사 show가 옴.</div><div class='trans-line'><span class='trans-num'>1.</span>[구문팁] <b>as much fantasy as reality</b>: <as much A as B> 구문으로 'B인 만큼이나 A하다'라는 의미를 지님. 즉, 현실이기도 하지만 환상적인 측면이 많다는 것을 강조함.</div><div class='trans-line'><span class='trans-num'>4.</span>[구문팁] <b>who have competed</b>: 주격 관계대명사절 안에 현재완료 시제(have competed)가 쓰여, 과거부터 지금까지 수년에 걸쳐(throughout the years) 경쟁해 온 상황을 나타냄.</div><div class='trans-line'><span class='trans-num'>5.</span>[구문팁] <b>often do miss</b>: 여기서 조동사 'do'는 뒤에 오는 본동사 'miss'를 강조하는 용법으로 쓰임.</div></div><div class='logic-section logic-conc'><span class='logic-section-title'>[결론] 진정한 성공의 조건</span><div class='trans-line'><span class='trans-num'>6.</span>[구문팁] <b>it is the athletes ~ who ultimately</b>: <It is(was) ~ who(that) ...> 강조구문으로 주어인 'the athletes'를 강조함. 선행사가 사람이므로 that 대신 who가 쓰임.</div><div class='trans-line'><span class='trans-num'>7.</span>[구문팁] <b>to preparing ~ not achieving</b>: 전치사 to 뒤에 동명사 preparing이 왔으며, 콤마 뒤의 not achieving도 이 to에 걸리는 병렬 구조임. (devoted to preparing ~ and not to achieving ~)</div></div></div>
+    </div>
+
+    <button class="header-btn btn-logic" onclick="toggleModal('modalLogic')">3단 논리 흐름</button>
+    <div class="custom-modal modal-right modal-logic" id="modalLogic">
+        <span class="close-modal-btn" onclick="toggleModal('modalLogic')">&times;</span>
+        <h3>3단 논리 흐름</h3>
+        <div class="modal-content">
+            <div style='margin-bottom:15px;'>
+                <div class='flow-card flow-intro'>
+                    <div class='flow-header'>
+                        <span class='flow-title'>[도입] 천재에 대한 통념</span>
+                        <span class='flow-num-badge'>2 ~ 3</span>
+                    </div>
+                    <div class='flow-content'>스포츠계는 조기 성공이 미래 성공을 예측한다고 믿으며 일찍 두각을 나타내는 <span class="fill-text">천재</span>에 집착한다.</div>
+                </div>
+            </div>
+            
+            <div style='margin-bottom:15px;'>
+                <div class='flow-card flow-body'>
+                    <div class='flow-header'>
+                        <span class='flow-title'>[전개] 통념의 반박과 통계적 현실</span>
+                        <span class='flow-num-badge'>1 ~ 5</span>
+                    </div>
+                    <div class='flow-content'>그러나 조기 성공이 미래를 보장한다는 인식은 <span class="fill-text">환상</span>이며, 통계적으로 천재가 최종적으로 대성하는 경우는 드물다.</div>
+                </div>
+            </div>
+            
+            <div style='margin-bottom:15px;'>
+                <div class='flow-card flow-conc'>
+                    <div class='flow-header'>
+                        <span class='flow-title'>[결론] 진정한 성공의 조건</span>
+                        <span class='flow-num-badge'>6 ~ 7</span>
+                    </div>
+                    <div class='flow-content'>궁극적인 성공은 좌절과 정체기를 견뎌내는 꾸준한 <span class="fill-text">노력</span>과 미래를 대비하는 끈기에서 비롯된다.</div>
+                </div>
+            </div>
+            </div>
+    </div>
+
+    <button class="header-btn btn-eng-all" onclick="toggleModal('modalEngAll')">영어 문장 전체 보기</button>
+    <div class="custom-modal modal-left modal-eng-all" id="modalEngAll">
+        <span class="close-modal-btn" onclick="toggleModal('modalEngAll')">&times;</span>
+        <h3>영어 문장 전체 보기</h3>
+        <div class="modal-content"><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 통념의 반박과 통계적 현실</span><div class='eng-line'><span class='eng-num'>2.</span>❷ If <span class="syntax-box S-box">you</span> <span class="syntax-box V-box">'re</span> <span class="syntax-box C-box">a young athlete</span>, <span class="slash">/</span> <span class="syntax-box S-box">you, your parents, and your coaches</span> <span class="syntax-box V-box">want</span> <span class="syntax-box O-box">you</span> <span class="syntax-box C-box">to experience success now</span> <span class="slash">/</span> because <span class="syntax-box S-box">you and they</span> <span class="syntax-box V-box">believe</span> <span class="slash">/</span> that <span class="syntax-box S-box"><span class="highlight-subject">early success</span></span> <span class="syntax-box V-box">is</span> <span class="syntax-box C-box">highly <span class="vocab-container"><span class="vocab-sub">전조가 되는</span><span class="vocab-text">predictive</span></span></span> <span class="slash">/</span> of later success in your sport.</div><div class='eng-line'><span class='eng-num'>3.</span>❸ <span class="syntax-box S-box">Our athletic culture</span> <span class="syntax-box V-box">is obsessed</span> <span class="slash">/</span> with the "<span class="highlight-subject">phenom</span>" and the "can't-miss kid," <span class="slash">/</span> who <span class="syntax-box V-box">show</span> <span class="syntax-box O-box">earlier <span class="vocab-container"><span class="vocab-sub">우위(=superiority)</span><span class="vocab-text">dominance</span></span></span> in a sport.</div><div class='eng-line'><span class='eng-num'>1.</span>❶ <span class="star-red">★</span>Yet, <span class="slash">/</span> although <span class="syntax-box V-box">there have been</span> <span class="syntax-box S-box">phenoms</span> <span class="slash">/</span> who <span class="syntax-box V-box">went on</span> to great success later in their careers, <span class="slash">/</span> <span class="syntax-box S-box"><span class="highlight-clue">this <span class="vocab-container"><span class="vocab-sub">인식</span><span class="vocab-text">perception</span></span></span></span> <span class="syntax-box V-box">is</span> <span class="syntax-box C-box"><span class="highlight-clue">as much fantasy as reality</span></span>.</div><div class='eng-line'><span class='eng-num'>4.</span>❹ For example, <span class="slash">/</span> out of the thousands of young baseball players <span class="slash">/</span> who <span class="syntax-box V-box">have competed</span> in the Little League World Series throughout the years, <span class="slash">/</span> <span class="syntax-box S-box">fewer than 50</span> <span class="syntax-box V-box">went on</span> <span class="slash">/</span> to major-league careers.</div><div class='eng-line'><span class='eng-num'>5.</span>❺ In fact, <span class="slash">/</span> <span class="syntax-box S-box">phenoms</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box">a statistical <span class="vocab-container"><span class="vocab-sub">희귀함</span><span class="vocab-text">rarity</span></span></span>, <span class="slash">/</span> and <span class="syntax-box S-box">those can't-miss kids</span> often <span class="syntax-box V-box"><span class="vocab-container"><span class="vocab-sub">정말로 실패하다 (do는 동사 강조)</span><span class="vocab-text">do miss</span></span></span> <span class="slash">/</span> later in their athletic careers.</div></div><div class='logic-section logic-conc'><span class='logic-section-title'>[결론] 진정한 성공의 조건</span><div class='eng-line'><span class='eng-num'>6.</span>❻ <span class="star-yellow">★</span>More often than not, <span class="slash">/</span> <span class="syntax-box S-box">it</span> <span class="syntax-box V-box">is</span> <span class="syntax-box C-box">the athletes</span> <span class="slash">/</span> who <span class="syntax-box V-box">keep at</span> <span class="syntax-box O-box">it</span> <span class="slash">/</span> through setbacks, plateaus, and failures <span class="slash">/</span> who ultimately <span class="syntax-box V-box">"make"</span> <span class="syntax-box O-box">it</span>.</div><div class='eng-line'><span class='eng-num'>7.</span>❼ <span class="syntax-box S-box">Your efforts early on</span> <span class="slash">/</span> as <span class="syntax-box S-box">you</span> <span class="syntax-box V-box"><span class="vocab-container"><span class="vocab-sub">애쓰다(=endeavor)</span><span class="vocab-text">strive</span></span></span> for your sports goals <span class="slash">/</span> <span class="syntax-box V-box">should be devoted</span> <span class="slash">/</span> to preparing yourself for success in the future, <span class="slash">/</span> when <span class="syntax-box S-box">it</span> <span class="syntax-box V-box">matters</span> most, <span class="slash">/</span> not achieving quick and immediate success.</div></div></div>
+    </div>
+
+    <button class="header-btn btn-eng-pure" onclick="toggleModal('modalEngPure')">지문 읽기 (Pure)</button>
+    <div class="custom-modal modal-left modal-eng-pure" id="modalEngPure">
+        <span class="close-modal-btn" onclick="toggleModal('modalEngPure')">&times;</span>
+        <h3>지문 읽기 (Pure English)</h3>
+        <div class="modal-content"><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 통념의 반박과 통계적 현실</span><div class='eng-line'><span class='raw-num'>2.</span>If you 're a young athlete, you, your parents, and your coaches want you to experience success now because you and they believe that early success is highly predictive of later success in your sport.</div><div class='eng-line'><span class='raw-num'>3.</span>Our athletic culture is obsessed with the "phenom" and the "can't-miss kid," who show earlier dominance in a sport.</div><div class='eng-line'><span class='raw-num'>1.</span>Yet, although there have been phenoms who went on to great success later in their careers, this perception is as much fantasy as reality.</div><div class='eng-line'><span class='raw-num'>4.</span>For example, out of the thousands of young baseball players who have competed in the Little League World Series throughout the years, fewer than 50 went on to major-league careers.</div><div class='eng-line'><span class='raw-num'>5.</span>In fact, phenoms are a statistical rarity, and those can't-miss kids often do miss later in their athletic careers.</div></div><div class='logic-section logic-conc'><span class='logic-section-title'>[결론] 진정한 성공의 조건</span><div class='eng-line'><span class='raw-num'>6.</span>More often than not, it is the athletes who keep at it through setbacks, plateaus, and failures who ultimately "make" it.</div><div class='eng-line'><span class='raw-num'>7.</span>Your efforts early on as you strive for your sports goals should be devoted to preparing yourself for success in the future, when it matters most, not achieving quick and immediate success.</div></div></div>
+    </div>
+
+    <button class="header-btn btn-vis-clean" onclick="toggleModal('modalVisClean')">지문 원문 (Clean)</button>
+    <div class="custom-modal modal-left modal-vis-clean" id="modalVisClean">
+        <span class="close-modal-btn" onclick="toggleModal('modalVisClean')">&times;</span>
+        <h3>지문 원문 (Clean)</h3>
+        <div class="modal-content visual-source-text"><div class="visual-box-given"></div><div class="line-last" style="position: relative; padding-right: 28%; margin-bottom: 10px; width: 100%; box-sizing: border-box;"><span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S1 (반박-주제): 역접(Yet). 그러한 인식은 현실이라기보다 환상에 불과함 (제시문)</b></span>
+                            </span>
+                        </span>❶ <span class="star-red">★</span>Yet, although there have been phenoms who went on to great success later in their careers, <span class="highlight-clue">this perception</span> is <span class="highlight-clue">as much fantasy as reality</span>. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S2~S3 (통념)</b>: 조기 성공이 미래를 보장한다는 개인적 믿음과 스포츠 문화의 '천재' 집착</span>
+                            </span>
+                        </span>❷ If you're a young athlete, you, your parents, and your coaches want you to experience success now because you and they believe that <span class="highlight-subject">early success</span> is highly predictive of later success in your sport. ( ① ) ❸ Our athletic culture is obsessed with the "<span class="highlight-subject">phenom</span>" and the "can't-miss kid," who show earlier dominance in a sport. ( ② ) <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S4~S5 (근거)</b>: 리틀리그 진출자의 희박한 성공 확률. 천재는 통계적으로 희귀하며 실패함</span>
+                            </span>
+                        </span>❹ For example, out of the thousands of young baseball players who have competed in the Little League World Series throughout the years, fewer than 50 went on to major-league careers. ( ③ ) ❺ In fact, phenoms are a statistical rarity, and those can't-miss kids often do miss later in their athletic careers. ( ④ ) <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S6~S7 (결론)</b>: 최종 성공은 시련을 극복하는 자의 몫이며, 당장의 성공보다 미래를 위한 준비가 중요함</span>
+                            </span>
+                        </span>❻ <span class="star-yellow">★</span>More often than not, it is the athletes who keep at it through setbacks, plateaus, and failures who ultimately "make it." ( ⑤ ) ❼ Your efforts early on as you strive for your sports goals should be devoted to preparing yourself for success in the future, when it matters most, not achieving quick and immediate success.</div></div>
+    </div>
+
+    <button class="header-btn btn-learning" onclick="toggleModal('modalLearning')">핵심 콕콕</button>
+    <div class="custom-modal modal-left modal-learning" id="modalLearning">
+        <span class="close-modal-btn" onclick="toggleModal('modalLearning')">&times;</span>
+        <h3>핵심 콕콕 (Logic & Grammar)</h3>
+        <div class="modal-content">
+            <div class="learning-item">
+                <span class="learning-label logic-label">논리</span>
+                <ul class="learning-list"><li><b>통념-반박 구조:</b> ❷~❸번의 통념(조기 성공=미래 성공)을 ❶번(제시문)에서 <b>Yet</b>을 통해 반박하며 필자의 요지를 드러내는 전형적 <b>구조</b>.</li><li><b>지시어 단서:</b> ❶번의 `this perception`이 가리키는 바가 앞선 문화적 집착(S3)임을 <b>파악</b>.</li></ul>
+            </div>
+            <div class="learning-item">
+                <span class="learning-label grammar-label">구문</span>
+                <ul class="learning-list"><li><b>강조구문:</b> ❻번 `It is ~ who...` 구조에서 강조 대상이 사람이기 때문에 that 대신 who가 쓰인 점 <b>주의</b>.</li><li><b>병렬 구조:</b> ❼번 `be devoted to` 전치사 뒤에 오는 동명사 `preparing`과 뒤이어 생략된 구조 속 `not achieving`의 병렬 <b>확인</b>.</li></ul>
+            </div>
+        </div>
+    </div>
+
+    <button class="header-btn btn-vocab" onclick="toggleModal('modalVocab')">핵심 어휘</button>
+    <div class="custom-modal modal-center modal-vocab" id="modalVocab">
+        <span class="close-modal-btn" onclick="toggleModal('modalVocab')">&times;</span>
+        <h3>핵심 어휘 10선</h3>
+        <div class="modal-content">
+        <table class='vocab-table modal-table'>
+            <colgroup><col width="12%"><col width="12%"><col width="12%"><col width="12%"><col width="8%"><col width="20%"><col width="24%"></colgroup>
+            <thead><tr><th>Word</th><th>Synonym</th><th>Antonym</th><th>Confusing</th><th>Pronunciation</th><th>Meaning</th><th>Chunk</th></tr></thead>
+            <tbody><tr>
+                <td class='vocab-word-bold'>perception</td>
+                <td>awareness / notion</td>
+                <td>ignorance</td>
+                <td>None</td>
+                <td class='vocab-pron'>[퍼셉션]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>per(completely) + capere(to take)</span></td>
+                <td style='text-align:left;'>인식, 지각</td>
+                <td style='text-align:left;'><b>this <span style='color:#e53935; font-weight:bold;'>perception</span> is as much fantasy as reality</b><br><span style='color:#777; font-size:11px;'>이러한 인식은 현실인 만큼이나 환상이기도 하다</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>predictive</td>
+                <td>prophetic / indicative</td>
+                <td>unpredictable</td>
+                <td>None</td>
+                <td class='vocab-pron'>[프리딕티브]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>pre(before) + dicere(to say)</span></td>
+                <td style='text-align:left;'>전조가 되는, 예측하는</td>
+                <td style='text-align:left;'><b>highly <span style='color:#e53935; font-weight:bold;'>predictive</span> of later success</b><br><span style='color:#777; font-size:11px;'>이후의 성공의 강력한 전조가 되는</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>obsess</td>
+                <td>preoccupy / consume</td>
+                <td>free</td>
+                <td>None</td>
+                <td class='vocab-pron'>[옵세스]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>ob(against) + sedere(to sit)</span></td>
+                <td style='text-align:left;'>사로잡다, 강박감을 갖게 하다</td>
+                <td style='text-align:left;'><b>is <span style='color:#e53935; font-weight:bold;'>obsessed</span> with the "phenom"</b><br><span style='color:#777; font-size:11px;'>'천재'에 사로잡혀 있다</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>dominance</td>
+                <td>superiority / supremacy</td>
+                <td>subordination</td>
+                <td>None</td>
+                <td class='vocab-pron'>[도미넌스]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>dominus(lord)</span></td>
+                <td style='text-align:left;'>우위, 우세</td>
+                <td style='text-align:left;'><b>show earlier <span style='color:#e53935; font-weight:bold;'>dominance</span></b><br><span style='color:#777; font-size:11px;'>일찍 우위를 보이다</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>compete</td>
+                <td>contend / vie</td>
+                <td>cooperate</td>
+                <td>None</td>
+                <td class='vocab-pron'>[컴피트]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>com(together) + petere(to strive)</span></td>
+                <td style='text-align:left;'>겨루다, 경쟁하다</td>
+                <td style='text-align:left;'><b>have <span style='color:#e53935; font-weight:bold;'>competed</span> in the Little League</b><br><span style='color:#777; font-size:11px;'>리틀 리그에서 겨룬</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>statistical</td>
+                <td>numerical</td>
+                <td>None</td>
+                <td>None</td>
+                <td class='vocab-pron'>[스타티스티컬]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>None</span></td>
+                <td style='text-align:left;'>통계적인</td>
+                <td style='text-align:left;'><b>a <span style='color:#e53935; font-weight:bold;'>statistical</span> rarity</b><br><span style='color:#777; font-size:11px;'>통계적으로 희귀함</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>rarity</td>
+                <td>infrequency / oddity</td>
+                <td>commonplace</td>
+                <td>None</td>
+                <td class='vocab-pron'>[레러티]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>None</span></td>
+                <td style='text-align:left;'>희귀함, 드문 일</td>
+                <td style='text-align:left;'><b>are a statistical <span style='color:#e53935; font-weight:bold;'>rarity</span></b><br><span style='color:#777; font-size:11px;'>통계적으로 희귀하다</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>setback</td>
+                <td>hitch / obstacle</td>
+                <td>breakthrough</td>
+                <td>None</td>
+                <td class='vocab-pron'>[셋백]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>set + back</span></td>
+                <td style='text-align:left;'>차질, 좌절</td>
+                <td style='text-align:left;'><b>keep at it through <span style='color:#e53935; font-weight:bold;'>setbacks</span></b><br><span style='color:#777; font-size:11px;'>좌절을 겪으며 견뎌내다</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>plateau</td>
+                <td>stagnation / standstill</td>
+                <td>progress</td>
+                <td>None</td>
+                <td class='vocab-pron'>[플래토우]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>None</span></td>
+                <td style='text-align:left;'>정체기 , 고원 (문맥: 실력이 늘지 않는 시기)</td>
+                <td style='text-align:left;'><b>through setbacks, <span style='color:#e53935; font-weight:bold;'>plateaus</span>, and failures</b><br><span style='color:#777; font-size:11px;'>좌절, 정체기, 실패를 겪으며</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>strive</td>
+                <td>struggle / endeavor</td>
+                <td>neglect</td>
+                <td>strike (치다)</td>
+                <td class='vocab-pron'>[스트라이브]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>None</span></td>
+                <td style='text-align:left;'>애쓰다, 노력하다</td>
+                <td style='text-align:left;'><b><span style='color:#e53935; font-weight:bold;'>strive</span> for your sports goals</b><br><span style='color:#777; font-size:11px;'>스포츠 목표를 위해 애쓰다</span></td>
+            </tr></tbody>
+        </table>
+        </div>
+    </div>
+
+    <button class="header-btn btn-keys" onclick="toggleModal('modalKeys')">핵심 문장</button>
+    <div class="custom-modal modal-center modal-keys" id="modalKeys">
+        <span class="close-modal-btn" onclick="toggleModal('modalKeys')">&times;</span>
+        <h3>핵심 문장 3개</h3>
+        <div class="modal-content">
+            <div style="margin-bottom:15px; border-bottom:1px dashed #ddd; padding-bottom:10px;">
+                <div style="font-weight:bold; color:#0d47a1; margin-bottom:4px;">주제문 (사용자 지정) <span style="font-size:11px; color:#666; font-weight:normal;">-</span></div>
+                <div style="font-family:'Times New Roman'; font-size:15px; margin-bottom:4px;">Yet, although there have been phenoms who went on to great success later in their careers, this perception is <span style="color:#d32f2f; font-weight:bold;">as much fantasy as reality</span>.</div>
+                <div style="font-size:13px; color:#333; margin-bottom:4px;">그러나 비록 그들의 경력 후반에 큰 성공으로 나아간 천재들이 있어왔을지라도, 이러한 인식은 현실인 만큼이나 환상이기도 하다.</div>
+                <div style="font-size:12px; color:#555; background:#f9f9f9; padding:4px;">💡 [통념 반박/원급 비교] 글의 흐름을 뒤집는 가장 중요한 문장입니다. <span style="color:#d32f2f; font-weight:bold;">as much A as B (B만큼이나 A한)</span> 구문을 사용하여, 조기 성공이 미래를 보장한다는 인식이 실제로는 허상에 가깝다는 필자의 요지를 드러냅니다.</div>
+            </div>
+            
+            <div style="margin-bottom:15px; border-bottom:1px dashed #ddd; padding-bottom:10px;">
+                <div style="font-weight:bold; color:#0d47a1; margin-bottom:4px;">핵심 구문 <span style="font-size:11px; color:#666; font-weight:normal;">-</span></div>
+                <div style="font-family:'Times New Roman'; font-size:15px; margin-bottom:4px;">More often than not, <span style="color:#d32f2f; font-weight:bold;">it is</span> the athletes who keep at it through setbacks, plateaus, and failures <span style="color:#d32f2f; font-weight:bold;">who</span> ultimately "make it."</div>
+                <div style="font-size:13px; color:#333; margin-bottom:4px;">대개, 궁극적으로 "해내는(성공하는)" 사람은 좌절, 정체기, 실패를 겪으면서도 계속하는 선수들이다.</div>
+                <div style="font-size:12px; color:#555; background:#f9f9f9; padding:4px;">💡 [It is ~ who 강조구문] 필자가 생각하는 진정한 성공의 비결을 담은 핵심 문장입니다. <span style="color:#d32f2f; font-weight:bold;">It is ~ who...</span> 강조구문이 쓰였으며, 강조 대상이 사람(the athletes)이므로 that 대신 who가 사용되었습니다.</div>
+            </div>
+            
+            <div style="margin-bottom:15px; border-bottom:1px dashed #ddd; padding-bottom:10px;">
+                <div style="font-weight:bold; color:#0d47a1; margin-bottom:4px;">재진술 <span style="font-size:11px; color:#666; font-weight:normal;">-</span></div>
+                <div style="font-family:'Times New Roman'; font-size:15px; margin-bottom:4px;">Your efforts early on as you strive for your sports goals should be devoted <span style="color:#d32f2f; font-weight:bold;">to preparing</span> yourself for success in the future, when it matters most, <span style="color:#d32f2f; font-weight:bold;">not achieving</span> quick and immediate success.</div>
+                <div style="font-size:13px; color:#333; margin-bottom:4px;">당신이 스포츠 목표를 위해 애쓸 때 초기의 노력은, 빠르고 즉각적인 성공을 거두는 것이 아니라 가장 중요한 때인 미래의 성공을 위해 스스로를 준비하는 데 바쳐져야 한다.</div>
+                <div style="font-size:12px; color:#555; background:#f9f9f9; padding:4px;">💡 [병렬 구조/전치사 to] 글을 마무리하며 독자에게 주는 교훈입니다. <span style="color:#d32f2f; font-weight:bold;">be devoted to (~에 바쳐지다)</span>의 전치사 to 뒤에 동명사 <span style="color:#d32f2f; font-weight:bold;">preparing</span>이 왔으며, 뒤의 <span style="color:#d32f2f; font-weight:bold;">not achieving</span>과 의미상 병렬 구조를 이루고 있음을 파악해야 합니다.</div>
+            </div>
+            </div>
+    </div>
+
+    <button class="header-btn btn-ans" onclick="toggleModal('modalAns')">정답 및 해설</button>
+    <div class="custom-modal modal-center modal-ans" id="modalAns">
+        <span class="close-modal-btn" onclick="toggleModal('modalAns')">&times;</span>
+        <h3>정답 및 해설</h3>
+        <div class="modal-content">
+        <div style="font-size:16px; font-weight:bold; color:#0277bd; margin-bottom:15px;">정답: ② ( ② )</div>
+        <div style="margin-bottom:15px;"><strong>[해설 요약]</strong><br>앞 문장(❸)에서 우리의 스포츠 문화가 조기 성공을 거두는 '천재'에 집착한다는 현상을 설명합니다. 제시문(❶)의 'this perception(이러한 인식)'은 바로 앞 문장의 현상(통념)을 정확히 가리키며, 'Yet(하지만)'으로 역접을 주어 그것이 환상이라고 반박합니다. 이어서 ❹번 문장의 'For example'이 천재들의 최종 성공 확률이 낮다는 통계적 사례를 제시하므로, 제시문은 ②번 자리에 들어가는 것이 가장 논리적입니다.</div>
+        <div style="margin-bottom:15px;"><strong>[논리적 근거]</strong><br><ul style="padding-left:20px;"><li>소재 및 방향성: <span class="highlight-subject">early success</span>(조기 성공)와 <span class="highlight-subject">phenom</span>(천재)에 대한 과대평가를 경계함</li><br><li>단서 1 (S3): "<span class="highlight-clue">culture is obsessed with the "phenom"</span>" (문화가 '천재'에 사로잡혀 있다)</li><br><li>단서 2 (S1): "<span class="highlight-clue">Yet... this perception is as much fantasy as reality</span>" (하지만... 이러한 인식은 환상이다)</li></ul></div>
+        <div><strong>[논리 연결]</strong><br>"[지문] 천재에 대한 스포츠계의 집착 (S3)" → "[지문(제시문)] 그러나 그 인식(this perception)은 환상임 (S1)" → **[정답] 그 환상에 대한 구체적 예시(성공 확률 낮음) 제공 (S4)**</div>
+        </div>
+    </div>
+
+    <button class="header-btn btn-opts" onclick="toggleModal('modalOpts')">선택지 분석</button>
+    <div class="custom-modal modal-center modal-opts" id="modalOpts">
+        <span class="close-modal-btn" onclick="toggleModal('modalOpts')">&times;</span>
+        <h3>선택지 분석</h3>
+        <div class="modal-content"><div style='font-size:14px; font-weight:800; margin-top:8px; margin-bottom:6px; color:#1565c0; border-bottom:1px dashed #ccc; padding-bottom:4px;'>📌 39. 글의 흐름으로 보아, 주어진 문장이 들어가기에 가장 적절한 곳을 고르시오.</div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>①</span></div>
+                <span class='opt-trans'>앞 문장에서는 선수 개인과 부모, 코치의 조기 성공에 대한 바람을 이야기했고, ❸번 문장은 이를 스포츠 문화 전반의 집착으로 자연스럽게 확장하고 있으므로 논리적 단절이 없습니다.</span>
+                <div class='opt-analysis'><span class='err-badge-wrong'>흐름 단절</span> 제시문의 '이러한 인식'이 가리킬 만한 핵심적 통념이 아직 완전히 형성되지 않은 자리입니다.</div>
+            </div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>②</span></div>
+                <span class='opt-trans'></span>
+                <div class='opt-analysis'><span class='err-badge-correct'>정답</span> </div>
+            </div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>③</span></div>
+                <span class='opt-trans'>❹번 문장은 리틀 리그 야구 선수들이 메이저리그에 진출하는 비율이 매우 낮다는 구체적인 예시이며, ❺번 문장은 "In fact"로 이를 요약하여 '천재는 통계적으로 희귀하다'고 결론짓고 있으므로 두 문장 사이는 끊을 수 없습니다.</span>
+                <div class='opt-analysis'><span class='err-badge-wrong'>무관한 위치</span> 예시와 상술의 단절</div>
+            </div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>④</span></div>
+                <span class='opt-trans'>❺번 문장에서 '실패하는 경우가 많다'는 부정적 통계 결과를 제시한 직후, ❻번 문장에서 '진짜 성공하는 사람들은 오히려 좌절을 견디는 선수들'이라는 자연스러운 내용 전환이 이어지므로 역접이 들어갈 자리가 아닙니다.</span>
+                <div class='opt-analysis'><span class='err-badge-wrong'>무관한 위치</span> 자연스러운 논리 전개</div>
+            </div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>⑤</span></div>
+                <span class='opt-trans'>❻번 문장에서 궁극적으로 성공하는 선수의 진정한 조건을 서술한 뒤, ❼번 문장에서 독자에게 "눈앞의 성공보다 미래를 준비하라"는 최종적인 조언을 던지는 결론부이므로 역접 문장이 끼어들 수 없습니다.</span>
+                <div class='opt-analysis'><span class='err-badge-wrong'>무관한 위치</span> 결론부 흐름 단절</div>
+            </div></div>
+    </div>
+
+    <button class="header-btn btn-exam" onclick="toggleModal('modalExam')">내신 출제 포인트</button>
+    <div class="custom-modal modal-center modal-exam" id="modalExam">
+        <span class="close-modal-btn" onclick="toggleModal('modalExam')">&times;</span>
+        <h3>내신 변형 문제 예측 5선</h3>
+        <div class="modal-content">
+                <div style='margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;'>
+                    <div style='margin-bottom:4px;'><strong>S1.</strong> <span class='exam-badge exam-badge-blank'>빈칸</span> <span class='exam-target'>this perception is as much fantasy as reality</span></div>
+                    <div style='font-size:13px; color:#555; margin-bottom:2px;'><strong>Paraphrase:</strong> ① the belief in guaranteed future success is heavily flawed ② assuming early dominance dictates the future is a misconception</div>
+                    <div style='font-size:13px; color:#444;'>💡 <strong>출제이유:</strong> 글의 전체 흐름을 뒤집고 필자의 핵심 주장을 전달하는 가장 결정적인 반박 문장임.</div>
+                </div>
+                
+                <div style='margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;'>
+                    <div style='margin-bottom:4px;'><strong>S6.</strong> <span class='exam-badge exam-badge-blank'>빈칸</span> <span class='exam-target'>keep at it through setbacks, plateaus, and failures</span></div>
+                    <div style='font-size:13px; color:#555; margin-bottom:2px;'><strong>Paraphrase:</strong> ① persevere in the face of obstacles and stagnation ② display resilience and relentless dedication during hard times</div>
+                    <div style='font-size:13px; color:#444;'>💡 <strong>출제이유:</strong> 필자가 생각하는 진정한 성공의 비결이자 조기 성공(통념)과 강력하게 대조되는 글의 핵심 메시지임.</div>
+                </div>
+                
+                <div style='margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;'>
+                    <div style='margin-bottom:4px;'><strong>S6.</strong> <span class='exam-badge exam-badge-grammar'>어법</span> <span class='exam-target'>who</span></div>
+                    <div style='font-size:13px; color:#555; margin-bottom:2px;'><strong>Distractor:</strong> whom</div>
+                    <div style='font-size:13px; color:#444;'>💡 <strong>출제이유:</strong> [강조구문/주격] It is ~ who 강조구문에서 강조되는 the athletes가 뒤따르는 동사(keep)의 주어 역할을 하므로 주격인 who(또는 that)를 써야 함.</div>
+                </div>
+                
+                <div style='margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;'>
+                    <div style='margin-bottom:4px;'><strong>S7.</strong> <span class='exam-badge exam-badge-grammar'>어법</span> <span class='exam-target'>achieving</span></div>
+                    <div style='font-size:13px; color:#555; margin-bottom:2px;'><strong>Distractor:</strong> achieve</div>
+                    <div style='font-size:13px; color:#444;'>💡 <strong>출제이유:</strong> [병렬 구조] be devoted to의 전치사 to의 목적어로 쓰인 동명사 preparing과 not으로 연결되어 병렬을 이루므로 동명사 형태인 achieving이 와야 함.</div>
+                </div>
+                
+                <div style='margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;'>
+                    <div style='margin-bottom:4px;'><strong>S1.</strong> <span class='exam-badge exam-badge-implied'>함축</span> <span class='exam-target'>as much fantasy as reality</span></div>
+                    <div style='font-size:13px; color:#555; margin-bottom:2px;'><strong>Meaning:</strong> while it occasionally happens, relying on it as a general rule is an illusion</div>
+                    <div style='font-size:13px; color:#444;'>💡 <strong>출제이유:</strong> 조기 성공이 최종 성공으로 이어지는 경우가 아예 없는 것은 아니지만(reality), 그것을 절대적 지표로 맹신하는 것(fantasy)을 꼬집는 은유적 표현임.</div>
+                </div>
+                </div>
+    </div>
+
+    <div class="info-group">
+        
+        <div class="difficulty-box">
+            <span class="diff-label">DIFFICULTY</span>
+            <span class="diff-stars">★★★☆☆</span>
+        </div>
+        
+
+        <div class="ri-item ri-material">
+            <span class="ri-label">소재</span>
+            스포츠에서 조기 성공과 최종 성공의 관계 <span class='header-badge-them'>★주제문: S1</span><span class='header-badge-key'>★재진술: S6</span>
+        </div>
+
+        <div class="topic-box">
+            <strong style="font-size:17.5px;">Topic & Summary</strong><br>
+            <div style="margin-top:6px;">스포츠에서 조기 성공이 미래의 성공을 보장한다는 흔한 믿음은 환상에 불과하며, 진정한 최종 성공은 좌절을 극복하는 꾸준함과 미래를 위한 준비에서 온다.</div>
+        </div>
+
+        <div class="ri-item ri-guide">
+            <span class="ri-label">수업 가이드</span>
+            자, 문장 삽입 문제에서 대명사나 지시어는 황금 열쇠야! 박스 문장(제시문)을 보면 "Yet(그러나)"으로 시작하면서 "this perception(이러한 인식)"이 환상이라고 말하고 있지? 그럼 앞에는 사람들이 흔히 가지는 '어떤 인식'이 등장해야 돼. 본문을 보면 2번에서 부모님과 코치가 조기 성공을 바라고, 3번에서 급기야 우리 문화 전체가 '천재'한테 집착한다고 하잖아. 이게 바로 'this perception'인 거지. 그래서 3번 바로 뒤인 ②번 자리에 쏙 들어가서 그 믿음을 "환상이야!"라고 깨부숴주는 흐름이 완성되는 거야.
+        </div>
+        <div class="ri-item ri-tip">
+            <span class="ri-label">집중 Tip</span>
+            6번 문장의 "it is the athletes ~ who ~" 강조구문은 서술형 영작이나 어법으로 출제 1순위입니다. 강조 대상이 사람이어서 that 대신 who가 쓰였다는 점 꼭 짚고 넘어가세요.
+        </div>
+    </div>
+</div>
+
+<div class="top-container">
+    
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+                    <span class="logic-desc" style="font-weight: 900;"><b>S2~S3 (통념)</b>: 조기 성공이 미래를 보장한다는 개인적 믿음과 스포츠 문화의 '천재' 집착</span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-body">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❷ If <span class="syntax-box S-box">you</span> <span class="syntax-box V-box">'re</span> <span class="syntax-box C-box">a young athlete</span>,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❷ 만약 <span class="S-text">당신이</span> <span class="C-text">어린 운동선수</span><span class="V-text">라면</span>,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box S-box">you, your parents, and your coaches</span> <span class="syntax-box V-box"><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>want</span> <span class="syntax-box O-box">you</span> <span class="syntax-box C-box">to experience</span> success now</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text">당신, 당신의 부모님, 그리고 당신의 코치들은</span> <span class="V-text">원한다</span> <span class="O-text">당신이</span> <span class="C-text">지금 성공을 경험하기를</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">because <span class="syntax-box S-box">you and they</span> <span class="syntax-box V-box">believe</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">왜냐하면 <span class="S-text">당신과 그들이</span> <span class="V-text">믿기 때문이다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">that <span class="syntax-box S-box"><span class="highlight-subject">early success</span></span> <span class="syntax-box V-box">is</span> <span class="syntax-box C-box">highly <span class="vocab-container"><span class="vocab-sub">전조가 되는</span><span class="vocab-text">predictive</span></span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text"><span class="highlight-subject">조기 성공이</span></span> <span class="C-text">강력한 전조가 된다</span><span class="V-text">고</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">of later success in your sport.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">당신의 스포츠에서 이후의 성공의. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[도입] 조기 성공에 대한 바람</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>스포츠를 하는 학생이라면 본인은 물론이고 부모님이나 코치님도 빨리 성공하길 바랄 거야. 어릴 때 잘해야 커서도 잘할 거라는 굳건한 믿음이 있거든.</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>want you to experience</b>: 동사 want는 목적격 보어로 to부정사를 취하는 5형식 동사임.</div></div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card logic-intro">
+                    <div style="margin-bottom:6px;">
+                        <span class="logic-title" style="display:inline; margin-bottom:0;">[도입] 천재에 대한 통념</span>
+                        <span style="font-size:12px; font-weight:bold; opacity:0.8; margin-left:5px;">2 ~ 3</span>
+                    </div>
+                    <span class="logic-desc">스포츠계는 조기 성공이 미래 성공을 예측한다고 믿으며 일찍 두각을 나타내는 <span class="fill-text">천재</span>에 집착한다.</span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-body">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❸ <span class="syntax-box S-box">Our athletic culture</span> <span class="syntax-box V-box">is obsessed</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❸ <span class="S-text">우리의 스포츠 문화는</span> <span class="V-text">사로잡혀 있다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">with the "<span class="highlight-subject">phenom</span>" and the "can't-miss kid,"</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">"<span class="highlight-subject">천재</span>"와 "반드시 성공할 아이"에,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>who <span class="syntax-box V-box">show</span></span> <span class="syntax-box O-box">earlier <span class="vocab-container"><span class="vocab-sub">우위(=superiority)</span><span class="vocab-text">dominance</span></span></span> in a sport.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">그런데 그들은 <span class="V-text">보여준다</span> <span class="O-text">일찍 우위를</span> 어떤 스포츠에서. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[통념] '천재'에 대한 문화적 집착</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>사실 우리 스포츠계 전체가 어릴 때부터 압도적인 실력을 보여주는 이른바 '천재' 유망주들에게 푹 빠져 있기도 해.</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>, who show</b>: 관계대명사의 계속적 용법으로 쓰였으며, 선행사가 phenom과 kid (두 명 이상의 부류)이므로 복수 동사 show가 옴.</div></div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+                    <span class="logic-desc" style="font-weight: 900;"><b>S1 (반박-주제): 역접(Yet). 그러한 인식은 현실이라기보다 환상에 불과함 (제시문)</b></span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-body card-them">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❶ <span class="star-red">★</span>Yet,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❶ <span class="star-red">★</span>그러나,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">although <span class="syntax-box V-box">there have been</span> <span class="syntax-box S-box">phenoms</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">비록 <span class="V-text">있어왔을지라도</span> <span class="S-text">천재들이</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">who <span class="syntax-box V-box">went on</span> to great success later in their careers,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><그들은> <span class="V-text">나아간</span> 그들의 경력 후반에 큰 성공으로,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box S-box"><span class="highlight-clue"><span class="visual-exam-target" style="border-bottom: 2px dashed #4caf50; background-color: rgba(76, 175, 80, 0.15);"><span class="visual-exam-label" style="background-color: #4caf50;">빈칸출제</span>this <span class="vocab-container"><span class="vocab-sub">인식</span><span class="vocab-text">perception</span></span></span></span> <span class="syntax-box V-box">is</span> <span class="syntax-box C-box"><span class="highlight-clue"><span class="visual-exam-target" style="border-bottom: 2px dashed #9c27b0; background-color: rgba(156, 39, 176, 0.15);"><span class="visual-exam-label" style="background-color: #9c27b0;">함축의미</span><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>as much fantasy as reality</span></span></span></span></span>.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text"><span class="highlight-clue">이러한 인식은</span></span> <span class="C-text"><span class="highlight-clue">현실인 만큼이나 환상</span><span class="V-text">이기도 하다</span></span>. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[반박] 인식의 허상 지적</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>하지만 잠깐! 어릴 때 천재 소리 듣던 애들이 커서도 대성하는 경우가 아예 없는 건 아니지만, '어릴 때 잘해야 커서도 잘한다'는 그 굳건한 믿음은 사실 착각과 환상에 가깝다는 게 이 글의 핵심이야.</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>as much fantasy as reality</b>: <as much A as B> 구문으로 'B인 만큼이나 A하다'라는 의미를 지님. 즉, 현실이기도 하지만 환상적인 측면이 많다는 것을 강조함.</div></div>
+                        
+                    <div class='exam-point-box'>
+                        <div style='margin-bottom:3px;'><span class='exam-badge exam-badge-blank'>빈칸출제</span> <span class='exam-target'>this perception is as much fantasy as reality</span> ➔ 변형: ① the belief in guaranteed future success is heavily flawed ② assuming early dominance dictates the future is a misconception</div>
+                        <div style='font-size:11px; color:#666;'>💡 글의 전체 흐름을 뒤집고 필자의 핵심 주장을 전달하는 가장 결정적인 반박 문장임.</div>
+                    </div>
+                    
+                    <div class='exam-point-box'>
+                        <div style='margin-bottom:3px;'><span class='exam-badge exam-badge-implied'>함축의미</span> <span class='exam-target'>as much fantasy as reality</span> ➔ 의미: while it occasionally happens, relying on it as a general rule is an illusion</div>
+                        <div style='font-size:11px; color:#666;'>💡 조기 성공이 최종 성공으로 이어지는 경우가 아예 없는 것은 아니지만(reality), 그것을 절대적 지표로 맹신하는 것(fantasy)을 꼬집는 은유적 표현임.</div>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+                    <span class="logic-desc" style="font-weight: 900;"><b>S4~S5 (근거)</b>: 리틀리그 진출자의 희박한 성공 확률. 천재는 통계적으로 희귀하며 실패함</span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-body">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❹ For example,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❹ 예를 들어,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">out of the thousands of young baseball players</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">수천 명의 어린 야구 선수들 중에서</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>who <span class="syntax-box V-box">have competed</span></span> in the Little League World Series throughout the years,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">수년에 걸쳐 리틀 리그 월드 시리즈에서 <span class="V-text">겨루어 온</span>,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box S-box">fewer than 50</span> <span class="syntax-box V-box">went on</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text">50명도 안 되는 선수들이</span> <span class="V-text">나아갔다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">to major-league careers.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">메이저리그 경력으로. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[예시] 리틀 리그 통계의 한계</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>증거를 대볼게. 세계 리틀 야구 대회에 나간 수많은 야구 신동들 중에, 진짜 어른이 돼서 메이저리그까지 간 선수는 50명도 안 돼. 확률이 엄청 낮지?</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>who have competed</b>: 주격 관계대명사절 안에 현재완료 시제(have competed)가 쓰여, 과거부터 지금까지 수년에 걸쳐(throughout the years) 경쟁해 온 상황을 나타냄.</div></div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card logic-body">
+                    <div style="margin-bottom:6px;">
+                        <span class="logic-title" style="display:inline; margin-bottom:0;">[전개] 통념의 반박과 통계적 현실</span>
+                        <span style="font-size:12px; font-weight:bold; opacity:0.8; margin-left:5px;">1 ~ 5</span>
+                    </div>
+                    <span class="logic-desc">그러나 조기 성공이 미래를 보장한다는 인식은 <span class="fill-text">환상</span>이며, 통계적으로 천재가 최종적으로 대성하는 경우는 드물다.</span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-body">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❺ In fact,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❺ 사실,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box S-box">phenoms</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box">a statistical <span class="vocab-container"><span class="vocab-sub">희귀함</span><span class="vocab-text">rarity</span></span></span>,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text">천재들은</span> <span class="C-text">통계적으로 희귀한 일</span><span class="V-text">이다</span>,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">and <span class="syntax-box S-box">those can't-miss kids</span> <span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>often <span class="syntax-box V-box"><span class="vocab-container"><span class="vocab-sub">정말로 실패하다 (do는 동사 강조)</span><span class="vocab-text">do miss</span></span></span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">그리고 <span class="S-text">그 '반드시 성공할 아이들'은</span> 종종 <span class="V-text">정말로 실패한다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">later in their athletic careers.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">그들의 운동 경력 후반에. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[상술] 천재의 통계적 희소성</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>통계만 봐도 천재가 끝까지 천재인 경우는 정말 드물어. 무조건 대성할 줄 알았던 그 아이들이 결국 나중에는 기대에 못 미치는 경우가 수두룩하단 얘기지.</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>often do miss</b>: 여기서 조동사 'do'는 뒤에 오는 본동사 'miss'를 강조하는 용법으로 쓰임.</div></div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+                    <span class="logic-desc" style="font-weight: 900;"><b>S6~S7 (결론)</b>: 최종 성공은 시련을 극복하는 자의 몫이며, 당장의 성공보다 미래를 위한 준비가 중요함</span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-conc card-key">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❻ <span class="star-yellow">★</span>More often than not,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❻ <span class="star-yellow">★</span>대개,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box S-box"><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>it</span> <span class="syntax-box V-box">is</span> <span class="syntax-box C-box">the athletes</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text">바로 그 선수들</span><span class="V-text">이다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="visual-exam-target" style="border-bottom: 2px dashed #f44336; background-color: rgba(244, 67, 54, 0.15);"><span class="visual-exam-label" style="background-color: #f44336;">어법주의</span>who</span> <span class="syntax-box V-box"><span class="visual-exam-target" style="border-bottom: 2px dashed #4caf50; background-color: rgba(76, 175, 80, 0.15);"><span class="visual-exam-label" style="background-color: #4caf50;">빈칸출제</span>keep at</span> <span class="syntax-box O-box">it</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><그들은> 그것을 <span class="V-text">계속한다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">through setbacks, plateaus, and failures</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">좌절, 정체기, 그리고 실패를 겪으면서</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">who ultimately</span> <span class="syntax-box V-box">"make"</span> <span class="syntax-box O-box">it</span>.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">궁극적으로 그것을 <span class="V-text">"해내는"</span> (성공하는) 것은. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[핵심] 성공의 진정한 조건 (인내)</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>그럼 누가 진짜 크게 성공하느냐? 재능 믿고 뽐내던 애들이 아니라, 실패하고 실력이 안 늘어서 답답한 정체기를 겪으면서도 포기하지 않고 묵묵히 버텨낸 선수들이 결국 정상에 오르는 거야.</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>it is the athletes ~ who ultimately</b>: <It is(was) ~ who(that) ...> 강조구문으로 주어인 'the athletes'를 강조함. 선행사가 사람이므로 that 대신 who가 쓰임.</div></div>
+                        
+                    <div class='exam-point-box'>
+                        <div style='margin-bottom:3px;'><span class='exam-badge exam-badge-blank'>빈칸출제</span> <span class='exam-target'>keep at it through setbacks, plateaus, and failures</span> ➔ 변형: ① persevere in the face of obstacles and stagnation ② display resilience and relentless dedication during hard times</div>
+                        <div style='font-size:11px; color:#666;'>💡 필자가 생각하는 진정한 성공의 비결이자 조기 성공(통념)과 강력하게 대조되는 글의 핵심 메시지임.</div>
+                    </div>
+                    
+                    <div class='exam-point-box'>
+                        <div style='margin-bottom:3px;'><span class='exam-badge exam-badge-grammar'>어법주의</span> <span class='exam-target'>who</span> ➔ 오답함정: whom</div>
+                        <div style='font-size:11px; color:#666;'>💡 [강조구문/주격] It is ~ who 강조구문에서 강조되는 the athletes가 뒤따르는 동사(keep)의 주어 역할을 하므로 주격인 who(또는 that)를 써야 함.</div>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card logic-conc">
+                    <div style="margin-bottom:6px;">
+                        <span class="logic-title" style="display:inline; margin-bottom:0;">[결론] 진정한 성공의 조건</span>
+                        <span style="font-size:12px; font-weight:bold; opacity:0.8; margin-left:5px;">6 ~ 7</span>
+                    </div>
+                    <span class="logic-desc">궁극적인 성공은 좌절과 정체기를 견뎌내는 꾸준한 <span class="fill-text">노력</span>과 미래를 대비하는 끈기에서 비롯된다.</span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-conc">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❼ <span class="syntax-box S-box">Your efforts early on</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❼ <span class="S-text">초기의 당신의 노력은</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">as <span class="syntax-box S-box">you</span> <span class="syntax-box V-box"><span class="vocab-container"><span class="vocab-sub">애쓰다(=endeavor)</span><span class="vocab-text">strive</span></span></span> for your sports goals</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text">당신이</span> 스포츠 목표를 위해 <span class="V-text">애쓸</span> 때</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box V-box">should be devoted</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="V-text">바쳐져야 한다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>to preparing yourself for success in the future,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">미래에 성공을 위해 당신 스스로를 준비하는 데에,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">when <span class="syntax-box S-box">it</span> <span class="syntax-box V-box">matters</span> most,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><그때는> <span class="S-text">그것이</span> 가장 <span class="V-text">중요한</span> (때이다),</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">not <span class="visual-exam-target" style="border-bottom: 2px dashed #f44336; background-color: rgba(244, 67, 54, 0.15);"><span class="visual-exam-label" style="background-color: #f44336;">어법주의</span>achieving</span></span> quick and immediate success.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">빠르고 즉각적인 성공을 성취하는 데가 아니라. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[제언] 미래를 위한 준비의 중요성</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>그러니까 운동을 배우는 초기에는 당장 눈앞의 대회에서 1등 하려고 목매지 마. 진짜 승부가 갈리는 어른이 됐을 때를 대비해서 기본기를 다지고 멘탈을 키우는 데 힘을 쏟아야 한다는 거지.</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>to preparing ~ not achieving</b>: 전치사 to 뒤에 동명사 preparing이 왔으며, 콤마 뒤의 not achieving도 이 to에 걸리는 병렬 구조임. (devoted to preparing ~ and not to achieving ~)</div></div>
+                        
+                    <div class='exam-point-box'>
+                        <div style='margin-bottom:3px;'><span class='exam-badge exam-badge-grammar'>어법주의</span> <span class='exam-target'>achieving</span> ➔ 오답함정: achieve</div>
+                        <div style='font-size:11px; color:#666;'>💡 [병렬 구조] be devoted to의 전치사 to의 목적어로 쓰인 동명사 preparing과 not으로 연결되어 병렬을 이루므로 동명사 형태인 achieving이 와야 함.</div>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+</div>
+
+<div class="bottom-container">
+    <div class="b-left">
+        <div class="info-group" style="margin-top: 0;">
+            <div class="ri-item ri-material">
+                <span class="ri-label">소재</span>
+                스포츠에서 조기 성공과 최종 성공의 관계 <span class='header-badge-them'>★주제문: S1</span><span class='header-badge-key'>★재진술: S6</span>
+            </div>
+
+            <div class="topic-box">
+                <strong style="font-size:17.5px;">Topic & Summary</strong><br>
+                <div style="margin-top:6px;">스포츠에서 조기 성공이 미래의 성공을 보장한다는 흔한 믿음은 환상에 불과하며, 진정한 최종 성공은 좌절을 극복하는 꾸준함과 미래를 위한 준비에서 온다.</div>
+            </div>
+
+            <div class="ri-item ri-guide">
+                <span class="ri-label">수업 가이드</span>
+                자, 문장 삽입 문제에서 대명사나 지시어는 황금 열쇠야! 박스 문장(제시문)을 보면 "Yet(그러나)"으로 시작하면서 "this perception(이러한 인식)"이 환상이라고 말하고 있지? 그럼 앞에는 사람들이 흔히 가지는 '어떤 인식'이 등장해야 돼. 본문을 보면 2번에서 부모님과 코치가 조기 성공을 바라고, 3번에서 급기야 우리 문화 전체가 '천재'한테 집착한다고 하잖아. 이게 바로 'this perception'인 거지. 그래서 3번 바로 뒤인 ②번 자리에 쏙 들어가서 그 믿음을 "환상이야!"라고 깨부숴주는 흐름이 완성되는 거야.
+            </div>
+            <div class="ri-item ri-tip">
+                <span class="ri-label">집중 Tip</span>
+                6번 문장의 "it is the athletes ~ who ~" 강조구문은 서술형 영작이나 어법으로 출제 1순위입니다. 강조 대상이 사람이어서 that 대신 who가 쓰였다는 점 꼭 짚고 넘어가세요.
+            </div>
+        </div>
+
+        <div class="answer-box">
+            <div class="ans-header">정답: ② ( ② )</div>
+            <div class="ans-content">
+                <strong>[해설 요약]</strong><br>앞 문장(❸)에서 우리의 스포츠 문화가 조기 성공을 거두는 '천재'에 집착한다는 현상을 설명합니다. 제시문(❶)의 'this perception(이러한 인식)'은 바로 앞 문장의 현상(통념)을 정확히 가리키며, 'Yet(하지만)'으로 역접을 주어 그것이 환상이라고 반박합니다. 이어서 ❹번 문장의 'For example'이 천재들의 최종 성공 확률이 낮다는 통계적 사례를 제시하므로, 제시문은 ②번 자리에 들어가는 것이 가장 논리적입니다.<br><br>
+                <strong>[논리적 근거]</strong><br>
+                <ul style="margin:5px 0 0 20px; padding:0; list-style-type:circle;"><li>소재 및 방향성: <span class="highlight-subject">early success</span>(조기 성공)와 <span class="highlight-subject">phenom</span>(천재)에 대한 과대평가를 경계함</li><br><li>단서 1 (S3): "<span class="highlight-clue">culture is obsessed with the "phenom"</span>" (문화가 '천재'에 사로잡혀 있다)</li><br><li>단서 2 (S1): "<span class="highlight-clue">Yet... this perception is as much fantasy as reality</span>" (하지만... 이러한 인식은 환상이다)</li></ul><br>
+                <strong>[논리 연결]</strong><br>"[지문] 천재에 대한 스포츠계의 집착 (S3)" → "[지문(제시문)] 그러나 그 인식(this perception)은 환상임 (S1)" → **[정답] 그 환상에 대한 구체적 예시(성공 확률 낮음) 제공 (S4)**
+            </div>
+        </div>
+
+        <div class="box-style options-box">
+            <strong style="font-size:14px; display:block; margin-bottom:15px; border-bottom:1px solid #ddd; padding-bottom:5px;">선택지 분석 (Why & Why not?)</strong>
+            <div style='font-size:14px; font-weight:800; margin-top:8px; margin-bottom:6px; color:#1565c0; border-bottom:1px dashed #ccc; padding-bottom:4px;'>📌 39. 글의 흐름으로 보아, 주어진 문장이 들어가기에 가장 적절한 곳을 고르시오.</div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>①</span></div>
+                <span class='opt-trans'>앞 문장에서는 선수 개인과 부모, 코치의 조기 성공에 대한 바람을 이야기했고, ❸번 문장은 이를 스포츠 문화 전반의 집착으로 자연스럽게 확장하고 있으므로 논리적 단절이 없습니다.</span>
+                <div class='opt-analysis'><span class='err-badge-wrong'>흐름 단절</span> 제시문의 '이러한 인식'이 가리킬 만한 핵심적 통념이 아직 완전히 형성되지 않은 자리입니다.</div>
+            </div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>②</span></div>
+                <span class='opt-trans'></span>
+                <div class='opt-analysis'><span class='err-badge-correct'>정답</span> </div>
+            </div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>③</span></div>
+                <span class='opt-trans'>❹번 문장은 리틀 리그 야구 선수들이 메이저리그에 진출하는 비율이 매우 낮다는 구체적인 예시이며, ❺번 문장은 "In fact"로 이를 요약하여 '천재는 통계적으로 희귀하다'고 결론짓고 있으므로 두 문장 사이는 끊을 수 없습니다.</span>
+                <div class='opt-analysis'><span class='err-badge-wrong'>무관한 위치</span> 예시와 상술의 단절</div>
+            </div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>④</span></div>
+                <span class='opt-trans'>❺번 문장에서 '실패하는 경우가 많다'는 부정적 통계 결과를 제시한 직후, ❻번 문장에서 '진짜 성공하는 사람들은 오히려 좌절을 견디는 선수들'이라는 자연스러운 내용 전환이 이어지므로 역접이 들어갈 자리가 아닙니다.</span>
+                <div class='opt-analysis'><span class='err-badge-wrong'>무관한 위치</span> 자연스러운 논리 전개</div>
+            </div>
+            <div class='option-item'>
+                <div class='opt-header'><span class='opt-text'>⑤</span></div>
+                <span class='opt-trans'>❻번 문장에서 궁극적으로 성공하는 선수의 진정한 조건을 서술한 뒤, ❼번 문장에서 독자에게 "눈앞의 성공보다 미래를 준비하라"는 최종적인 조언을 던지는 결론부이므로 역접 문장이 끼어들 수 없습니다.</span>
+                <div class='opt-analysis'><span class='err-badge-wrong'>무관한 위치</span> 결론부 흐름 단절</div>
+            </div>
+        </div>
+
+        <div class="logic-box">
+            <strong>문장별 논리 전개 (Micro Flow)</strong>
+            <b>S2~S3 (통념)</b>: 조기 성공이 미래를 보장한다는 개인적 믿음과 스포츠 문화의 '천재' 집착<br>↓<br><b>S1 (반박-주제): 역접(Yet). 그러한 인식은 현실이라기보다 환상에 불과함 (제시문)</b><br>↓<br><b>S4~S5 (근거)</b>: 리틀리그 진출자의 희박한 성공 확률. 천재는 통계적으로 희귀하며 실패함<br>↓<br><b>S6~S7 (결론)</b>: 최종 성공은 시련을 극복하는 자의 몫이며, 당장의 성공보다 미래를 위한 준비가 중요함
+        </div>
+
+        <div class="scenario-box">
+            <div class="scene-header">지문 마킹 시뮬레이션</div>
+            <div class="scene-content">❸ ... is obsessed with the "<span class="highlight-subject">phenom</span>" ...
+↓ (Yet, 역접)
+❶ Yet, ... <span class="highlight-clue">this perception</span> is as much fantasy as reality.</div>
+        </div>
+
+        <div class="box-style learning-box">
+            <strong style="font-size:14px; display:block; margin-bottom:10px; border-bottom:1px solid #ddd; padding-bottom:5px;">Learning Points (핵심 콕콕)</strong>
+            <div class="learning-item">
+                <span class="learning-label logic-label">논리</span>
+                <ul class="learning-list"><li><b>통념-반박 구조:</b> ❷~❸번의 통념(조기 성공=미래 성공)을 ❶번(제시문)에서 <b>Yet</b>을 통해 반박하며 필자의 요지를 드러내는 전형적 <b>구조</b>.</li><li><b>지시어 단서:</b> ❶번의 `this perception`이 가리키는 바가 앞선 문화적 집착(S3)임을 <b>파악</b>.</li></ul>
+            </div>
+            <div class="learning-item">
+                <span class="learning-label grammar-label">구문</span>
+                <ul class="learning-list"><li><b>강조구문:</b> ❻번 `It is ~ who...` 구조에서 강조 대상이 사람이기 때문에 that 대신 who가 쓰인 점 <b>주의</b>.</li><li><b>병렬 구조:</b> ❼번 `be devoted to` 전치사 뒤에 오는 동명사 `preparing`과 뒤이어 생략된 구조 속 `not achieving`의 병렬 <b>확인</b>.</li></ul>
+            </div>
+        </div>
+
+        
+            <div class="csat-container">
+                <div class="csat-header">
+                    <div class="csat-title"><span class="csat-badge">S</span> 요약문 빈칸 완성 & 해석</div>
+                    <div class="csat-subtitle">* 정답이 채워진 요약문과 해석입니다.</div>
+                </div>
+                <div class="csat-text">Although early success in sports is widely perceived as a strong (A) <span class="csat-blank-ans">predictor</span> of later achievements, it is actually steady perseverance through (B) <span class="csat-blank-ans">difficulties</span> that determines ultimate success.</div>
+                <div class="csat-trans-header">▼ 해석 및 구문 분석 (Interpretation)</div>
+                <div class="csat-trans-text">스포츠에서 조기 성공이 훗날 성취의 강력한 "예측 변수"로 널리 인식되지만, 최종 성공을 결정하는 것은 실제로 "어려움"을 겪으며 보여주는 꾸준한 인내이다.</div>
+            </div>
+            
+
+    </div>
+
+    <div class="b-right">
+        <strong style="font-size:14px; display:block; margin-bottom:15px;">글의 흐름 (3단 구조)</strong>
+        <div class="flow-container">
+            
+            <div class='flow-card flow-intro'>
+                <div class='flow-header'>
+                    <span class='flow-title'>[도입] 천재에 대한 통념</span>
+                    <span class='flow-num-badge'>2 ~ 3</span>
+                </div>
+                <div class='flow-content'>스포츠계는 조기 성공이 미래 성공을 예측한다고 믿으며 일찍 두각을 나타내는 <span class="fill-text">천재</span>에 집착한다.</div>
+            </div>
+            <div class='flow-arrow'>→</div>
+            
+            <div class='flow-card flow-body'>
+                <div class='flow-header'>
+                    <span class='flow-title'>[전개] 통념의 반박과 통계적 현실</span>
+                    <span class='flow-num-badge'>1 ~ 5</span>
+                </div>
+                <div class='flow-content'>그러나 조기 성공이 미래를 보장한다는 인식은 <span class="fill-text">환상</span>이며, 통계적으로 천재가 최종적으로 대성하는 경우는 드물다.</div>
+            </div>
+            <div class='flow-arrow'>→</div>
+            
+            <div class='flow-card flow-conc'>
+                <div class='flow-header'>
+                    <span class='flow-title'>[결론] 진정한 성공의 조건</span>
+                    <span class='flow-num-badge'>6 ~ 7</span>
+                </div>
+                <div class='flow-content'>궁극적인 성공은 좌절과 정체기를 견뎌내는 꾸준한 <span class="fill-text">노력</span>과 미래를 대비하는 끈기에서 비롯된다.</div>
+            </div>
+            
+            
+        </div>
+
+        <div class="question-header" style="margin-top: 40px;">39. 글의 흐름으로 보아, 주어진 문장이 들어가기에 가장 적절한 곳을 고르시오. <span class="source-tag">2026학년도 모의평가 (추정)</span></div>
+        <div class="source-text"><div class="visual-box-given" style="padding-bottom: 5px;"><div class="line-justify" style="position: relative; padding-right: 28%; margin-bottom: 10px; width: 100%; box-sizing: border-box;"><span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S1 (반박-주제): 역접(Yet). 그러한 인식은 현실이라기보다 환상에 불과함 (제시문)</b></span>
+                            </span>
+                        </span><span class="interactive-num" onclick="toggleBubble(this)">❶<span class="translation-bubble"><div class="bubble-eng">❶ <span class="star-red">★</span>Yet, <span class="slash">/</span> although <span class="syntax-box V-box">there have been</span> <span class="syntax-box S-box">phenoms</span> <span class="slash">/</span> who <span class="syntax-box V-box">went on</span> to great success later in their careers, <span class="slash">/</span> <span class="syntax-box S-box"><span class="highlight-clue">this perception</span></span> <span class="syntax-box V-box">is</span> <span class="syntax-box C-box"><span class="highlight-clue">as much fantasy as reality</span></span>.</div><div class="bubble-kor">❶ <span class="star-red">★</span>그러나, <span class="slash">/</span> 비록 <span class="V-text">있어왔을지라도</span> <span class="S-text">천재들이</span> <span class="slash">/</span> <그들은> <span class="V-text">나아간</span> 그들의 경력 후반에 큰 성공으로, <span class="slash">/</span> <span class="S-text"><span class="highlight-clue">이러한 인식은</span></span> <span class="C-text"><span class="highlight-clue">현실인 만큼이나 환상</span><span class="V-text">이기도 하다</span></span>. <span class='summary-badge'>[반박] 인식의 허상 지적</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>하지만 잠깐! 어릴 때 천재 소리 듣던 애들이 커서도 대성하는 경우가 아예 없는 건 아니지만, '어릴 때 잘해야 커서도 잘한다'는 그 굳건한 믿음은 사실 착각과 환상에 가깝다는 게 이 글의 핵심이야.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[서술형] <b>as much fantasy as reality</b>: <as much A as B> 구문으로 'B인 만큼이나 A하다'라는 의미를 지님. 즉, 현실이기도 하지만 환상적인 측면이 많다는 것을 강조함.</div></div></span></span> <span class="star-red">★</span>Yet, although there have been phenoms <span class="visual-exam-target" style="border-bottom: 2px dashed #f44336; background-color: rgba(244, 67, 54, 0.15);"><span class="visual-exam-label" style="background-color: #f44336;">어법주의</span>who</span> went on to great success later in their careers, <span class="highlight-clue"><span class="visual-exam-target" style="border-bottom: 2px dashed #4caf50; background-color: rgba(76, 175, 80, 0.15);"><span class="visual-exam-label" style="background-color: #4caf50;">빈칸출제</span>this <span class="vocab-container"><span class="vocab-sub">인식</span><span class="vocab-text">perception</span></span></span> is <span class="highlight-clue"><span class="visual-exam-target" style="border-bottom: 2px dashed #9c27b0; background-color: rgba(156, 39, 176, 0.15);"><span class="visual-exam-label" style="background-color: #9c27b0;">함축의미</span>as much fantasy as reality</span></span></span>. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S2~S3 (통념)</b>: 조기 성공이 미래를 보장한다는 개인적 믿음과 스포츠 문화의 '천재' 집착</span>
+                            </span>
+                        </span><span class="interactive-num" onclick="toggleBubble(this)">❷<span class="translation-bubble"><div class="bubble-eng">❷ If <span class="syntax-box S-box">you</span> <span class="syntax-box V-box">'re</span> <span class="syntax-box C-box">a young athlete</span>, <span class="slash">/</span> <span class="syntax-box S-box">you, your parents, and your coaches</span> <span class="syntax-box V-box">want</span> <span class="syntax-box O-box">you</span> <span class="syntax-box C-box">to experience success now</span> <span class="slash">/</span> because <span class="syntax-box S-box">you and they</span> <span class="syntax-box V-box">believe</span> <span class="slash">/</span> that <span class="syntax-box S-box"><span class="highlight-subject">early success</span></span> <span class="syntax-box V-box">is</span> <span class="syntax-box C-box">highly predictive</span> <span class="slash">/</span> of later success in your sport.</div><div class="bubble-kor">❷ 만약 <span class="S-text">당신이</span> <span class="C-text">어린 운동선수</span><span class="V-text">라면</span>, <span class="slash">/</span> <span class="S-text">당신, 당신의 부모님, 그리고 당신의 코치들은</span> <span class="V-text">원한다</span> <span class="O-text">당신이</span> <span class="C-text">지금 성공을 경험하기를</span> <span class="slash">/</span> 왜냐하면 <span class="S-text">당신과 그들이</span> <span class="V-text">믿기 때문이다</span> <span class="slash">/</span> <span class="S-text"><span class="highlight-subject">조기 성공이</span></span> <span class="C-text">강력한 전조가 된다</span><span class="V-text">고</span> <span class="slash">/</span> 당신의 스포츠에서 이후의 성공의. <span class='summary-badge'>[도입] 조기 성공에 대한 바람</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>스포츠를 하는 학생이라면 본인은 물론이고 부모님이나 코치님도 빨리 성공하길 바랄 거야. 어릴 때 잘해야 커서도 잘할 거라는 굳건한 믿음이 있거든.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[어법] <b>want you to experience</b>: 동사 want는 목적격 보어로 to부정사를 취하는 5형식 동사임.</div></div></span></span> If you're a young athlete, you, your parents, and your coaches want you to experience success now because you and they believe that <span class="highlight-subject">early success</span> is highly <span class="vocab-container"><span class="vocab-sub">전조가 되는</span><span class="vocab-text">predictive</span></span> of later success in your sport. ( ① ) <span class="interactive-num" onclick="toggleBubble(this)">❸<span class="translation-bubble"><div class="bubble-eng">❸ <span class="syntax-box S-box">Our athletic culture</span> <span class="syntax-box V-box">is obsessed</span> <span class="slash">/</span> with the "<span class="highlight-subject">phenom</span>" and the "can't-miss kid," <span class="slash">/</span> who <span class="syntax-box V-box">show</span> <span class="syntax-box O-box">earlier dominance</span> in a sport.</div><div class="bubble-kor">❸ <span class="S-text">우리의 스포츠 문화는</span> <span class="V-text">사로잡혀 있다</span> <span class="slash">/</span> "<span class="highlight-subject">천재</span>"와 "반드시 성공할 아이"에, <span class="slash">/</span> 그런데 그들은 <span class="V-text">보여준다</span> <span class="O-text">일찍 우위를</span> 어떤 스포츠에서. <span class='summary-badge'>[통념] '천재'에 대한 문화적 집착</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>사실 우리 스포츠계 전체가 어릴 때부터 압도적인 실력을 보여주는 이른바 '천재' 유망주들에게 푹 빠져 있기도 해.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[구조] <b>, who show</b>: 관계대명사의 계속적 용법으로 쓰였으며, 선행사가 phenom과 kid (두 명 이상의 부류)이므로 복수 동사 show가 옴.</div></div></span></span> Our athletic culture is obsessed with the "<span class="highlight-subject">phenom</span>" and the "can't-miss kid," who show earlier <span class="vocab-container"><span class="vocab-sub">우위(=superiority)</span><span class="vocab-text">dominance</span></span> in a sport. ( ② ) <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S4~S5 (근거)</b>: 리틀리그 진출자의 희박한 성공 확률. 천재는 통계적으로 희귀하며 실패함</span>
+                            </span>
+                        </span><span class="interactive-num" onclick="toggleBubble(this)">❹<span class="translation-bubble"><div class="bubble-eng">❹ For example, <span class="slash">/</span> out of the thousands of young baseball players <span class="slash">/</span> who <span class="syntax-box V-box">have competed</span> in the Little League World Series throughout the years, <span class="slash">/</span> <span class="syntax-box S-box">fewer than 50</span> <span class="syntax-box V-box">went on</span> <span class="slash">/</span> to major-league careers.</div><div class="bubble-kor">❹ 예를 들어, <span class="slash">/</span> 수천 명의 어린 야구 선수들 중에서 <span class="slash">/</span> 수년에 걸쳐 리틀 리그 월드 시리즈에서 <span class="V-text">겨루어 온</span>, <span class="slash">/</span> <span class="S-text">50명도 안 되는 선수들이</span> <span class="V-text">나아갔다</span> <span class="slash">/</span> 메이저리그 경력으로. <span class='summary-badge'>[예시] 리틀 리그 통계의 한계</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>증거를 대볼게. 세계 리틀 야구 대회에 나간 수많은 야구 신동들 중에, 진짜 어른이 돼서 메이저리그까지 간 선수는 50명도 안 돼. 확률이 엄청 낮지?</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[어법] <b>who have competed</b>: 주격 관계대명사절 안에 현재완료 시제(have competed)가 쓰여, 과거부터 지금까지 수년에 걸쳐(throughout the years) 경쟁해 온 상황을 나타냄.</div></div></span></span> For example, out of the thousands of young baseball players who have competed in the Little League World Series throughout the years, fewer than 50 went on to major-league careers. ( ③ ) <span class="interactive-num" onclick="toggleBubble(this)">❺<span class="translation-bubble"><div class="bubble-eng">❺ In fact, <span class="slash">/</span> <span class="syntax-box S-box">phenoms</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box">a statistical rarity</span>, <span class="slash">/</span> and <span class="syntax-box S-box">those can't-miss kids</span> often <span class="syntax-box V-box">do miss</span> <span class="slash">/</span> later in their athletic careers.</div><div class="bubble-kor">❺ 사실, <span class="slash">/</span> <span class="S-text">천재들은</span> <span class="C-text">통계적으로 희귀한 일</span><span class="V-text">이다</span>, <span class="slash">/</span> 그리고 <span class="S-text">그 '반드시 성공할 아이들'은</span> 종종 <span class="V-text">정말로 실패한다</span> <span class="slash">/</span> 그들의 운동 경력 후반에. <span class='summary-badge'>[상술] 천재의 통계적 희소성</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>통계만 봐도 천재가 끝까지 천재인 경우는 정말 드물어. 무조건 대성할 줄 알았던 그 아이들이 결국 나중에는 기대에 못 미치는 경우가 수두룩하단 얘기지.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[어법] <b>often do miss</b>: 여기서 조동사 'do'는 뒤에 오는 본동사 'miss'를 강조하는 용법으로 쓰임.</div></div></span></span> In fact, phenoms are a statistical <span class="vocab-container"><span class="vocab-sub">희귀함</span><span class="vocab-text">rarity</span></span>, and those can't-miss kids often <span class="vocab-container"><span class="vocab-sub">정말로 실패하다 (do는 동사 강조)</span><span class="vocab-text">do miss</span></span> later in their athletic careers. ( ④ ) <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S6~S7 (결론)</b>: 최종 성공은 시련을 극복하는 자의 몫이며, 당장의 성공보다 미래를 위한 준비가 중요함</span>
+                            </span>
+                        </span><span class="interactive-num" onclick="toggleBubble(this)">❻<span class="translation-bubble"><div class="bubble-eng">❻ <span class="star-yellow">★</span>More often than not, <span class="slash">/</span> <span class="syntax-box S-box">it</span> <span class="syntax-box V-box">is</span> <span class="syntax-box C-box">the athletes</span> <span class="slash">/</span> who <span class="syntax-box V-box">keep at</span> <span class="syntax-box O-box">it</span> <span class="slash">/</span> through setbacks, plateaus, and failures <span class="slash">/</span> who ultimately <span class="syntax-box V-box">"make"</span> <span class="syntax-box O-box">it</span>.</div><div class="bubble-kor">❻ <span class="star-yellow">★</span>대개, <span class="slash">/</span> <span class="S-text">바로 그 선수들</span><span class="V-text">이다</span> <span class="slash">/</span> <그들은> 그것을 <span class="V-text">계속한다</span> <span class="slash">/</span> 좌절, 정체기, 그리고 실패를 겪으면서 <span class="slash">/</span> 궁극적으로 그것을 <span class="V-text">"해내는"</span> (성공하는) 것은. <span class='summary-badge'>[핵심] 성공의 진정한 조건 (인내)</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>그럼 누가 진짜 크게 성공하느냐? 재능 믿고 뽐내던 애들이 아니라, 실패하고 실력이 안 늘어서 답답한 정체기를 겪으면서도 포기하지 않고 묵묵히 버텨낸 선수들이 결국 정상에 오르는 거야.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[서술형] <b>it is the athletes ~ who ultimately</b>: <It is(was) ~ who(that) ...> 강조구문으로 주어인 'the athletes'를 강조함. 선행사가 사람이므로 that 대신 who가 쓰임.</div></div></span></span> <span class="star-yellow">★</span>More often than not, it is the athletes who <span class="visual-exam-target" style="border-bottom: 2px dashed #4caf50; background-color: rgba(76, 175, 80, 0.15);"><span class="visual-exam-label" style="background-color: #4caf50;">빈칸출제</span><span class="vocab-container"><span class="vocab-sub">계속하다</span><span class="vocab-text">keep at it</span></span> through setbacks, plateaus, and failures</span> who ultimately "<span class="vocab-container"><span class="vocab-sub">성공하다</span><span class="vocab-text">make it</span></span>." ( ⑤ ) <span class="interactive-num" onclick="toggleBubble(this)">❼<span class="translation-bubble"><div class="bubble-eng">❼ <span class="syntax-box S-box">Your efforts early on</span> <span class="slash">/</span> as <span class="syntax-box S-box">you</span> <span class="syntax-box V-box">strive</span> for your sports goals <span class="slash">/</span> <span class="syntax-box V-box">should be devoted</span> <span class="slash">/</span> to preparing yourself for success in the future, <span class="slash">/</span> when <span class="syntax-box S-box">it</span> <span class="syntax-box V-box">matters</span> most, <span class="slash">/</span> not achieving quick and immediate success.</div><div class="bubble-kor">❼ <span class="S-text">초기의 당신의 노력은</span> <span class="slash">/</span> <span class="S-text">당신이</span> 스포츠 목표를 위해 <span class="V-text">애쓸</span> 때 <span class="slash">/</span> <span class="V-text">바쳐져야 한다</span> <span class="slash">/</span> 미래에 성공을 위해 당신 스스로를 준비하는 데에, <span class="slash">/</span> <그때는> <span class="S-text">그것이</span> 가장 <span class="V-text">중요한</span> (때이다), <span class="slash">/</span> 빠르고 즉각적인 성공을 성취하는 데가 아니라. <span class='summary-badge'>[제언] 미래를 위한 준비의 중요성</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>그러니까 운동을 배우는 초기에는 당장 눈앞의 대회에서 1등 하려고 목매지 마. 진짜 승부가 갈리는 어른이 됐을 때를 대비해서 기본기를 다지고 멘탈을 키우는 데 힘을 쏟아야 한다는 거지.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[어법] <b>to preparing ~ not achieving</b>: 전치사 to 뒤에 동명사 preparing이 왔으며, 콤마 뒤의 not achieving도 이 to에 걸리는 병렬 구조임. (devoted to preparing ~ and not to achieving ~)</div></div></span></span> Your efforts early on as you <span class="vocab-container"><span class="vocab-sub">애쓰다(=endeavor)</span><span class="vocab-text">strive</span></span> for your sports goals should <span class="vocab-container"><span class="vocab-sub">~에 헌신하다/바쳐지다</span><span class="vocab-text">be devoted to</span></span> preparing yourself for success in the future, when it matters most, not <span class="visual-exam-target" style="border-bottom: 2px dashed #f44336; background-color: rgba(244, 67, 54, 0.15);"><span class="visual-exam-label" style="background-color: #f44336;">어법주의</span>achieving</span> quick and immediate success.</div></div></div>
+
+        <span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">Vocabulary</span>
+        
+        <div class="sec-vocab">
+            <div class="v-header">
+                <div class="cell col-chk">Chk</div>
+                <div class="cell col-word">Word</div>
+                <div class="cell col-mean">Mean & Syn / Ant</div>
+                <div class="cell col-context">Context</div>
+                <div class="cell col-chunk">Chunk Example</div>
+            </div>
+            <div class="v-list">
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">perception</span><div class="word-pron">[퍼셉션]</div><div class="word-ety">per(completely) + capere(to take)</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">인식, 지각</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>awareness / notion</div><div class="rel-item item-ant"><span class="bg-ant">반</span>ignorance</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en">this <span class="c-hl">perception</span> is as much fantasy as reality</span><br><span class="vch-ko">이러한 인식은 현실인 만큼이나 환상이기도 하다</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">predictive</span><div class="word-pron">[프리딕티브]</div><div class="word-ety">pre(before) + dicere(to say)</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">전조가 되는, 예측하는</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>prophetic / indicative</div><div class="rel-item item-ant"><span class="bg-ant">반</span>unpredictable</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en">highly <span class="c-hl">predictive</span> of later success</span><br><span class="vch-ko">이후의 성공의 강력한 전조가 되는</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">obsess</span><div class="word-pron">[옵세스]</div><div class="word-ety">ob(against) + sedere(to sit)</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">사로잡다, 강박감을 갖게 하다</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>preoccupy / consume</div><div class="rel-item item-ant"><span class="bg-ant">반</span>free</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en">is <span class="c-hl">obsessed</span> with the "phenom"</span><br><span class="vch-ko">'천재'에 사로잡혀 있다</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">dominance</span><div class="word-pron">[도미넌스]</div><div class="word-ety">dominus(lord)</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">우위, 우세</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>superiority / supremacy</div><div class="rel-item item-ant"><span class="bg-ant">반</span>subordination</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en">show earlier <span class="c-hl">dominance</span></span><br><span class="vch-ko">일찍 우위를 보이다</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">compete</span><div class="word-pron">[컴피트]</div><div class="word-ety">com(together) + petere(to strive)</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">겨루다, 경쟁하다</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>contend / vie</div><div class="rel-item item-ant"><span class="bg-ant">반</span>cooperate</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en">have <span class="c-hl">competed</span> in the Little League</span><br><span class="vch-ko">리틀 리그에서 겨룬</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">statistical</span><div class="word-pron">[스타티스티컬]</div><div class="word-ety">None</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">통계적인</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>numerical</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en">a <span class="c-hl">statistical</span> rarity</span><br><span class="vch-ko">통계적으로 희귀함</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">rarity</span><div class="word-pron">[레러티]</div><div class="word-ety">None</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">희귀함, 드문 일</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>infrequency / oddity</div><div class="rel-item item-ant"><span class="bg-ant">반</span>commonplace</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en">are a statistical <span class="c-hl">rarity</span></span><br><span class="vch-ko">통계적으로 희귀하다</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">setback</span><div class="word-pron">[셋백]</div><div class="word-ety">set + back</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">차질, 좌절</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>hitch / obstacle</div><div class="rel-item item-ant"><span class="bg-ant">반</span>breakthrough</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en">keep at it through <span class="c-hl">setbacks</span></span><br><span class="vch-ko">좌절을 겪으며 견뎌내다</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">plateau</span><div class="word-pron">[플래토우]</div><div class="word-ety">None</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">정체기, 고원</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>stagnation / standstill</div><div class="rel-item item-ant"><span class="bg-ant">반</span>progress</div></div></div>
+                <div class="cell col-context"><span class="vm-context">문맥: 실력이 늘지 않는 시기</span></div>
+                <div class="cell col-chunk"><span class="vch-en">through setbacks, <span class="c-hl">plateaus</span>, and failures</span><br><span class="vch-ko">좌절, 정체기, 실패를 겪으며</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">strive</span><div class="word-pron">[스트라이브]</div><div class="word-ety">None</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">애쓰다, 노력하다</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>struggle / endeavor</div><div class="rel-item item-ant"><span class="bg-ant">반</span>neglect</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>strike (치다)</div></div></div>
+                <div class="cell col-context"><span class="vm-context"></span></div>
+                <div class="cell col-chunk"><span class="vch-en"><span class="c-hl">strive</span> for your sports goals</span><br><span class="vch-ko">스포츠 목표를 위해 애쓰다</span></div>
+            </div>
+            </div>
+        </div>
+        
+
+        <span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">Key Sentences Analysis</span>
+        <table class="analysis-table">
+            <colgroup><col width="12%"> <col width="10%"> <col width="35%"> <col width="25%"> <col width="18%"></colgroup>
+            <thead><tr><th style="text-align:center;">출처</th><th style="text-align:center;">종류</th><th style="text-align:center;">영어 문장</th><th style="text-align:center;">한글 해석</th><th style="text-align:center;">선정 사유</th></tr></thead>
+            <tbody><tr><td style='text-align:center; color:#555;'>-</td><td style='text-align:center; font-weight:bold; color:#0d47a1;'>주제문 (사용자 지정)</td><td style='font-family:Times New Roman; font-size:14px; text-align:left;'>Yet, although there have been phenoms who went on to great success later in their careers, this perception is <span style="color:#d32f2f; font-weight:bold;">as much fantasy as reality</span>.</td><td style='font-size:13px; text-align:left;'>그러나 비록 그들의 경력 후반에 큰 성공으로 나아간 천재들이 있어왔을지라도, 이러한 인식은 현실인 만큼이나 환상이기도 하다.</td><td style='font-size:12px; color:#555; text-align:left;'>[통념 반박/원급 비교] 글의 흐름을 뒤집는 가장 중요한 문장입니다. <span style="color:#d32f2f; font-weight:bold;">as much A as B (B만큼이나 A한)</span> 구문을 사용하여, 조기 성공이 미래를 보장한다는 인식이 실제로는 허상에 가깝다는 필자의 요지를 드러냅니다.</td></tr><tr><td style='text-align:center; color:#555;'>-</td><td style='text-align:center; font-weight:bold; color:#0d47a1;'>핵심 구문</td><td style='font-family:Times New Roman; font-size:14px; text-align:left;'>More often than not, <span style="color:#d32f2f; font-weight:bold;">it is</span> the athletes who keep at it through setbacks, plateaus, and failures <span style="color:#d32f2f; font-weight:bold;">who</span> ultimately "make it."</td><td style='font-size:13px; text-align:left;'>대개, 궁극적으로 "해내는(성공하는)" 사람은 좌절, 정체기, 실패를 겪으면서도 계속하는 선수들이다.</td><td style='font-size:12px; color:#555; text-align:left;'>[It is ~ who 강조구문] 필자가 생각하는 진정한 성공의 비결을 담은 핵심 문장입니다. <span style="color:#d32f2f; font-weight:bold;">It is ~ who...</span> 강조구문이 쓰였으며, 강조 대상이 사람(the athletes)이므로 that 대신 who가 사용되었습니다.</td></tr><tr><td style='text-align:center; color:#555;'>-</td><td style='text-align:center; font-weight:bold; color:#0d47a1;'>재진술</td><td style='font-family:Times New Roman; font-size:14px; text-align:left;'>Your efforts early on as you strive for your sports goals should be devoted <span style="color:#d32f2f; font-weight:bold;">to preparing</span> yourself for success in the future, when it matters most, <span style="color:#d32f2f; font-weight:bold;">not achieving</span> quick and immediate success.</td><td style='font-size:13px; text-align:left;'>당신이 스포츠 목표를 위해 애쓸 때 초기의 노력은, 빠르고 즉각적인 성공을 거두는 것이 아니라 가장 중요한 때인 미래의 성공을 위해 스스로를 준비하는 데 바쳐져야 한다.</td><td style='font-size:12px; color:#555; text-align:left;'>[병렬 구조/전치사 to] 글을 마무리하며 독자에게 주는 교훈입니다. <span style="color:#d32f2f; font-weight:bold;">be devoted to (~에 바쳐지다)</span>의 전치사 to 뒤에 동명사 <span style="color:#d32f2f; font-weight:bold;">preparing</span>이 왔으며, 뒤의 <span style="color:#d32f2f; font-weight:bold;">not achieving</span>과 의미상 병렬 구조를 이루고 있음을 파악해야 합니다.</td></tr></tbody>
+        </table>
+
+        <span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">True / False 문제 분석</span>
+        <div style='font-size:13px; color:#777;'>True/False 데이터가 없습니다.</div>
+
+        <span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">영영 풀이 (English Definitions)</span>
+        <div style='font-size:13px; color:#777;'>영영 풀이 데이터가 없습니다.</div>
+    </div>
+</div>
+
+<script>
+function toggleBubble(element) {
+    const all = document.querySelectorAll('.interactive-num');
+    const wasActive = element.classList.contains('active');
+    all.forEach(el => el.classList.remove('active'));
+    if (!wasActive) {
+        element.classList.add('active');
+    }
+}
+
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('.interactive-num')) {
+        const all = document.querySelectorAll('.interactive-num');
+        all.forEach(el => el.classList.remove('active'));
+    }
+});
+
+let currentZIndex = 1000;
+
+function toggleModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal.style.display === 'block') {
+        modal.style.display = 'none';
+    } else {
+        currentZIndex++;
+        modal.style.zIndex = currentZIndex;
+        modal.style.display = 'block';
+    }
+}
+</script>
+
+</body>
+</html>
