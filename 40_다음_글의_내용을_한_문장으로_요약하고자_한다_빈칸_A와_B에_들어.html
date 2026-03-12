@@ -1,0 +1,917 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>영어 지문 분석 학습지</title>
+<style>
+/* [인쇄 시 설정] */
+@media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .container { box-shadow: none; border: 1px solid #ddd; }
+    @page { margin: 10mm; size: A4; }
+    .page-break { page-break-before: always; }
+    .interactive-num { pointer-events: none; color: inherit; }
+    .translation-bubble { display: none !important; }
+    .header-btn { display: none !important; }
+    .custom-modal { display: none !important; }
+}
+
+:root {
+    --bg-color: #f9f9f9;
+    --font-eng: 'Times New Roman', serif;
+    --font-kor: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    --c-S: #0d47a1;
+    --c-V: #b71c1c;
+    --c-O: #7b1fa2;
+    --c-C: #1b5e20;
+    --c-M: #9e9e9e;
+    --c-con: #8e24aa;
+}
+
+body { font-family: var(--font-kor); font-size: 15px; color: #333; margin: 20px; line-height: 1.6; background: var(--bg-color); }
+
+.text-underline {
+    text-decoration: underline;
+    text-underline-position: under;
+    text-decoration-thickness: 1px;
+}
+
+.header-container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    min-width: 1000px;
+    max-width: 1600px;
+    margin: 0 auto 30px;
+    display: block;
+    position: relative;
+    min-height: 220px;
+}
+
+.header-btn {
+    position: absolute;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: background 0.3s, transform 0.1s;
+    z-index: 100;
+    width: 110px;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+.header-btn:active { transform: translateY(1px); }
+
+.btn-literal { top: 20px; right: 20px; background-color: #0277bd; }
+.btn-literal:hover { background-color: #01579b; }
+.btn-liberal { top: 55px; right: 20px; background-color: #546e7a; }
+.btn-liberal:hover { background-color: #455a64; }
+.btn-tips { top: 90px; right: 20px; background-color: #7b1fa2; }
+.btn-tips:hover { background-color: #4a148c; }
+.btn-logic { top: 125px; right: 20px; background-color: #00897b; }
+.btn-logic:hover { background-color: #00695c; }
+
+.btn-eng-all { top: 20px; left: 20px; background-color: #3949ab; }
+.btn-eng-all:hover { background-color: #283593; }
+.btn-eng-pure { top: 55px; left: 20px; background-color: #00695c; }
+.btn-eng-pure:hover { background-color: #004d40; }
+.btn-vis-clean { top: 90px; left: 20px; background-color: #455a64; }
+.btn-vis-clean:hover { background-color: #263238; }
+.btn-learning { top: 125px; left: 20px; background-color: #d84315; }
+.btn-learning:hover { background-color: #bf360c; }
+
+.btn-vocab { top: 20px; left: 50%; margin-left: -55px; background-color: #ef6c00; }
+.btn-vocab:hover { background-color: #e65100; }
+.btn-keys { top: 55px; left: 50%; margin-left: -55px; background-color: #c62828; }
+.btn-keys:hover { background-color: #b71c1c; }
+.btn-ans { top: 90px; left: 50%; margin-left: -55px; background-color: #2e7d32; }
+.btn-ans:hover { background-color: #1b5e20; }
+.btn-opts { top: 125px; left: 50%; margin-left: -55px; background-color: #5d4037; }
+.btn-opts:hover { background-color: #3e2723; }
+.btn-exam { top: 160px; left: 50%; margin-left: -55px; background-color: #d81b60; box-shadow: 0 0 8px rgba(216,27,96,0.5); }
+.btn-exam:hover { background-color: #ad1457; }
+
+.custom-modal {
+    display: none;
+    position: absolute;
+    top: 60px;
+    width: 600px;
+    max-width: 48vw;
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-literal { right: 20px; border: 3px solid #0277bd; top: 50px; }
+.modal-liberal { right: 20px; border: 3px solid #546e7a; top: 85px; }
+.modal-tips { right: 20px; border: 3px solid #7b1fa2; top: 120px; }
+.modal-logic { right: 20px; border: 3px solid #00897b; top: 155px; }
+
+.modal-eng-all { left: 20px; border: 3px solid #3949ab; top: 50px; }
+.modal-eng-pure { left: 20px; border: 3px solid #00695c; top: 85px; }
+.modal-vis-clean { left: 20px; border: 3px solid #455a64; top: 120px; width: 600px; }
+.modal-learning { left: 20px; border: 3px solid #d84315; top: 155px; width: 600px; }
+.modal-learning h3 { color: #d84315; }
+
+.modal-center { left: 50%; margin-left: -350px; width: 700px; }
+.modal-vocab { left: 50%; margin-left: -350px; border: 3px solid #ef6c00; top: 50px; width: 700px; }
+.modal-keys { left: 50%; margin-left: -350px; border: 3px solid #c62828; top: 85px; width: 700px; }
+.modal-ans { left: 50%; margin-left: -350px; border: 3px solid #2e7d32; top: 120px; width: 700px; }
+.modal-opts { left: 50%; margin-left: -350px; border: 3px solid #5d4037; top: 155px; width: 700px; }
+.modal-exam { left: 50%; margin-left: -350px; border: 3px solid #d81b60; top: 190px; width: 700px; }
+
+.custom-modal h3 {
+    margin-top: 0;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 8px;
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.modal-liberal h3 { color: #546e7a; }
+.modal-literal h3 { color: #0277bd; }
+.modal-tips h3 { color: #7b1fa2; }
+.modal-logic h3 { color: #00897b; }
+.modal-eng-all h3 { color: #3949ab; }
+.modal-eng-pure h3 { color: #00695c; }
+.modal-vis-clean h3 { color: #455a64; }
+.modal-vocab h3 { color: #ef6c00; }
+.modal-keys h3 { color: #c62828; }
+.modal-ans h3 { color: #2e7d32; }
+.modal-opts h3 { color: #5d4037; }
+.modal-exam h3 { color: #d81b60; }
+
+.modal-content {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #333;
+}
+
+.logic-section {
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 6px;
+    border-left-width: 4px;
+    border-left-style: solid;
+}
+.logic-section-intro { background-color: #f0f7ff; border-left-color: #1565c0; }
+.logic-section-body { background-color: #fffbf2; border-left-color: #ef6c00; }
+.logic-section-conc { background-color: #f3fcf5; border-left-color: #2e7d32; }
+.logic-section-none { background-color: #f5f5f5; border-left-color: #9e9e9e; }
+
+.logic-section-title {
+    display: block;
+    font-weight: 800;
+    font-size: 13px;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.logic-section-intro .logic-section-title { color: #1565c0; }
+.logic-section-body .logic-section-title { color: #ef6c00; }
+.logic-section-conc .logic-section-title { color: #2e7d32; }
+
+.trans-line, .eng-line {
+    margin-bottom: 10px;
+    padding-left: 4px;
+}
+.trans-line:last-child, .eng-line:last-child { margin-bottom: 0; }
+
+.modal-eng-all .modal-content,
+.modal-eng-pure .modal-content,
+.modal-vis-clean .modal-content {
+    font-family: var(--font-eng);
+    font-size: 16px;
+}
+
+.visual-source-text {
+    font-family: var(--font-eng);
+    font-size: 19px;
+    line-height: 2.2;
+}
+
+.trans-num { font-weight: bold; margin-right: 5px; color: #546e7a; }
+.eng-num { font-weight: bold; margin-right: 5px; color: #3949ab; font-family: var(--font-kor); font-size:13px; }
+.raw-num { font-weight: bold; margin-right: 5px; color: #00695c; font-family: var(--font-kor); font-size:13px; }
+
+.trans-summary {
+    display: inline-block;
+    font-size: 11px;
+    color: #555;
+    background-color: #fff;
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-left: 6px;
+    vertical-align: 1px;
+    font-weight: bold;
+    font-family: var(--font-kor);
+}
+
+.trans-logic {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    color: #1565c0;
+    background-color: #e3f2fd;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 4px;
+    vertical-align: 1px;
+    font-family: var(--font-kor);
+}
+
+.top-container {
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    min-width: 1000px;
+    max-width: 1600px;
+    margin: 0 auto 30px;
+    display: block;
+}
+
+.bottom-container {
+    display: flex;
+    gap: 40px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    min-width: 1000px;
+    max-width: 1600px;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+.b-left { flex: 40; display: flex; flex-direction: column; gap: 25px; border-right: 1px dashed #ddd; padding-right: 30px; }
+.b-right { flex: 60; display: flex; flex-direction: column; }
+
+.box-style {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.info-group { display: flex; flex-direction: column; gap: 10px; margin-top: 170px; }
+.ri-item { background-color: #fff; border: 1px solid #eee; border-left-width: 4px; border-left-style: solid; border-radius: 6px; padding: 12px 15px; font-size: 15px; line-height: 1.5; color: #444; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+.ri-material { border-left-color: #4caf50; }
+.ri-guide { border-left-color: #ff9800; }
+.ri-tip { border-left-color: #9c27b0; }
+.ri-label { font-weight: 800; margin-bottom: 4px; color: #222; font-size: 15.5px; display: block; }
+
+.topic-box { background-color: #e8f5e9; border-left: 5px solid #4caf50; padding: 12px 15px; font-size: 17.5px; color: #1b5e20; border-radius: 4px; }
+
+.answer-box { background-color: #e1f5fe; border: 1px solid #81d4fa; border-radius: 8px; padding: 20px; }
+.ans-header { font-weight: bold; color: #0277bd; font-size: 16px; margin-bottom: 12px; border-bottom: 1px solid #b3e5fc; padding-bottom: 8px; }
+.ans-content { font-size: 13.5px; color: #37474f; line-height: 1.6; }
+
+.options-box { border-top: 2px solid #333; background: #fff; padding-top:10px; }
+.option-item { margin-bottom: 8px; border: 1px solid #eee; border-radius: 6px; padding: 10px; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+.opt-header { margin-bottom: 3px; line-height: 1.3; }
+.opt-text { font-family: var(--font-eng); font-weight: bold; font-size: 16px; color: #000; }
+.opt-trans { font-size: 12.5px; color: #777; margin-bottom: 6px; display: block; line-height: 1.3; }
+.opt-analysis { background-color: #f9f9f9; padding: 6px 10px; border-radius: 4px; font-size: 13px; color: #444; border-left: 3px solid #ddd; line-height: 1.4; }
+.err-badge-wrong { font-size: 11px; background-color: #fff3e0; color: #ef6c00; padding: 1px 5px; border-radius: 3px; border: 1px solid #ffe0b2; margin-right: 5px; font-weight: bold; }
+.err-badge-correct { font-size: 11px; background-color: #e8f5e9; color: #2e7d32; padding: 1px 5px; border-radius: 3px; border: 1px solid #a5d6a7; margin-right: 5px; font-weight: bold; }
+
+.logic-box { background-color: #f5f5f5; border: 1px solid #e0e0e0; padding: 15px; border-radius: 8px; font-family: 'D2Coding', monospace; font-size: 12.5px; line-height: 1.7; color: #333; }
+.logic-box strong { font-size: 14px; color: #000; margin-bottom: 10px; display: block; }
+.scenario-box { background-color: #fff3e0; border: 1px solid #ffe0b2; border-radius: 8px; padding: 15px; }
+.scene-header { font-size: 15px; font-weight: 900; color: #e65100; margin-bottom: 12px; border-bottom: 2px solid #ffe0b2; padding-bottom: 6px; }
+.scene-content { font-size: 13px; color: #444; line-height: 1.5; background:#fff; padding:10px; border-radius:4px; border-left:4px solid #ff9800; }
+
+.learning-box { margin-top: 20px; }
+.learning-item { margin-bottom: 12px; }
+.learning-label { display: inline-block; font-size: 11px; font-weight: bold; color: #fff; padding: 2px 6px; border-radius: 4px; margin-bottom: 4px; vertical-align: 1px; }
+.logic-label { background-color: #7e57c2; }
+.grammar-label { background-color: #00897b; }
+.learning-list { margin: 5px 0 0 15px; padding: 0; list-style-type: disc; font-size: 13.5px; color: #444; }
+.learning-list li { margin-bottom: 4px; line-height: 1.5; }
+
+.difficulty-box {
+    background-color: #f1f8e9;
+    border: 1px solid #c5e1a5;
+    border-radius: 6px;
+    padding: 6px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-family: var(--font-eng);
+}
+.diff-label { font-weight: 900; font-size: 14px; color: #558b2f; letter-spacing: 0.5px; }
+.diff-stars { font-size: 16px; color: #fdd835; letter-spacing: 1px; }
+
+.visual-box-given {
+    border: 2px solid #333;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+.visual-box-summary {
+    border: 2px solid #333;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.question-header { font-weight: 800; font-size: 18px; color: #222; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #222; }
+.source-tag { font-size: 11px; color: #fff; background-color: #555; padding: 2px 7px; border-radius: 12px; margin-left: 8px; vertical-align: middle; font-weight: normal; }
+
+.source-text {
+    font-family: var(--font-eng);
+    font-size: 19px;
+    line-height: 3.4;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 0 30px 0;
+    color: #111;
+    display: block;
+}
+
+.line-justify { display: block; text-align: justify; text-align-last: justify; word-break: keep-all; }
+.line-last { display: block; text-align: left; text-align-last: left; }
+.line-with-sub { display: block; text-align: left; text-align-last: left; word-break: keep-all; }
+
+.interactive-num {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    transition: transform 0.2s ease;
+    z-index: 10;
+}
+.interactive-num:hover {
+    transform: scale(1.3);
+    color: #1565c0;
+}
+.translation-bubble {
+    visibility: hidden;
+    width: 480px;
+    max-width: 90vw;
+    background-color: #ffffff;
+    color: #333;
+    text-align: left !important;
+    text-align-last: left !important;
+    white-space: normal;
+    border-radius: 8px;
+    padding: 15px;
+    position: absolute;
+    z-index: 1000;
+    bottom: 140%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    font-family: var(--font-kor);
+    font-size: 14px;
+    line-height: 1.6;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+    border: 2px solid #333;
+    font-weight: normal;
+    pointer-events: none;
+    word-break: keep-all;
+}
+.translation-bubble::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+.interactive-num.active .translation-bubble {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.bubble-eng { font-family: var(--font-eng); font-size: 17px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed #ccc; line-height: 1.5; }
+.bubble-kor { font-size: 14px; color: #444; margin-bottom: 10px; line-height: 1.5; }
+.bubble-easy, .bubble-tip { background: #f1f3f5; padding: 8px 10px; border-radius: 6px; font-size: 12.5px; margin-top: 6px; color: #444; display: flex; align-items: flex-start; gap: 8px; }
+.bubble-easy .easy-label, .bubble-tip .syntax-label { flex-shrink: 0; margin-right: 0; font-size: 11px; padding: 2px 6px; }
+
+span[class^="highlight-"] {
+    border-radius: 4px; padding: 2px 4px; margin: 0 1px;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+    position: relative; z-index: 1;
+}
+span[class^="highlight-"]::before { content: none; display: none; }
+
+.highlight-subject { background-color: #fff9c4; border-bottom: 2px solid #fbc02d; }
+.highlight-feature { background-color: #fff9c4; border-bottom: 2px solid #fbc02d; }
+.highlight-clue { background-color: #e3f2fd; border-bottom: 2px solid #64b5f6; }
+
+.fill-text { font-weight: 900; text-decoration: underline; text-decoration-thickness: 2px; }
+
+.badge-them { display: inline-block; font-size: 11px; background-color: #7e57c2; color: #fff; padding: 2px 6px; border-radius: 4px; margin-right: 6px; font-weight: bold; vertical-align: 2px; font-family: var(--font-kor); }
+.badge-key { display: inline-block; font-size: 11px; background-color: #0277bd; color: #fff; padding: 2px 6px; border-radius: 4px; margin-right: 6px; font-weight: bold; vertical-align: 2px; font-family: var(--font-kor); }
+.header-badge-them { font-size: 12px; background-color: #ffebee; color: #c62828; border: 1px solid #ef9a9a; padding: 2px 8px; border-radius: 12px; margin-left: 8px; vertical-align: middle; font-weight: bold; }
+.header-badge-key { font-size: 12px; background-color: #fffde7; color: #f57f17; border: 1px solid #fff59d; padding: 2px 8px; border-radius: 12px; margin-left: 5px; vertical-align: middle; font-weight: bold; }
+
+.vocab-container { display: inline; position: relative; text-indent: 0; line-height: 1.0; }
+.vocab-text { color: inherit; border-bottom: 1px dotted #bbb; font-weight: inherit; }
+.vocab-sub { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); width: max-content; margin-top: 1px; font-size: 9px; color: #d32f2f; background-color: transparent; text-shadow: 1px 1px 0 #eeeeee, -1px -1px 0 #eeeeee, 1px -1px 0 #eeeeee, -1px 1px 0 #eeeeee; padding: 0 1px; font-weight: bold; font-family: var(--font-kor); z-index: 10; line-height: 1.1; pointer-events: none; }
+
+.syntax-box { display: inline; position: relative; padding-bottom: 1px; margin-right: 1px; border-bottom: none; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.syntax-box::before { position: absolute; top: -3px; left: 0; font-size: 6px; font-weight: normal; font-family: sans-serif; line-height: 1; }
+
+.S-box { color: var(--c-S) !important; font-weight: normal !important; } .S-box::before { content: 'S'; color: var(--c-S); }
+.V-box { color: var(--c-V) !important; font-weight: normal !important; } .V-box::before { content: 'V'; color: var(--c-V); }
+.O-box { color: var(--c-O) !important; font-weight: normal !important; } .O-box::before { content: 'O'; color: var(--c-O); }
+.C-box { color: var(--c-C) !important; font-weight: normal !important; } .C-box::before { content: 'C'; color: var(--c-C); }
+.M-box { color: var(--c-M) !important; font-weight: normal !important; } .M-box::before { content: 'M'; color: var(--c-M); }
+.con-box { color: var(--c-con) !important; font-weight: normal !important; } .con-box::before { content: "con"; color: var(--c-con); }
+.IO-box { color: var(--c-O) !important; font-weight: normal !important; } .IO-box::before { content: 'IO'; color: var(--c-O); }
+.DO-box { color: var(--c-O) !important; font-weight: normal !important; } .DO-box::before { content: 'DO'; color: var(--c-O); }
+
+.S-text { color: var(--c-S) !important; font-weight: 900 !important; }
+.V-text { color: var(--c-V) !important; font-weight: 900 !important; }
+.O-text { color: var(--c-O) !important; font-weight: 900 !important; }
+.C-text { color: var(--c-C) !important; font-weight: 900 !important; }
+.M-text { color: var(--c-M) !important; font-weight: 900 !important; }
+.con-text { color: var(--c-con) !important; font-weight: 900 !important; }
+.IO-text { color: var(--c-O) !important; font-weight: 900 !important; }
+.DO-text { color: var(--c-O) !important; font-weight: 900 !important; }
+
+.analysis-card { margin-bottom: 10px; border-bottom: 1px dashed #ddd; background-color: #fff; padding: 8px; border-radius: 4px; break-inside: avoid; }
+.analysis-card.card-them { background-color: #fff; border: 2px solid #e53935; border-left: 6px solid #e53935; border-bottom: 2px solid #e53935; box-shadow: 0 2px 8px rgba(229, 57, 53, 0.1); }
+.analysis-card.card-key { background-color: #fff; border: 2px solid #fbc02d; border-left: 6px solid #fbc02d; border-bottom: 2px solid #fbc02d; box-shadow: 0 2px 8px rgba(251, 192, 45, 0.1); }
+
+.analysis-card.bg-intro { background-color: #f0f7ff; border: 1px solid #bbdefb; }
+.analysis-card.bg-body { background-color: #fffbf2; border: 1px solid #ffecb3; }
+.analysis-card.bg-conc { background-color: #f3fcf5; border: 1px solid #c8e6c9; }
+
+.analysis-card.card-them { border: 2px solid #e53935; border-left: 6px solid #e53935; border-bottom: 2px solid #e53935; }
+.analysis-card.card-key { border: 2px solid #fbc02d; border-left: 6px solid #fbc02d; border-bottom: 2px solid #fbc02d; }
+
+.eng-sent { font-family: var(--font-eng); font-size: 22.5px; background-color: transparent; padding: 4px 12px; border-left: 4px solid var(--c-S); position: relative; margin-top: 15px; margin-bottom: 15px; line-height: 2.3; color: #5d4037; display: flex; flex-wrap: wrap; align-items: flex-start; }
+.chunk-pair { display: flex; flex-direction: column; vertical-align: top; margin-right: 6px; margin-bottom: 12px; max-width: 100%; }
+.eng-chunk { background-color: #f4f4f4; padding: 2px 8px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; word-break: keep-all; mix-blend-mode: multiply; color: #5d4037; }
+.kor-chunk { font-family: var(--font-kor); font-size: 19px; color: #5d4037; font-weight: 900; padding-left: 4px; margin-top: 6px; line-height: 1.4; word-break: keep-all; letter-spacing: -0.5px; }
+.slash-divider { color: #ccc; font-weight: 300; margin: 0 4px; font-size: 24px; margin-top: 4px; display: flex; align-items: center; }
+.num-badge { display: inline-block; background-color: #333; color: #fff; border-radius: 50%; width: 22px; height: 22px; text-align: center; line-height: 22px; font-size: 13px; font-weight: bold; margin-right: 0px; vertical-align: 1px; box-shadow: 1px 1px 2px rgba(0,0,0,0.2); font-family: var(--font-kor); }
+
+.kor-sent, .kor-sent * { font-size: 19px; color: #5d4037; font-weight: 900 !important; line-height: 2.0; word-break: keep-all; }
+.kor-sent { padding-left: 5px; margin-bottom: 3px; display: none; }
+
+.analysis-footer { margin-top: 8px; font-size: 13px; line-height: 1.7; word-break: keep-all; }
+
+.easy-exp-box { display: inline-block; position: relative; background: #f5f5f5; border: 2px solid #e0e0e0; border-radius: 12px; padding: 8px 12px; margin-top: 12px; margin-bottom: 5px; font-size: 14px; color: #424242; line-height: 1.5; font-weight: 500; }
+.easy-exp-box::after, .easy-exp-box::before { bottom: 100%; left: 20px; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+.easy-exp-box::after { border-color: rgba(245, 245, 245, 0); border-bottom-color: #f5f5f5; border-width: 8px; margin-left: -8px; }
+.easy-exp-box::before { border-color: rgba(224, 224, 224, 0); border-bottom-color: #e0e0e0; border-width: 11px; margin-left: -11px; }
+.easy-label { display: inline-block; background-color: #757575; color: #fff; padding: 0px 4px; border-radius: 3px; margin-right: 5px; font-weight: bold; vertical-align: 1px; font-size: 11px; }
+
+.syntax-tip { display: block; width: fit-content; max-width: 100%; margin-top: 6px; padding: 4px 8px; border: 1px solid #333; background-color: #fff; border-radius: 4px; font-size: 13px; color: #000; line-height: 1.4; box-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
+.syntax-label { display: inline-block; background-color: #333; color: #fff; padding: 0px 4px; border-radius: 2px; margin-right: 5px; font-weight: bold; vertical-align: 1px; font-size: 11px; }
+
+.exam-point-box { margin-top: 8px; padding: 8px 12px; background-color: #fffaf0; border: 1px dashed #f48fb1; border-radius: 6px; font-size: 12.5px; line-height: 1.5; color: #333; }
+.exam-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; color: #fff; margin-right: 6px; vertical-align: 1px; font-family: var(--font-kor); }
+.exam-badge-blank { background-color: #4caf50; }
+.exam-badge-implied { background-color: #9c27b0; }
+.exam-badge-grammar { background-color: #f44336; }
+.exam-target { font-weight: bold; color: #c2185b; text-decoration: underline; }
+
+.visual-exam-target { position: relative; }
+.visual-exam-label { position: absolute; bottom: 100%; left: 0; margin-bottom: 2px; font-size: 11px; color: #fff; padding: 2px 6px; border-radius: 4px; font-family: var(--font-kor); font-weight: 900; letter-spacing: 0.5px; box-shadow: 1px 1px 2px rgba(0,0,0,0.2); white-space: nowrap; line-height: 1; z-index: 5; }
+
+.inline-syntax-target { position: relative; border-bottom: 2px dotted #333; background-color: rgba(0, 0, 0, 0.05); }
+.inline-syntax-label { position: absolute; top: 100%; right: 0; margin-top: 2px; font-size: 11px; background-color: #333; color: #fff; padding: 2px 5px; border-radius: 4px; font-family: var(--font-kor); font-weight: 900; white-space: nowrap; line-height: 1; z-index: 4; box-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+
+.csat-container { background-color: #fcfaf2; border: 1px solid #e0dcd0; padding: 20px; border-radius: 8px; margin-top: 20px; }
+.csat-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; margin-bottom: 15px; }
+.csat-title { font-family: var(--font-kor); font-size: 16px; font-weight: 900; color: #333; display: flex; align-items: center; gap: 6px; }
+.csat-badge { background-color: #546e7a; color: white; font-size: 12px; padding: 2px 6px; border-radius: 4px; }
+.csat-subtitle { font-family: var(--font-kor); font-size: 12px; color: #7b909a; font-weight: bold; }
+.csat-text { font-family: var(--font-eng); font-size: 17px; line-height: 1.8; color: #222; margin-bottom: 25px; text-align: justify; }
+.csat-blank-ans { display: inline-block; border-bottom: 1px solid #333; min-width: 80px; text-align: center; font-weight: bold; color: #d32f2f; padding: 0 5px; }
+.csat-trans-header { font-family: var(--font-kor); font-size: 14px; font-weight: bold; color: #e6a822; margin-bottom: 10px; }
+.csat-trans-text { font-family: var(--font-kor); font-size: 14.5px; line-height: 32px; color: #444; background-image: repeating-linear-gradient(transparent, transparent 31px, #b0bec5 31px, #b0bec5 32px); background-position: 0 6px; padding-bottom: 8px; }
+
+.summary-badge { display: inline-block; font-family: var(--font-kor); font-size: 11px; color: #fff; background-color: #78909c; padding: 1px 8px; border-radius: 10px; font-weight: bold; margin-left: 6px; vertical-align: 1px; position: static; }
+
+.sent-container { display: flex; gap: 15px; align-items: flex-start; margin-bottom: 20px; }
+.sent-logic-col { flex: 0 0 130px; display: flex; flex-direction: column; gap: 10px; }
+.sent-analysis-col { flex: 1; min-width: 0; }
+.logic-flow-card { border-radius: 8px; padding: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #eee; font-size: 13px; }
+.logic-intro { background: #e3f2fd; border-color: #90caf9; color: #1565c0; }
+.logic-body { background: #fff8e1; border-color: #ffe082; color: #ef6c00; }
+.logic-conc { background: #e8f5e9; border-color: #a5d6a7; color: #2e7d32; }
+.logic-title { font-weight: bold; display: block; margin-bottom: 4px; font-size: 14px; }
+.logic-desc { line-height: 1.4; color: #333; }
+
+.flow-container { display: flex; justify-content: space-between; gap: 15px; margin-top: 15px; margin-bottom: 25px; }
+.flow-card { flex: 1; background: #fff; border-radius: 12px; padding: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; position: relative; border: 1px solid #eee; }
+.flow-card.flow-intro .flow-header { background: #e3f2fd; color: #1565c0; border-bottom: 2px solid #90caf9; }
+.flow-card.flow-body .flow-header { background: #fff8e1; color: #ef6c00; border-bottom: 2px solid #ffe082; }
+.flow-card.flow-conc .flow-header { background: #e8f5e9; color: #2e7d32; border-bottom: 2px solid #a5d6a7; }
+.flow-header { padding: 12px 15px; text-align: left; position: relative; }
+.flow-title { font-weight: 800; font-size: 15px; display: block; margin-bottom: 2px; }
+.flow-num-badge { display: inline-block; background: rgba(0,0,0,0.1); color: inherit; border-radius: 12px; padding: 1px 8px; font-size: 12px; font-weight: bold; margin-top: 4px; }
+.flow-content { padding: 15px; font-size: 13.5px; color: #444; line-height: 1.5; text-align: left; }
+.flow-arrow { align-self: center; font-size: 24px; color: #bdbdbd; font-weight: bold; flex-basis: 20px; text-align: center; }
+
+.sec-vocab { flex: 1.25; display: flex; flex-direction: column; margin-top: 0px; border: 1px solid #cfd8dc; border-radius: 8px; overflow: hidden; }
+.v-header { display: flex; background: #37474f; color: white; font-family: var(--font-eng, 'Montserrat', sans-serif); font-size: 11px; font-weight: 700; padding: 6px 0; border-bottom: 1px solid #cfd8dc; }
+.v-list { flex: 1; display: flex; flex-direction: column; overflow-y: hidden; background: white; }
+.v-row { display: flex; align-items: stretch; border-bottom: 1px solid #eceff1; padding: 0; min-height: 32px; flex: 1; }
+.v-row:nth-child(even) { background-color: #fafafa; }
+
+.cell { display: flex; align-items: center; padding: 1px 8px; box-sizing: border-box; overflow: hidden; }
+.cell.col-word, .cell.col-mean, .cell.col-context { border-right: 1px solid rgba(0,0,0,0.05); }
+.v-header .cell { justify-content: center; padding: 3px 8px; text-align: center; }
+.v-header .cell.col-word, .v-header .cell.col-mean, .v-header .cell.col-context { border-right: 1px solid rgba(255,255,255,0.2); }
+.cell:last-child { border-right: none; }
+
+.col-chk { width: 30px; justify-content: center; flex-shrink: 0; }
+.col-word { width: 16%; flex-shrink: 0; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+.col-mean { width: 38%; flex-shrink: 0; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+.col-context { width: 14%; flex-shrink: 0; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+.col-chunk { flex: 1; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+
+.v-row .col-chk { padding-top: 8px; align-items: flex-start; }
+
+.chk-box { width: 10px; height: 10px; border: 1px solid var(--c-brand, #003b6f); border-radius: 2px; background: white; margin-top:4px; }
+.word-txt { font-family: var(--font-eng, 'Montserrat', sans-serif); font-weight: 900; color: var(--c-brand, #003b6f); font-size: 16px; word-break: break-word; line-height: 1.2; }
+.word-pron { font-size: 12px; color: #616161; font-family: var(--font-eng); margin-top: 3px; }
+.word-ety { font-size: 11px; color: #8d6e63; font-family: var(--font-kor); margin-top: 3px; font-weight: 600; letter-spacing: -0.5px; word-break: keep-all; line-height: 1.2; }
+
+.vm-kor { font-weight: 800; color: #212121; font-size: 13.5px; line-height: 1.3; font-family: 'NanumSquareRound', sans-serif; display: block; width: 100%; }
+.vm-context { font-size: 12.5px; color: #00695c; line-height: 1.4; font-weight: bold; white-space: normal; word-break: keep-all; display: block; width: 100%; }
+
+.vch-en { font-family: var(--font-eng, 'Montserrat', sans-serif); font-weight: 600; color: var(--c-chunk-text, #263238); font-size: 14.5px; line-height: 1.3; margin-bottom: 3px; }
+.vch-ko { font-size: 13.5px; color: #78909c; line-height: 1.2; font-family: 'NanumSquareRound', sans-serif; }
+.c-hl { color: var(--c-chunk-hl, #d84315); font-weight: 900; }
+
+.rel-box { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; width: 100%; }
+.rel-item { display: inline-flex; align-items: center; font-size: 13.5px; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background: #f5f5f5; padding: 3px 6px; border-radius: 4px; line-height: 1; }
+.item-syn { color: #1b5e20; font-weight: 900; }
+.item-ant { color: #d32f2f; font-weight: 600; }
+.item-conf { color: #333; font-weight: 900; }
+.rel-item span { margin-right: 4px; font-size: 12px; padding: 2px 4px; border-radius: 2px; color: white; font-family: var(--font-kor); font-weight: bold; }
+
+.bg-syn { background-color: #26a69a; }
+.bg-ant { background-color: #ef5350; }
+.bg-conf { background-color: #ffa726; }
+
+table.modal-table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; border: 1px solid #e0e0e0; }
+table.modal-table th { background: #eee; padding: 6px; border: 1px solid #ccc; text-align: center; font-family: var(--font-kor); color:#444; }
+table.modal-table td { padding: 6px; border: 1px solid #ccc; vertical-align: middle; word-wrap: break-word; background:#fff; text-align:center; }
+table.modal-table td:nth-child(6) { text-align: left; }
+table.modal-table td:nth-child(7) { text-align: left; }
+table.modal-table col:nth-child(1) { width: 12%; }
+table.modal-table col:nth-child(2) { width: 12%; }
+table.modal-table col:nth-child(3) { width: 12%; }
+table.modal-table col:nth-child(4) { width: 12%; }
+table.modal-table col:nth-child(5) { width: 8%; }
+table.modal-table col:nth-child(6) { width: 20%; }
+table.modal-table col:nth-child(7) { width: 24%; }
+.vocab-word-bold { font-weight: 900; font-family: var(--font-eng); color: #000; font-size: 16px; }
+.vocab-pron { color: #555; font-size: 12px; }
+
+.analysis-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; border: 1px solid #e0e0e0; }
+.analysis-table th { background: #546e7a; color: #fff; padding: 8px; border: 1px solid #ddd; text-align: center; font-weight: bold; }
+.analysis-table td { padding: 8px; border: 1px solid #ddd; vertical-align: middle; background: #fff; text-align: left; }
+
+.slash { font-weight: 900; color: #000; margin: 0 3px; font-size: 1.1em; }
+.blank-filled { border-bottom: 2px solid #000; font-weight: 900; color: #000; padding: 0 2px; }
+.blank-empty { display: inline-block; width: 40px; height: 18px; border-bottom: 1px solid #333; vertical-align: middle; margin: 0 2px; }
+.err-wrong { color: #d32f2f; text-decoration: line-through; margin-right: 3px; }
+.err-right { color: #1565c0; font-weight: 900; margin-left: 3px; }
+.err-arrow { color: #555; font-size: 0.9em; font-weight: bold; }
+.star-red { color: #e53935; text-shadow: 1px 1px 0px #b71c1c; font-size: 1.1em; margin-right: 5px; vertical-align: -1px; }
+.star-yellow { color: #fbc02d; text-shadow: 1px 1px 0px #f57f17; font-size: 1.1em; margin-right: 5px; vertical-align: -1px; }
+</style>
+</head>
+<body>
+
+<div class="header-container">
+    <button class="header-btn btn-literal" onclick="toggleModal('modalLiteral')">직독직해 (Literal)</button>
+    <div class="custom-modal modal-right modal-literal" id="modalLiteral">
+        <span class="close-modal-btn" onclick="toggleModal('modalLiteral')">&times;</span>
+        <h3>직독직해 (Literal)</h3>
+        <div class="modal-content">데이터 없음</div>
+    </div>
+
+    <button class="header-btn btn-liberal" onclick="toggleModal('modalLiberal')">전체 해석 (의역)</button>
+    <div class="custom-modal modal-right modal-liberal" id="modalLiberal">
+        <span class="close-modal-btn" onclick="toggleModal('modalLiberal')">&times;</span>
+        <h3>전체 해석 (의역)</h3>
+        <div class="modal-content">데이터 없음</div>
+    </div>
+
+    <button class="header-btn btn-tips" onclick="toggleModal('modalTips')">구문 팁 정리</button>
+    <div class="custom-modal modal-right modal-tips" id="modalTips">
+        <span class="close-modal-btn" onclick="toggleModal('modalTips')">&times;</span>
+        <h3>구문 팁 정리</h3>
+        <div class="modal-content">데이터 없음</div>
+    </div>
+
+    <button class="header-btn btn-logic" onclick="toggleModal('modalLogic')">3단 논리 흐름</button>
+    <div class="custom-modal modal-right modal-logic" id="modalLogic">
+        <span class="close-modal-btn" onclick="toggleModal('modalLogic')">&times;</span>
+        <h3>3단 논리 흐름</h3>
+        <div class="modal-content"></div>
+    </div>
+
+    <button class="header-btn btn-eng-all" onclick="toggleModal('modalEngAll')">영어 문장 전체 보기</button>
+    <div class="custom-modal modal-left modal-eng-all" id="modalEngAll">
+        <span class="close-modal-btn" onclick="toggleModal('modalEngAll')">&times;</span>
+        <h3>영어 문장 전체 보기</h3>
+        <div class="modal-content">데이터 없음</div>
+    </div>
+
+    <button class="header-btn btn-eng-pure" onclick="toggleModal('modalEngPure')">지문 읽기 (Pure)</button>
+    <div class="custom-modal modal-left modal-eng-pure" id="modalEngPure">
+        <span class="close-modal-btn" onclick="toggleModal('modalEngPure')">&times;</span>
+        <h3>지문 읽기 (Pure English)</h3>
+        <div class="modal-content">데이터 없음</div>
+    </div>
+
+    <button class="header-btn btn-vis-clean" onclick="toggleModal('modalVisClean')">지문 원문 (Clean)</button>
+    <div class="custom-modal modal-left modal-vis-clean" id="modalVisClean">
+        <span class="close-modal-btn" onclick="toggleModal('modalVisClean')">&times;</span>
+        <h3>지문 원문 (Clean)</h3>
+        <div class="modal-content visual-source-text"><div class="visual-box-summary"><div class="line-last" style="position: relative; padding-right: 28%; margin-bottom: 10px; width: 100%; box-sizing: border-box;"></div></div></div>
+    </div>
+
+    <button class="header-btn btn-learning" onclick="toggleModal('modalLearning')">핵심 콕콕</button>
+    <div class="custom-modal modal-left modal-learning" id="modalLearning">
+        <span class="close-modal-btn" onclick="toggleModal('modalLearning')">&times;</span>
+        <h3>핵심 콕콕 (Logic & Grammar)</h3>
+        <div class="modal-content">
+            <div class="learning-item">
+                <span class="learning-label logic-label">논리</span>
+                <ul class="learning-list"><li>데이터 없음</li></ul>
+            </div>
+            <div class="learning-item">
+                <span class="learning-label grammar-label">구문</span>
+                <ul class="learning-list"><li>데이터 없음</li></ul>
+            </div>
+        </div>
+    </div>
+
+    <button class="header-btn btn-vocab" onclick="toggleModal('modalVocab')">핵심 어휘</button>
+    <div class="custom-modal modal-center modal-vocab" id="modalVocab">
+        <span class="close-modal-btn" onclick="toggleModal('modalVocab')">&times;</span>
+        <h3>핵심 어휘 10선</h3>
+        <div class="modal-content">
+        <table class='vocab-table modal-table'>
+            <colgroup><col width="12%"><col width="12%"><col width="12%"><col width="12%"><col width="8%"><col width="20%"><col width="24%"></colgroup>
+            <thead><tr><th>Word</th><th>Synonym</th><th>Antonym</th><th>Confusing</th><th>Pronunciation</th><th>Meaning</th><th>Chunk</th></tr></thead>
+            <tbody></tbody>
+        </table>
+        </div>
+    </div>
+
+    <button class="header-btn btn-keys" onclick="toggleModal('modalKeys')">핵심 문장</button>
+    <div class="custom-modal modal-center modal-keys" id="modalKeys">
+        <span class="close-modal-btn" onclick="toggleModal('modalKeys')">&times;</span>
+        <h3>핵심 문장 3개</h3>
+        <div class="modal-content">
+            <div style="margin-bottom:15px; border-bottom:1px dashed #ddd; padding-bottom:10px;">
+                <div style="font-weight:bold; color:#0d47a1; margin-bottom:4px;">주제문 <span style="font-size:11px; color:#666; font-weight:normal;">-</span></div>
+                <div style="font-family:'Times New Roman'; font-size:15px; margin-bottom:4px;">The more flawed our leaders are, the greater our desire for highly ethical leaders.</div>
+                <div style="font-size:13px; color:#333; margin-bottom:4px;">우리의 지도자들에게 결함이 많으면 많을수록, 고도로 도덕적인 지도자들에 대한 우리의 열망은 더 커진다.</div>
+                <div style="font-size:12px; color:#555; background:#f9f9f9; padding:4px;">💡 [The 비교급, the 비교급] 글의 핵심 요지를 담고 있는 문장으로, <span style="color:#d32f2f; font-weight:bold;">The 비교급 ~, the 비교급 ...</span> 구문이 사용되어 비례 관계(역설적 결과)를 분명하게 나타내고 있습니다.</div>
+            </div>
+            
+            <div style="margin-bottom:15px; border-bottom:1px dashed #ddd; padding-bottom:10px;">
+                <div style="font-weight:bold; color:#0d47a1; margin-bottom:4px;">핵심 구문 <span style="font-size:11px; color:#666; font-weight:normal;">-</span></div>
+                <div style="font-family:'Times New Roman'; font-size:15px; margin-bottom:4px;">Meticulous biographers sometimes diminish the image of great leaders, such as Martin Luther King, Jr., and George Washington, by <span style="color:#d32f2f; font-weight:bold;">carefully examining</span> their moral shortcomings.</div>
+                <div style="font-size:13px; color:#333; margin-bottom:4px;">꼼꼼한 전기 작가들은 때때로 마틴 루터 킹 주니어와 조지 워싱턴과 같은 위대한 지도자들의 도덕적 결점을 주의 깊게 조사함으로써 그들의 이미지를 깎아내린다.</div>
+                <div style="font-size:12px; color:#555; background:#f9f9f9; padding:4px;">💡 [전치사+동명사] <span style="color:#d32f2f; font-weight:bold;">by -ing (~함으로써)</span> 구문이 쓰였으며, 글의 (A) 빈칸 추론의 중요한 논리적 원인이 되는 문장입니다.</div>
+            </div>
+            
+            <div style="margin-bottom:15px; border-bottom:1px dashed #ddd; padding-bottom:10px;">
+                <div style="font-weight:bold; color:#0d47a1; margin-bottom:4px;">재진술 <span style="font-size:11px; color:#666; font-weight:normal;">-</span></div>
+                <div style="font-family:'Times New Roman'; font-size:15px; margin-bottom:4px;">The ethical issues of leadership are found <span style="color:#d32f2f; font-weight:bold;">not only in public debates but lie simmering</span> below the surface of the existing leadership literature.</div>
+                <div style="font-size:13px; color:#333; margin-bottom:4px;">리더십의 윤리적 문제들은 공개적인 토론에서 발견될 뿐만 아니라 현존하는 리더십 문헌의 표면 아래에서 부글부글 끓고 있다.</div>
+                <div style="font-size:12px; color:#555; background:#f9f9f9; padding:4px;">💡 [상관접속사] <span style="color:#d32f2f; font-weight:bold;">not only A but (also) B</span> 구조를 사용하여 윤리적 문제가 겉으로 드러난 토론뿐만 아니라 문헌 기저에도 널리 퍼져 있음을 강조하는 결론부입니다.</div>
+            </div>
+            </div>
+    </div>
+
+    <button class="header-btn btn-ans" onclick="toggleModal('modalAns')">정답 및 해설</button>
+    <div class="custom-modal modal-center modal-ans" id="modalAns">
+        <span class="close-modal-btn" onclick="toggleModal('modalAns')">&times;</span>
+        <h3>정답 및 해설</h3>
+        <div class="modal-content">
+        <div style="font-size:16px; font-weight:bold; color:#0277bd; margin-bottom:15px;">정답: ④ demystified …… flawless</div>
+        <div style="margin-bottom:15px;"><strong>[해설 요약]</strong><br>2번과 3번 문장에서 전기 작가들이 리더의 도덕적 결점과 삶의 티끌까지 대중에게 공개함으로써 영웅의 이미지를 깎아내린다고 했으므로 (A)에는 '신비감을 없애다(demystified)'가 들어갑니다. 5번 문장에서 리더에게 결함이 많을수록 고도로 도덕적인 리더를 향한 열망이 커진다고 했으므로 (B)에는 '결함 없는(flawless)'이 들어갑니다.</div>
+        <div style="margin-bottom:15px;"><strong>[논리적 근거]</strong><br><ul style="padding-left:20px;"><li>소재 및 방향성: <span class="highlight-subject">information about leaders</span>(리더에 대한 정보)의 증가가 대중이 <span class="highlight-subject">ethical leaders</span>(도덕적인 리더)를 열망하게 만듦.</li><br><li>단서 1 (S3): "<span class="highlight-clue">every wart and wrinkle of a person's life is public</span>" (한 사람 삶의 모든 사마귀와 주름이 공개됨 - A의 근거)</li><br><li>단서 2 (S5): "The more flawed our leaders are, the greater our <span class="highlight-clue">desire for highly ethical leaders</span>." (리더에게 결함이 많을수록 고도로 도덕적인 리더에 대한 열망이 큼 - B의 근거)</li></ul></div>
+        <div><strong>[논리 연결]</strong><br>"[지문] 삶의 모든 티끌(결점)이 공개됨 (S3)" → "[정답 (A)] 신비성을 없앰 (demystified)" <span class="slash">/</span>/ "[지문] 결함이 많을수록 고도로 도덕적인 리더 갈망 (S5)" → "[정답 (B)] 결함 없는 (flawless)"</div>
+        </div>
+    </div>
+
+    <button class="header-btn btn-opts" onclick="toggleModal('modalOpts')">선택지 분석</button>
+    <div class="custom-modal modal-center modal-opts" id="modalOpts">
+        <span class="close-modal-btn" onclick="toggleModal('modalOpts')">&times;</span>
+        <h3>선택지 분석</h3>
+        <div class="modal-content"><div style='font-size:14px; font-weight:800; margin-top:8px; margin-bottom:6px; color:#1565c0; border-bottom:1px dashed #ccc; padding-bottom:4px;'>📌 40. 다음 글의 내용을 한 문장으로 요약하고자 한다. 빈칸 (A)와 (B)에 들어갈 말로 가장 적절한 것은?</div></div>
+    </div>
+
+    <button class="header-btn btn-exam" onclick="toggleModal('modalExam')">내신 출제 포인트</button>
+    <div class="custom-modal modal-center modal-exam" id="modalExam">
+        <span class="close-modal-btn" onclick="toggleModal('modalExam')">&times;</span>
+        <h3>내신 변형 문제 예측 5선</h3>
+        <div class="modal-content">내신 출제 포인트 데이터가 없습니다.</div>
+    </div>
+
+    <div class="info-group">
+        
+        <div class="difficulty-box">
+            <span class="diff-label">DIFFICULTY</span>
+            <span class="diff-stars">☆☆☆☆☆</span>
+        </div>
+        
+
+        <div class="ri-item ri-material">
+            <span class="ri-label">소재</span>
+            리더에 대한 정보 증가와 그에 따른 완벽한 리더에 대한 열망 
+        </div>
+
+        <div class="topic-box">
+            <strong style="font-size:17.5px;">Topic & Summary</strong><br>
+            <div style="margin-top:6px;">리더의 결점에 대한 정보가 낱낱이 공개되어 그들의 신비감이 사라질수록, 사람들은 역설적으로 더욱 결함 없고 도덕적인 리더를 갈망하게 된다.</div>
+        </div>
+
+        <div class="ri-item ri-guide">
+            <span class="ri-label">수업 가이드</span>
+            
+        </div>
+        <div class="ri-item ri-tip">
+            <span class="ri-label">집중 Tip</span>
+            
+        </div>
+    </div>
+</div>
+
+<div class="top-container">
+    
+</div>
+
+<div class="bottom-container">
+    <div class="b-left">
+        <div class="info-group" style="margin-top: 0;">
+            <div class="ri-item ri-material">
+                <span class="ri-label">소재</span>
+                리더에 대한 정보 증가와 그에 따른 완벽한 리더에 대한 열망 
+            </div>
+
+            <div class="topic-box">
+                <strong style="font-size:17.5px;">Topic & Summary</strong><br>
+                <div style="margin-top:6px;">리더의 결점에 대한 정보가 낱낱이 공개되어 그들의 신비감이 사라질수록, 사람들은 역설적으로 더욱 결함 없고 도덕적인 리더를 갈망하게 된다.</div>
+            </div>
+
+            <div class="ri-item ri-guide">
+                <span class="ri-label">수업 가이드</span>
+                
+            </div>
+            <div class="ri-item ri-tip">
+                <span class="ri-label">집중 Tip</span>
+                
+            </div>
+        </div>
+
+        <div class="answer-box">
+            <div class="ans-header">정답: ④ demystified …… flawless</div>
+            <div class="ans-content">
+                <strong>[해설 요약]</strong><br>2번과 3번 문장에서 전기 작가들이 리더의 도덕적 결점과 삶의 티끌까지 대중에게 공개함으로써 영웅의 이미지를 깎아내린다고 했으므로 (A)에는 '신비감을 없애다(demystified)'가 들어갑니다. 5번 문장에서 리더에게 결함이 많을수록 고도로 도덕적인 리더를 향한 열망이 커진다고 했으므로 (B)에는 '결함 없는(flawless)'이 들어갑니다.<br><br>
+                <strong>[논리적 근거]</strong><br>
+                <ul style="margin:5px 0 0 20px; padding:0; list-style-type:circle;"><li>소재 및 방향성: <span class="highlight-subject">information about leaders</span>(리더에 대한 정보)의 증가가 대중이 <span class="highlight-subject">ethical leaders</span>(도덕적인 리더)를 열망하게 만듦.</li><br><li>단서 1 (S3): "<span class="highlight-clue">every wart and wrinkle of a person's life is public</span>" (한 사람 삶의 모든 사마귀와 주름이 공개됨 - A의 근거)</li><br><li>단서 2 (S5): "The more flawed our leaders are, the greater our <span class="highlight-clue">desire for highly ethical leaders</span>." (리더에게 결함이 많을수록 고도로 도덕적인 리더에 대한 열망이 큼 - B의 근거)</li></ul><br>
+                <strong>[논리 연결]</strong><br>"[지문] 삶의 모든 티끌(결점)이 공개됨 (S3)" → "[정답 (A)] 신비성을 없앰 (demystified)" <span class="slash">/</span>/ "[지문] 결함이 많을수록 고도로 도덕적인 리더 갈망 (S5)" → "[정답 (B)] 결함 없는 (flawless)"
+            </div>
+        </div>
+
+        <div class="box-style options-box">
+            <strong style="font-size:14px; display:block; margin-bottom:15px; border-bottom:1px solid #ddd; padding-bottom:5px;">선택지 분석 (Why & Why not?)</strong>
+            <div style='font-size:14px; font-weight:800; margin-top:8px; margin-bottom:6px; color:#1565c0; border-bottom:1px dashed #ccc; padding-bottom:4px;'>📌 40. 다음 글의 내용을 한 문장으로 요약하고자 한다. 빈칸 (A)와 (B)에 들어갈 말로 가장 적절한 것은?</div>
+        </div>
+
+        <div class="logic-box">
+            <strong>문장별 논리 전개 (Micro Flow)</strong>
+            
+        </div>
+
+        <div class="scenario-box">
+            <div class="scene-header">지문 마킹 시뮬레이션</div>
+            <div class="scene-content"></div>
+        </div>
+
+        <div class="box-style learning-box">
+            <strong style="font-size:14px; display:block; margin-bottom:10px; border-bottom:1px solid #ddd; padding-bottom:5px;">Learning Points (핵심 콕콕)</strong>
+            <div class="learning-item">
+                <span class="learning-label logic-label">논리</span>
+                <ul class="learning-list"><li>데이터 없음</li></ul>
+            </div>
+            <div class="learning-item">
+                <span class="learning-label grammar-label">구문</span>
+                <ul class="learning-list"><li>데이터 없음</li></ul>
+            </div>
+        </div>
+
+        
+            <div class="csat-container">
+                <div class="csat-header">
+                    <div class="csat-title"><span class="csat-badge">S</span> 요약문 빈칸 완성 & 해석</div>
+                    <div class="csat-subtitle">* 정답이 채워진 요약문과 해석입니다.</div>
+                </div>
+                <div class="csat-text">Greater access to information about leaders has (A) <span class="csat-blank-ans">demystified</span> them, and this has left people desiring leaders with (B) <span class="csat-blank-ans">flawless</span> character.</div>
+                <div class="csat-trans-header">▼ 해석 및 구문 분석 (Interpretation)</div>
+                <div class="csat-trans-text">리더에 대한 더 많은 정보 접근성은 그들의 "신비성을 없앴고", 이는 사람들로 하여금 "결함 없는" 인성을 가진 리더를 열망하게 만들었다.</div>
+            </div>
+            
+
+    </div>
+
+    <div class="b-right">
+        <strong style="font-size:14px; display:block; margin-bottom:15px;">글의 흐름 (3단 구조)</strong>
+        <div class="flow-container">
+            
+        </div>
+
+        <div class="question-header" style="margin-top: 40px;">40. 다음 글의 내용을 한 문장으로 요약하고자 한다. 빈칸 (A)와 (B)에 들어갈 말로 가장 적절한 것은? <span class="source-tag">2026학년도 모의평가 (추정)</span></div>
+        <div class="source-text"><div class="visual-box-summary" style="padding-bottom: 5px;"><div class="line-last" style="position: relative; padding-right: 28%; margin-bottom: 10px; width: 100%; box-sizing: border-box;"></div></div></div>
+
+        <span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">Vocabulary</span>
+        
+        <div class="sec-vocab">
+            <div class="v-header">
+                <div class="cell col-chk">Chk</div>
+                <div class="cell col-word">Word</div>
+                <div class="cell col-mean">Mean & Syn / Ant</div>
+                <div class="cell col-context">Context</div>
+                <div class="cell col-chunk">Chunk Example</div>
+            </div>
+            <div class="v-list"></div>
+        </div>
+        
+
+        <span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">Key Sentences Analysis</span>
+        <table class="analysis-table">
+            <colgroup><col width="12%"> <col width="10%"> <col width="35%"> <col width="25%"> <col width="18%"></colgroup>
+            <thead><tr><th style="text-align:center;">출처</th><th style="text-align:center;">종류</th><th style="text-align:center;">영어 문장</th><th style="text-align:center;">한글 해석</th><th style="text-align:center;">선정 사유</th></tr></thead>
+            <tbody><tr><td style='text-align:center; color:#555;'>-</td><td style='text-align:center; font-weight:bold; color:#0d47a1;'>주제문</td><td style='font-family:Times New Roman; font-size:14px; text-align:left;'>The more flawed our leaders are, the greater our desire for highly ethical leaders.</td><td style='font-size:13px; text-align:left;'>우리의 지도자들에게 결함이 많으면 많을수록, 고도로 도덕적인 지도자들에 대한 우리의 열망은 더 커진다.</td><td style='font-size:12px; color:#555; text-align:left;'>[The 비교급, the 비교급] 글의 핵심 요지를 담고 있는 문장으로, <span style="color:#d32f2f; font-weight:bold;">The 비교급 ~, the 비교급 ...</span> 구문이 사용되어 비례 관계(역설적 결과)를 분명하게 나타내고 있습니다.</td></tr><tr><td style='text-align:center; color:#555;'>-</td><td style='text-align:center; font-weight:bold; color:#0d47a1;'>핵심 구문</td><td style='font-family:Times New Roman; font-size:14px; text-align:left;'>Meticulous biographers sometimes diminish the image of great leaders, such as Martin Luther King, Jr., and George Washington, by <span style="color:#d32f2f; font-weight:bold;">carefully examining</span> their moral shortcomings.</td><td style='font-size:13px; text-align:left;'>꼼꼼한 전기 작가들은 때때로 마틴 루터 킹 주니어와 조지 워싱턴과 같은 위대한 지도자들의 도덕적 결점을 주의 깊게 조사함으로써 그들의 이미지를 깎아내린다.</td><td style='font-size:12px; color:#555; text-align:left;'>[전치사+동명사] <span style="color:#d32f2f; font-weight:bold;">by -ing (~함으로써)</span> 구문이 쓰였으며, 글의 (A) 빈칸 추론의 중요한 논리적 원인이 되는 문장입니다.</td></tr><tr><td style='text-align:center; color:#555;'>-</td><td style='text-align:center; font-weight:bold; color:#0d47a1;'>재진술</td><td style='font-family:Times New Roman; font-size:14px; text-align:left;'>The ethical issues of leadership are found <span style="color:#d32f2f; font-weight:bold;">not only in public debates but lie simmering</span> below the surface of the existing leadership literature.</td><td style='font-size:13px; text-align:left;'>리더십의 윤리적 문제들은 공개적인 토론에서 발견될 뿐만 아니라 현존하는 리더십 문헌의 표면 아래에서 부글부글 끓고 있다.</td><td style='font-size:12px; color:#555; text-align:left;'>[상관접속사] <span style="color:#d32f2f; font-weight:bold;">not only A but (also) B</span> 구조를 사용하여 윤리적 문제가 겉으로 드러난 토론뿐만 아니라 문헌 기저에도 널리 퍼져 있음을 강조하는 결론부입니다.</td></tr></tbody>
+        </table>
+
+        <span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">True / False 문제 분석</span>
+        <div style='font-size:13px; color:#777;'>True/False 데이터가 없습니다.</div>
+
+        <span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">영영 풀이 (English Definitions)</span>
+        <div style='font-size:13px; color:#777;'>영영 풀이 데이터가 없습니다.</div>
+    </div>
+</div>
+
+<script>
+function toggleBubble(element) {
+    const all = document.querySelectorAll('.interactive-num');
+    const wasActive = element.classList.contains('active');
+    all.forEach(el => el.classList.remove('active'));
+    if (!wasActive) {
+        element.classList.add('active');
+    }
+}
+
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('.interactive-num')) {
+        const all = document.querySelectorAll('.interactive-num');
+        all.forEach(el => el.classList.remove('active'));
+    }
+});
+
+let currentZIndex = 1000;
+
+function toggleModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal.style.display === 'block') {
+        modal.style.display = 'none';
+    } else {
+        currentZIndex++;
+        modal.style.zIndex = currentZIndex;
+        modal.style.display = 'block';
+    }
+}
+</script>
+
+</body>
+</html>
