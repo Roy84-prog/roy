@@ -1,0 +1,1371 @@
+
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>영어 지문 분석 학습지</title>
+<style>
+/* [인쇄 시 설정] */
+@media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .container { box-shadow: none; border: 1px solid #ddd; }
+    @page { margin: 10mm; size: A4; }
+    .page-break { page-break-before: always; }
+    .interactive-num { pointer-events: none; color: inherit; }
+    .translation-bubble { display: none !important; }
+    .header-btn { display: none !important; }
+    .custom-modal { display: none !important; }
+}
+
+:root {
+    --bg-color: #f9f9f9;
+    --font-eng: 'Times New Roman', serif;
+    --font-kor: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    --c-S: #0d47a1;
+    --c-V: #b71c1c;
+    --c-O: #7b1fa2;
+    --c-C: #1b5e20;
+    --c-M: #9e9e9e;
+    --c-con: #8e24aa;
+}
+
+body { font-family: var(--font-kor); font-size: 15px; color: #333; margin: 20px; line-height: 1.6; background: var(--bg-color); }
+
+.text-underline {
+    text-decoration: underline;
+    text-underline-position: under;
+    text-decoration-thickness: 1px;
+}
+
+.header-container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    min-width: 1000px;
+    max-width: 1600px;
+    margin: 0 auto 30px;
+    display: block;
+    position: relative;
+    min-height: 220px;
+}
+
+.header-btn {
+    position: absolute;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: background 0.3s, transform 0.1s;
+    z-index: 100;
+    width: 110px;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+.header-btn:active { transform: translateY(1px); }
+
+.btn-literal { top: 20px; right: 20px; background-color: #0277bd; }
+.btn-literal:hover { background-color: #01579b; }
+.btn-liberal { top: 55px; right: 20px; background-color: #546e7a; }
+.btn-liberal:hover { background-color: #455a64; }
+.btn-tips { top: 90px; right: 20px; background-color: #7b1fa2; }
+.btn-tips:hover { background-color: #4a148c; }
+.btn-logic { top: 125px; right: 20px; background-color: #00897b; }
+.btn-logic:hover { background-color: #00695c; }
+
+.btn-eng-all { top: 20px; left: 20px; background-color: #3949ab; }
+.btn-eng-all:hover { background-color: #283593; }
+.btn-eng-pure { top: 55px; left: 20px; background-color: #00695c; }
+.btn-eng-pure:hover { background-color: #004d40; }
+.btn-vis-clean { top: 90px; left: 20px; background-color: #455a64; }
+.btn-vis-clean:hover { background-color: #263238; }
+.btn-learning { top: 125px; left: 20px; background-color: #d84315; }
+.btn-learning:hover { background-color: #bf360c; }
+
+.btn-vocab { top: 20px; left: 50%; margin-left: -55px; background-color: #ef6c00; }
+.btn-vocab:hover { background-color: #e65100; }
+.btn-keys { top: 55px; left: 50%; margin-left: -55px; background-color: #c62828; }
+.btn-keys:hover { background-color: #b71c1c; }
+.btn-ans { top: 90px; left: 50%; margin-left: -55px; background-color: #2e7d32; }
+.btn-ans:hover { background-color: #1b5e20; }
+.btn-opts { top: 125px; left: 50%; margin-left: -55px; background-color: #5d4037; }
+.btn-opts:hover { background-color: #3e2723; }
+.btn-exam { top: 160px; left: 50%; margin-left: -55px; background-color: #d81b60; box-shadow: 0 0 8px rgba(216,27,96,0.5); }
+.btn-exam:hover { background-color: #ad1457; }
+
+.custom-modal {
+    display: none;
+    position: absolute;
+    top: 60px;
+    width: 600px;
+    max-width: 48vw;
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-literal { right: 20px; border: 3px solid #0277bd; top: 50px; }
+.modal-liberal { right: 20px; border: 3px solid #546e7a; top: 85px; }
+.modal-tips { right: 20px; border: 3px solid #7b1fa2; top: 120px; }
+.modal-logic { right: 20px; border: 3px solid #00897b; top: 155px; }
+
+.modal-eng-all { left: 20px; border: 3px solid #3949ab; top: 50px; }
+.modal-eng-pure { left: 20px; border: 3px solid #00695c; top: 85px; }
+.modal-vis-clean { left: 20px; border: 3px solid #455a64; top: 120px; width: 600px; }
+.modal-learning { left: 20px; border: 3px solid #d84315; top: 155px; width: 600px; }
+.modal-learning h3 { color: #d84315; }
+
+.modal-center { left: 50%; margin-left: -350px; width: 700px; }
+.modal-vocab { left: 50%; margin-left: -350px; border: 3px solid #ef6c00; top: 50px; width: 700px; }
+.modal-keys { left: 50%; margin-left: -350px; border: 3px solid #c62828; top: 85px; width: 700px; }
+.modal-ans { left: 50%; margin-left: -350px; border: 3px solid #2e7d32; top: 120px; width: 700px; }
+.modal-opts { left: 50%; margin-left: -350px; border: 3px solid #5d4037; top: 155px; width: 700px; }
+.modal-exam { left: 50%; margin-left: -350px; border: 3px solid #d81b60; top: 190px; width: 700px; }
+
+.custom-modal h3 {
+    margin-top: 0;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 8px;
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.modal-liberal h3 { color: #546e7a; }
+.modal-literal h3 { color: #0277bd; }
+.modal-tips h3 { color: #7b1fa2; }
+.modal-logic h3 { color: #00897b; }
+.modal-eng-all h3 { color: #3949ab; }
+.modal-eng-pure h3 { color: #00695c; }
+.modal-vis-clean h3 { color: #455a64; }
+.modal-vocab h3 { color: #ef6c00; }
+.modal-keys h3 { color: #c62828; }
+.modal-ans h3 { color: #2e7d32; }
+.modal-opts h3 { color: #5d4037; }
+.modal-exam h3 { color: #d81b60; }
+
+.modal-content {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #333;
+}
+
+.logic-section {
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 6px;
+    border-left-width: 4px;
+    border-left-style: solid;
+}
+.logic-section-intro { background-color: #f0f7ff; border-left-color: #1565c0; }
+.logic-section-body { background-color: #fffbf2; border-left-color: #ef6c00; }
+.logic-section-conc { background-color: #f3fcf5; border-left-color: #2e7d32; }
+.logic-section-none { background-color: #f5f5f5; border-left-color: #9e9e9e; }
+
+.logic-section-title {
+    display: block;
+    font-weight: 800;
+    font-size: 13px;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.logic-section-intro .logic-section-title { color: #1565c0; }
+.logic-section-body .logic-section-title { color: #ef6c00; }
+.logic-section-conc .logic-section-title { color: #2e7d32; }
+
+.trans-line, .eng-line {
+    margin-bottom: 10px;
+    padding-left: 4px;
+}
+.trans-line:last-child, .eng-line:last-child { margin-bottom: 0; }
+
+.modal-eng-all .modal-content,
+.modal-eng-pure .modal-content,
+.modal-vis-clean .modal-content {
+    font-family: var(--font-eng);
+    font-size: 16px;
+}
+
+.visual-source-text {
+    font-family: var(--font-eng);
+    font-size: 19px;
+    line-height: 2.2;
+}
+
+.trans-num { font-weight: bold; margin-right: 5px; color: #546e7a; }
+.eng-num { font-weight: bold; margin-right: 5px; color: #3949ab; font-family: var(--font-kor); font-size:13px; }
+.raw-num { font-weight: bold; margin-right: 5px; color: #00695c; font-family: var(--font-kor); font-size:13px; }
+
+.trans-summary {
+    display: inline-block;
+    font-size: 11px;
+    color: #555;
+    background-color: #fff;
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-left: 6px;
+    vertical-align: 1px;
+    font-weight: bold;
+    font-family: var(--font-kor);
+}
+
+.trans-logic {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    color: #1565c0;
+    background-color: #e3f2fd;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 4px;
+    vertical-align: 1px;
+    font-family: var(--font-kor);
+}
+
+.top-container {
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    min-width: 1000px;
+    max-width: 1600px;
+    margin: 0 auto 30px;
+    display: block;
+}
+
+.bottom-container {
+    display: flex;
+    gap: 40px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    min-width: 1000px;
+    max-width: 1600px;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+.b-left { flex: 40; display: flex; flex-direction: column; gap: 25px; border-right: 1px dashed #ddd; padding-right: 30px; }
+.b-right { flex: 60; display: flex; flex-direction: column; }
+
+.box-style {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.info-group { display: flex; flex-direction: column; gap: 10px; margin-top: 170px; }
+.ri-item { background-color: #fff; border: 1px solid #eee; border-left-width: 4px; border-left-style: solid; border-radius: 6px; padding: 12px 15px; font-size: 15px; line-height: 1.5; color: #444; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+.ri-material { border-left-color: #4caf50; }
+.ri-guide { border-left-color: #ff9800; }
+.ri-tip { border-left-color: #9c27b0; }
+.ri-label { font-weight: 800; margin-bottom: 4px; color: #222; font-size: 15.5px; display: block; }
+
+.topic-box { background-color: #e8f5e9; border-left: 5px solid #4caf50; padding: 12px 15px; font-size: 17.5px; color: #1b5e20; border-radius: 4px; }
+
+.answer-box { background-color: #e1f5fe; border: 1px solid #81d4fa; border-radius: 8px; padding: 20px; }
+.ans-header { font-weight: bold; color: #0277bd; font-size: 16px; margin-bottom: 12px; border-bottom: 1px solid #b3e5fc; padding-bottom: 8px; }
+.ans-content { font-size: 13.5px; color: #37474f; line-height: 1.6; }
+
+.options-box { border-top: 2px solid #333; background: #fff; padding-top:10px; }
+.option-item { margin-bottom: 8px; border: 1px solid #eee; border-radius: 6px; padding: 10px; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+.opt-header { margin-bottom: 3px; line-height: 1.3; }
+.opt-text { font-family: var(--font-eng); font-weight: bold; font-size: 16px; color: #000; }
+.opt-trans { font-size: 12.5px; color: #777; margin-bottom: 6px; display: block; line-height: 1.3; }
+.opt-analysis { background-color: #f9f9f9; padding: 6px 10px; border-radius: 4px; font-size: 13px; color: #444; border-left: 3px solid #ddd; line-height: 1.4; }
+.err-badge-wrong { font-size: 11px; background-color: #fff3e0; color: #ef6c00; padding: 1px 5px; border-radius: 3px; border: 1px solid #ffe0b2; margin-right: 5px; font-weight: bold; }
+.err-badge-correct { font-size: 11px; background-color: #e8f5e9; color: #2e7d32; padding: 1px 5px; border-radius: 3px; border: 1px solid #a5d6a7; margin-right: 5px; font-weight: bold; }
+
+.logic-box { background-color: #f5f5f5; border: 1px solid #e0e0e0; padding: 15px; border-radius: 8px; font-family: 'D2Coding', monospace; font-size: 12.5px; line-height: 1.7; color: #333; }
+.logic-box strong { font-size: 14px; color: #000; margin-bottom: 10px; display: block; }
+.scenario-box { background-color: #fff3e0; border: 1px solid #ffe0b2; border-radius: 8px; padding: 15px; }
+.scene-header { font-size: 15px; font-weight: 900; color: #e65100; margin-bottom: 12px; border-bottom: 2px solid #ffe0b2; padding-bottom: 6px; }
+.scene-content { font-size: 13px; color: #444; line-height: 1.5; background:#fff; padding:10px; border-radius:4px; border-left:4px solid #ff9800; }
+
+.learning-box { margin-top: 20px; }
+.learning-item { margin-bottom: 12px; }
+.learning-label { display: inline-block; font-size: 11px; font-weight: bold; color: #fff; padding: 2px 6px; border-radius: 4px; margin-bottom: 4px; vertical-align: 1px; }
+.logic-label { background-color: #7e57c2; }
+.grammar-label { background-color: #00897b; }
+.learning-list { margin: 5px 0 0 15px; padding: 0; list-style-type: disc; font-size: 13.5px; color: #444; }
+.learning-list li { margin-bottom: 4px; line-height: 1.5; }
+
+.difficulty-box {
+    background-color: #f1f8e9;
+    border: 1px solid #c5e1a5;
+    border-radius: 6px;
+    padding: 6px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-family: var(--font-eng);
+}
+.diff-label { font-weight: 900; font-size: 14px; color: #558b2f; letter-spacing: 0.5px; }
+.diff-stars { font-size: 16px; color: #fdd835; letter-spacing: 1px; }
+
+.visual-box-given {
+    border: 2px solid #333;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+.visual-box-summary {
+    border: 2px solid #333;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.question-header { font-weight: 800; font-size: 18px; color: #222; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #222; }
+.source-tag { font-size: 11px; color: #fff; background-color: #555; padding: 2px 7px; border-radius: 12px; margin-left: 8px; vertical-align: middle; font-weight: normal; }
+
+.source-text {
+    font-family: var(--font-eng);
+    font-size: 19px;
+    line-height: 3.4;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 0 30px 0;
+    color: #111;
+    display: block;
+}
+
+.line-justify { display: block; text-align: justify; text-align-last: justify; word-break: keep-all; }
+.line-last { display: block; text-align: left; text-align-last: left; }
+.line-with-sub { display: block; text-align: left; text-align-last: left; word-break: keep-all; }
+
+.interactive-num {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    transition: transform 0.2s ease;
+    z-index: 10;
+}
+.interactive-num:hover {
+    transform: scale(1.3);
+    color: #1565c0;
+}
+.translation-bubble {
+    visibility: hidden;
+    width: 480px;
+    max-width: 90vw;
+    background-color: #ffffff;
+    color: #333;
+    text-align: left !important;
+    text-align-last: left !important;
+    white-space: normal;
+    border-radius: 8px;
+    padding: 15px;
+    position: absolute;
+    z-index: 1000;
+    bottom: 140%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    font-family: var(--font-kor);
+    font-size: 14px;
+    line-height: 1.6;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+    border: 2px solid #333;
+    font-weight: normal;
+    pointer-events: none;
+    word-break: keep-all;
+}
+.translation-bubble::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+.interactive-num.active .translation-bubble {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.bubble-eng { font-family: var(--font-eng); font-size: 17px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed #ccc; line-height: 1.5; }
+.bubble-kor { font-size: 14px; color: #444; margin-bottom: 10px; line-height: 1.5; }
+.bubble-easy, .bubble-tip { background: #f1f3f5; padding: 8px 10px; border-radius: 6px; font-size: 12.5px; margin-top: 6px; color: #444; display: flex; align-items: flex-start; gap: 8px; }
+.bubble-easy .easy-label, .bubble-tip .syntax-label { flex-shrink: 0; margin-right: 0; font-size: 11px; padding: 2px 6px; }
+
+span[class^="highlight-"] {
+    border-radius: 4px; padding: 2px 4px; margin: 0 1px;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+    position: relative; z-index: 1;
+}
+span[class^="highlight-"]::before { content: none; display: none; }
+
+.highlight-subject { background-color: #fff9c4; border-bottom: 2px solid #fbc02d; }
+.highlight-feature { background-color: #fff9c4; border-bottom: 2px solid #fbc02d; }
+.highlight-clue { background-color: #e3f2fd; border-bottom: 2px solid #64b5f6; }
+
+.fill-text { font-weight: 900; text-decoration: underline; text-decoration-thickness: 2px; }
+
+.badge-them { display: inline-block; font-size: 11px; background-color: #7e57c2; color: #fff; padding: 2px 6px; border-radius: 4px; margin-right: 6px; font-weight: bold; vertical-align: 2px; font-family: var(--font-kor); }
+.badge-key { display: inline-block; font-size: 11px; background-color: #0277bd; color: #fff; padding: 2px 6px; border-radius: 4px; margin-right: 6px; font-weight: bold; vertical-align: 2px; font-family: var(--font-kor); }
+.header-badge-them { font-size: 12px; background-color: #ffebee; color: #c62828; border: 1px solid #ef9a9a; padding: 2px 8px; border-radius: 12px; margin-left: 8px; vertical-align: middle; font-weight: bold; }
+.header-badge-key { font-size: 12px; background-color: #fffde7; color: #f57f17; border: 1px solid #fff59d; padding: 2px 8px; border-radius: 12px; margin-left: 5px; vertical-align: middle; font-weight: bold; }
+
+.vocab-container { display: inline; position: relative; text-indent: 0; line-height: 1.0; }
+.vocab-text { color: inherit; border-bottom: 1px dotted #bbb; font-weight: inherit; }
+.vocab-sub { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); width: max-content; margin-top: 1px; font-size: 9px; color: #d32f2f; background-color: transparent; text-shadow: 1px 1px 0 #eeeeee, -1px -1px 0 #eeeeee, 1px -1px 0 #eeeeee, -1px 1px 0 #eeeeee; padding: 0 1px; font-weight: bold; font-family: var(--font-kor); z-index: 10; line-height: 1.1; pointer-events: none; }
+
+.syntax-box { display: inline; position: relative; padding-bottom: 1px; margin-right: 1px; border-bottom: none; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.syntax-box::before { position: absolute; top: -3px; left: 0; font-size: 6px; font-weight: normal; font-family: sans-serif; line-height: 1; }
+
+.S-box { color: var(--c-S) !important; font-weight: normal !important; } .S-box::before { content: 'S'; color: var(--c-S); }
+.V-box { color: var(--c-V) !important; font-weight: normal !important; } .V-box::before { content: 'V'; color: var(--c-V); }
+.O-box { color: var(--c-O) !important; font-weight: normal !important; } .O-box::before { content: 'O'; color: var(--c-O); }
+.C-box { color: var(--c-C) !important; font-weight: normal !important; } .C-box::before { content: 'C'; color: var(--c-C); }
+.M-box { color: var(--c-M) !important; font-weight: normal !important; } .M-box::before { content: 'M'; color: var(--c-M); }
+.con-box { color: var(--c-con) !important; font-weight: normal !important; } .con-box::before { content: "con"; color: var(--c-con); }
+.IO-box { color: var(--c-O) !important; font-weight: normal !important; } .IO-box::before { content: 'IO'; color: var(--c-O); }
+.DO-box { color: var(--c-O) !important; font-weight: normal !important; } .DO-box::before { content: 'DO'; color: var(--c-O); }
+
+.S-text { color: var(--c-S) !important; font-weight: 900 !important; }
+.V-text { color: var(--c-V) !important; font-weight: 900 !important; }
+.O-text { color: var(--c-O) !important; font-weight: 900 !important; }
+.C-text { color: var(--c-C) !important; font-weight: 900 !important; }
+.M-text { color: var(--c-M) !important; font-weight: 900 !important; }
+.con-text { color: var(--c-con) !important; font-weight: 900 !important; }
+.IO-text { color: var(--c-O) !important; font-weight: 900 !important; }
+.DO-text { color: var(--c-O) !important; font-weight: 900 !important; }
+
+.analysis-card { margin-bottom: 10px; border-bottom: 1px dashed #ddd; background-color: #fff; padding: 8px; border-radius: 4px; break-inside: avoid; }
+.analysis-card.card-them { background-color: #fff; border: 2px solid #e53935; border-left: 6px solid #e53935; border-bottom: 2px solid #e53935; box-shadow: 0 2px 8px rgba(229, 57, 53, 0.1); }
+.analysis-card.card-key { background-color: #fff; border: 2px solid #fbc02d; border-left: 6px solid #fbc02d; border-bottom: 2px solid #fbc02d; box-shadow: 0 2px 8px rgba(251, 192, 45, 0.1); }
+
+.analysis-card.bg-intro { background-color: #f0f7ff; border: 1px solid #bbdefb; }
+.analysis-card.bg-body { background-color: #fffbf2; border: 1px solid #ffecb3; }
+.analysis-card.bg-conc { background-color: #f3fcf5; border: 1px solid #c8e6c9; }
+
+.analysis-card.card-them { border: 2px solid #e53935; border-left: 6px solid #e53935; border-bottom: 2px solid #e53935; }
+.analysis-card.card-key { border: 2px solid #fbc02d; border-left: 6px solid #fbc02d; border-bottom: 2px solid #fbc02d; }
+
+.eng-sent { font-family: var(--font-eng); font-size: 22.5px; background-color: transparent; padding: 4px 12px; border-left: 4px solid var(--c-S); position: relative; margin-top: 15px; margin-bottom: 15px; line-height: 2.3; color: #5d4037; display: flex; flex-wrap: wrap; align-items: flex-start; }
+.chunk-pair { display: flex; flex-direction: column; vertical-align: top; margin-right: 6px; margin-bottom: 12px; max-width: 100%; }
+.eng-chunk { background-color: #f4f4f4; padding: 2px 8px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; word-break: keep-all; mix-blend-mode: multiply; color: #5d4037; }
+.kor-chunk { font-family: var(--font-kor); font-size: 19px; color: #5d4037; font-weight: 900; padding-left: 4px; margin-top: 6px; line-height: 1.4; word-break: keep-all; letter-spacing: -0.5px; }
+.slash-divider { color: #ccc; font-weight: 300; margin: 0 4px; font-size: 24px; margin-top: 4px; display: flex; align-items: center; }
+.num-badge { display: inline-block; background-color: #333; color: #fff; border-radius: 50%; width: 22px; height: 22px; text-align: center; line-height: 22px; font-size: 13px; font-weight: bold; margin-right: 0px; vertical-align: 1px; box-shadow: 1px 1px 2px rgba(0,0,0,0.2); font-family: var(--font-kor); }
+
+.kor-sent, .kor-sent * { font-size: 19px; color: #5d4037; font-weight: 900 !important; line-height: 2.0; word-break: keep-all; }
+.kor-sent { padding-left: 5px; margin-bottom: 3px; display: none; }
+
+.analysis-footer { margin-top: 8px; font-size: 13px; line-height: 1.7; word-break: keep-all; }
+
+.easy-exp-box { display: inline-block; position: relative; background: #f5f5f5; border: 2px solid #e0e0e0; border-radius: 12px; padding: 8px 12px; margin-top: 12px; margin-bottom: 5px; font-size: 14px; color: #424242; line-height: 1.5; font-weight: 500; }
+.easy-exp-box::after, .easy-exp-box::before { bottom: 100%; left: 20px; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+.easy-exp-box::after { border-color: rgba(245, 245, 245, 0); border-bottom-color: #f5f5f5; border-width: 8px; margin-left: -8px; }
+.easy-exp-box::before { border-color: rgba(224, 224, 224, 0); border-bottom-color: #e0e0e0; border-width: 11px; margin-left: -11px; }
+.easy-label { display: inline-block; background-color: #757575; color: #fff; padding: 0px 4px; border-radius: 3px; margin-right: 5px; font-weight: bold; vertical-align: 1px; font-size: 11px; }
+
+.syntax-tip { display: block; width: fit-content; max-width: 100%; margin-top: 6px; padding: 4px 8px; border: 1px solid #333; background-color: #fff; border-radius: 4px; font-size: 13px; color: #000; line-height: 1.4; box-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
+.syntax-label { display: inline-block; background-color: #333; color: #fff; padding: 0px 4px; border-radius: 2px; margin-right: 5px; font-weight: bold; vertical-align: 1px; font-size: 11px; }
+
+.exam-point-box { margin-top: 8px; padding: 8px 12px; background-color: #fffaf0; border: 1px dashed #f48fb1; border-radius: 6px; font-size: 12.5px; line-height: 1.5; color: #333; }
+.exam-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; color: #fff; margin-right: 6px; vertical-align: 1px; font-family: var(--font-kor); }
+.exam-badge-blank { background-color: #4caf50; }
+.exam-badge-implied { background-color: #9c27b0; }
+.exam-badge-grammar { background-color: #f44336; }
+.exam-target { font-weight: bold; color: #c2185b; text-decoration: underline; }
+
+.visual-exam-target { position: relative; }
+.visual-exam-label { position: absolute; bottom: 100%; left: 0; margin-bottom: 2px; font-size: 11px; color: #fff; padding: 2px 6px; border-radius: 4px; font-family: var(--font-kor); font-weight: 900; letter-spacing: 0.5px; box-shadow: 1px 1px 2px rgba(0,0,0,0.2); white-space: nowrap; line-height: 1; z-index: 5; }
+
+.inline-syntax-target { position: relative; border-bottom: 2px dotted #333; background-color: rgba(0, 0, 0, 0.05); }
+.inline-syntax-label { position: absolute; top: 100%; right: 0; margin-top: 2px; font-size: 11px; background-color: #333; color: #fff; padding: 2px 5px; border-radius: 4px; font-family: var(--font-kor); font-weight: 900; white-space: nowrap; line-height: 1; z-index: 4; box-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+
+.csat-container { background-color: #fcfaf2; border: 1px solid #e0dcd0; padding: 20px; border-radius: 8px; margin-top: 20px; }
+.csat-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; margin-bottom: 15px; }
+.csat-title { font-family: var(--font-kor); font-size: 16px; font-weight: 900; color: #333; display: flex; align-items: center; gap: 6px; }
+.csat-badge { background-color: #546e7a; color: white; font-size: 12px; padding: 2px 6px; border-radius: 4px; }
+.csat-subtitle { font-family: var(--font-kor); font-size: 12px; color: #7b909a; font-weight: bold; }
+.csat-text { font-family: var(--font-eng); font-size: 17px; line-height: 1.8; color: #222; margin-bottom: 25px; text-align: justify; }
+.csat-blank-ans { display: inline-block; border-bottom: 1px solid #333; min-width: 80px; text-align: center; font-weight: bold; color: #d32f2f; padding: 0 5px; }
+.csat-trans-header { font-family: var(--font-kor); font-size: 14px; font-weight: bold; color: #e6a822; margin-bottom: 10px; }
+.csat-trans-text { font-family: var(--font-kor); font-size: 14.5px; line-height: 32px; color: #444; background-image: repeating-linear-gradient(transparent, transparent 31px, #b0bec5 31px, #b0bec5 32px); background-position: 0 6px; padding-bottom: 8px; }
+
+.summary-badge { display: inline-block; font-family: var(--font-kor); font-size: 11px; color: #fff; background-color: #78909c; padding: 1px 8px; border-radius: 10px; font-weight: bold; margin-left: 6px; vertical-align: 1px; position: static; }
+
+.sent-container { display: flex; gap: 15px; align-items: flex-start; margin-bottom: 20px; }
+.sent-logic-col { flex: 0 0 130px; display: flex; flex-direction: column; gap: 10px; }
+.sent-analysis-col { flex: 1; min-width: 0; }
+.logic-flow-card { border-radius: 8px; padding: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #eee; font-size: 13px; }
+.logic-intro { background: #e3f2fd; border-color: #90caf9; color: #1565c0; }
+.logic-body { background: #fff8e1; border-color: #ffe082; color: #ef6c00; }
+.logic-conc { background: #e8f5e9; border-color: #a5d6a7; color: #2e7d32; }
+.logic-title { font-weight: bold; display: block; margin-bottom: 4px; font-size: 14px; }
+.logic-desc { line-height: 1.4; color: #333; }
+
+.flow-container { display: flex; justify-content: space-between; gap: 15px; margin-top: 15px; margin-bottom: 25px; }
+.flow-card { flex: 1; background: #fff; border-radius: 12px; padding: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; position: relative; border: 1px solid #eee; }
+.flow-card.flow-intro .flow-header { background: #e3f2fd; color: #1565c0; border-bottom: 2px solid #90caf9; }
+.flow-card.flow-body .flow-header { background: #fff8e1; color: #ef6c00; border-bottom: 2px solid #ffe082; }
+.flow-card.flow-conc .flow-header { background: #e8f5e9; color: #2e7d32; border-bottom: 2px solid #a5d6a7; }
+.flow-header { padding: 12px 15px; text-align: left; position: relative; }
+.flow-title { font-weight: 800; font-size: 15px; display: block; margin-bottom: 2px; }
+.flow-num-badge { display: inline-block; background: rgba(0,0,0,0.1); color: inherit; border-radius: 12px; padding: 1px 8px; font-size: 12px; font-weight: bold; margin-top: 4px; }
+.flow-content { padding: 15px; font-size: 13.5px; color: #444; line-height: 1.5; text-align: left; }
+.flow-arrow { align-self: center; font-size: 24px; color: #bdbdbd; font-weight: bold; flex-basis: 20px; text-align: center; }
+
+.sec-vocab { flex: 1.25; display: flex; flex-direction: column; margin-top: 0px; border: 1px solid #cfd8dc; border-radius: 8px; overflow: hidden; }
+.v-header { display: flex; background: #37474f; color: white; font-family: var(--font-eng, 'Montserrat', sans-serif); font-size: 11px; font-weight: 700; padding: 6px 0; border-bottom: 1px solid #cfd8dc; }
+.v-list { flex: 1; display: flex; flex-direction: column; overflow-y: hidden; background: white; }
+.v-row { display: flex; align-items: stretch; border-bottom: 1px solid #eceff1; padding: 0; min-height: 32px; flex: 1; }
+.v-row:nth-child(even) { background-color: #fafafa; }
+
+.cell { display: flex; align-items: center; padding: 1px 8px; box-sizing: border-box; overflow: hidden; }
+.cell.col-word, .cell.col-mean, .cell.col-context { border-right: 1px solid rgba(0,0,0,0.05); }
+.v-header .cell { justify-content: center; padding: 3px 8px; text-align: center; }
+.v-header .cell.col-word, .v-header .cell.col-mean, .v-header .cell.col-context { border-right: 1px solid rgba(255,255,255,0.2); }
+.cell:last-child { border-right: none; }
+
+.col-chk { width: 30px; justify-content: center; flex-shrink: 0; }
+.col-word { width: 16%; flex-shrink: 0; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+.col-mean { width: 38%; flex-shrink: 0; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+.col-context { width: 14%; flex-shrink: 0; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+.col-chunk { flex: 1; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+
+.v-row .col-chk { padding-top: 8px; align-items: flex-start; }
+
+.chk-box { width: 10px; height: 10px; border: 1px solid var(--c-brand, #003b6f); border-radius: 2px; background: white; margin-top:4px; }
+.word-txt { font-family: var(--font-eng, 'Montserrat', sans-serif); font-weight: 900; color: var(--c-brand, #003b6f); font-size: 16px; word-break: break-word; line-height: 1.2; }
+.word-pron { font-size: 12px; color: #616161; font-family: var(--font-eng); margin-top: 3px; }
+.word-ety { font-size: 11px; color: #8d6e63; font-family: var(--font-kor); margin-top: 3px; font-weight: 600; letter-spacing: -0.5px; word-break: keep-all; line-height: 1.2; }
+
+.vm-kor { font-weight: 800; color: #212121; font-size: 13.5px; line-height: 1.3; font-family: 'NanumSquareRound', sans-serif; display: block; width: 100%; }
+.vm-context { font-size: 12.5px; color: #00695c; line-height: 1.4; font-weight: bold; white-space: normal; word-break: keep-all; display: block; width: 100%; }
+
+.vch-en { font-family: var(--font-eng, 'Montserrat', sans-serif); font-weight: 600; color: var(--c-chunk-text, #263238); font-size: 14.5px; line-height: 1.3; margin-bottom: 3px; }
+.vch-ko { font-size: 13.5px; color: #78909c; line-height: 1.2; font-family: 'NanumSquareRound', sans-serif; }
+.c-hl { color: var(--c-chunk-hl, #d84315); font-weight: 900; }
+
+.rel-box { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; width: 100%; }
+.rel-item { display: inline-flex; align-items: center; font-size: 13.5px; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background: #f5f5f5; padding: 3px 6px; border-radius: 4px; line-height: 1; }
+.item-syn { color: #1b5e20; font-weight: 900; }
+.item-ant { color: #d32f2f; font-weight: 600; }
+.item-conf { color: #333; font-weight: 900; }
+.rel-item span { margin-right: 4px; font-size: 12px; padding: 2px 4px; border-radius: 2px; color: white; font-family: var(--font-kor); font-weight: bold; }
+
+.bg-syn { background-color: #26a69a; }
+.bg-ant { background-color: #ef5350; }
+.bg-conf { background-color: #ffa726; }
+
+table.modal-table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; border: 1px solid #e0e0e0; }
+table.modal-table th { background: #eee; padding: 6px; border: 1px solid #ccc; text-align: center; font-family: var(--font-kor); color:#444; }
+table.modal-table td { padding: 6px; border: 1px solid #ccc; vertical-align: middle; word-wrap: break-word; background:#fff; text-align:center; }
+table.modal-table td:nth-child(6) { text-align: left; }
+table.modal-table td:nth-child(7) { text-align: left; }
+table.modal-table col:nth-child(1) { width: 12%; }
+table.modal-table col:nth-child(2) { width: 12%; }
+table.modal-table col:nth-child(3) { width: 12%; }
+table.modal-table col:nth-child(4) { width: 12%; }
+table.modal-table col:nth-child(5) { width: 8%; }
+table.modal-table col:nth-child(6) { width: 20%; }
+table.modal-table col:nth-child(7) { width: 24%; }
+.vocab-word-bold { font-weight: 900; font-family: var(--font-eng); color: #000; font-size: 16px; }
+.vocab-pron { color: #555; font-size: 12px; }
+
+.analysis-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; border: 1px solid #e0e0e0; }
+.analysis-table th { background: #546e7a; color: #fff; padding: 8px; border: 1px solid #ddd; text-align: center; font-weight: bold; }
+.analysis-table td { padding: 8px; border: 1px solid #ddd; vertical-align: middle; background: #fff; text-align: left; }
+
+.slash { font-weight: 900; color: #000; margin: 0 3px; font-size: 1.1em; }
+.blank-filled { border-bottom: 2px solid #000; font-weight: 900; color: #000; padding: 0 2px; }
+.blank-empty { display: inline-block; width: 40px; height: 18px; border-bottom: 1px solid #333; vertical-align: middle; margin: 0 2px; }
+.err-wrong { color: #d32f2f; text-decoration: line-through; margin-right: 3px; }
+.err-right { color: #1565c0; font-weight: 900; margin-left: 3px; }
+.err-arrow { color: #555; font-size: 0.9em; font-weight: bold; }
+.star-red { color: #e53935; text-shadow: 1px 1px 0px #b71c1c; font-size: 1.1em; margin-right: 5px; vertical-align: -1px; }
+.star-yellow { color: #fbc02d; text-shadow: 1px 1px 0px #f57f17; font-size: 1.1em; margin-right: 5px; vertical-align: -1px; }
+</style>
+</head>
+<body>
+<div class="header-container">
+<button class="header-btn btn-literal" onclick="toggleModal('modalLiteral')">직독직해 (Literal)</button>
+<div class="custom-modal modal-right modal-literal" id="modalLiteral">
+<span class="close-modal-btn" onclick="toggleModal('modalLiteral')">×</span>
+<h3>직독직해 (Literal)</h3>
+<div class="modal-content"><div class="logic-section logic-intro"><span class="logic-section-title">[도입] 타인의 지능에 대한 왜곡된 판단</span><div class="trans-line"><span class="trans-num">1.</span>❶ <span class="star-red">★</span><span class="S-text">우리의 판단은 <span class="slash">/</span> 타인의 지능에 대한</span> <span class="slash">/</span> <span class="V-text">왜곡될 수 있다</span> <span class="slash">/</span> 왜냐하면 <span class="S-text">우리가</span> <span class="V-text">인식하지 못하기</span> 때문이다 <span class="slash">/</span> <span class="O-text"><span class="highlight-clue"><span class="blank-filled">모든 결과 앞에는 <span class="slash">/</span> 선행된다는 것을 <span class="slash">/</span> 과정이</span></span></span>.<span class="trans-summary">[주제] 왜곡된 판단의 원인</span></div><div class="trans-line"><span class="trans-num">2.</span>❷ <span class="S-text">대학원생들은</span> <span class="O-text">이것을(앞 문장의 사실을)</span> <span class="V-text">잊어버린다</span> <span class="slash">/</span> 항상.<span class="trans-summary">[도입] 대학원생의 예시</span></div></div><div class="logic-section logic-body"><span class="logic-section-title">[예시] 대학원생들의 잘못된 비교와 좌절</span><div class="trans-line"><span class="trans-num">3.</span>❸ <span class="S-text">그들은</span> <span class="V-text">시작한다</span> <span class="slash">/</span> <span class="O-text">그들의 학위 논문을</span> <span class="slash">/</span> 과도한 불안감을 가지고 <span class="slash">/</span> 왜냐하면 <span class="S-text">그들이</span> <span class="V-text">보았고</span> <span class="slash">/</span> <span class="O-text">다른 사람들의 완성되고 다듬어진 작업물을</span> <span class="slash">/</span> 실수로 <span class="O-text">그것을(완성된 작업물을)</span> <span class="V-text">비교하기</span> 때문이다 <span class="slash">/</span> 그들 자신의 첫 잠정적인 발걸음들과.<span class="trans-summary">[현상] 결과와 과정의 잘못된 비교</span></div><div class="trans-line"><span class="trans-num">4.</span>❹ 그들의 코를 깊이 파묻은 채 <span class="slash">/</span> 자료 카드들과 설익은 가설들 안에, <span class="slash">/</span> <span class="S-text">그들은</span> <span class="V-text">경외심을 가지고 쳐다본다</span> <span class="slash">/</span> 아무개 박사의 출판된 책을 <span class="slash">/</span> 마치 <span class="S-text">그것이</span> <span class="V-text">태어난 것처럼</span> <span class="slash">/</span> 노력이나 잘못된 출발 없이, <span class="slash">/</span> 뇌에서 인쇄된 페이지로 곧바로.<span class="trans-summary">[오류] 노력의 과정 간과</span></div></div><div class="logic-section logic-conc"><span class="logic-section-title">[결론] 과정 인식의 중요성과 효과</span><div class="trans-line"><span class="trans-num">5.</span>❺ <span class="star-yellow">★</span>조사함으로써 <span class="slash">/</span> <span class="O-text">어떻게 <span class="S-text">누군가가</span> 어떤 곳에 도달했는지를</span>, <span class="slash">/</span> <span class="S-text">우리는</span> <span class="C-text">볼 가능성이 더 크다</span> <span class="slash">/</span> <span class="O-text">그 성취를</span> <span class="C-text">힘들게 얻은 것으로</span> <span class="slash">/</span> 그리고 <span class="O-text">우리 자신의 가능성을</span> <span class="C-text">더 타당한 것으로</span>.<span class="trans-summary">[해결] 과정 조사의 긍정적 효과</span></div><div class="trans-line"><span class="trans-num">6.</span>❻ <span class="S-text">우리가</span> <span class="V-text">알게 될</span> 때 <span class="slash">/</span> <span class="O-text">일련의 행동들이나 사건들을 <span class="slash">/</span> 결과로 이끄는</span>, <span class="slash">/</span> <span class="S-text">우리는</span> <span class="C-text">느낄 가능성이 더 적다</span> <span class="slash">/</span> <span class="C-text">죄책감을</span> <span class="slash">/</span> 돌이켜볼 때 <span class="slash">/</span> 비록 <span class="S-text">그 결과가</span> <span class="V-text">나타나지 않더라도</span> <span class="slash">/</span> <span class="S-text">우리가</span> <span class="O-text">그럴 것이라고</span> <span class="V-text">희망했던</span> 대로.<span class="trans-summary">[결론] 과정 인식에 따른 자책감 감소</span></div></div></div>
+</div>
+<button class="header-btn btn-liberal" onclick="toggleModal('modalLiberal')">전체 해석 (의역)</button>
+<div class="custom-modal modal-right modal-liberal" id="modalLiberal">
+<span class="close-modal-btn" onclick="toggleModal('modalLiberal')">×</span>
+<h3>전체 해석 (의역)</h3>
+<div class="modal-content"><div class="logic-section logic-intro"><span class="logic-section-title">[도입] 타인의 지능에 대한 왜곡된 판단</span><div class="trans-line"><span class="trans-num">1.</span>❶ <span class="star-red">★</span><span class="S-text">우리가</span> <span class="O-text"><span class="blank-filled">모든 결과 앞에는 과정이 선행된다는 것</span>을</span> <span class="V-text">인식하지 못하기</span> 때문에 <span class="S-text">타인의 지능에 대한 우리의 판단은</span> <span class="V-text">왜곡될 수 있다</span>.</div><div class="trans-line"><span class="trans-num">2.</span>❷ <span class="S-text">대학원생들은</span> 항상 <span class="O-text">이것을</span> <span class="V-text">잊어버린다</span>.</div></div><div class="logic-section logic-body"><span class="logic-section-title">[예시] 대학원생들의 잘못된 비교와 좌절</span><div class="trans-line"><span class="trans-num">3.</span>❸ <span class="S-text">그들은</span> <span class="O-text">다른 사람들의 완성되고 다듬어진 작업물을</span> <span class="V-text">보았고</span>, 실수로 <span class="O-text">그것을</span> 그들 자신의 첫 잠정적인 발걸음과 <span class="V-text">비교하기</span> 때문에 과도한 불안감을 가지고 <span class="O-text">그들의 학위 논문을</span> <span class="V-text">시작한다</span>.</div><div class="trans-line"><span class="trans-num">4.</span>❹ 자료 카드들과 설익은 가설들에 코를 깊이 파묻은 채, <span class="S-text">그들은</span> 마치 <span class="S-text">그것이(출판된 책이)</span> 노력이나 잘못된 출발 없이 뇌에서 곧바로 인쇄된 페이지로 <span class="V-text">탄생한 것처럼</span> 아무개 박사의 출판된 책을 <span class="V-text">경외심을 가지고 쳐다본다</span>.</div></div><div class="logic-section logic-conc"><span class="logic-section-title">[결론] 과정 인식의 중요성과 효과</span><div class="trans-line"><span class="trans-num">5.</span>❺ <span class="star-yellow">★</span><span class="O-text">누군가가 어떻게 어떤 곳에 <span class="V-text">도달했는지</span>를</span> 조사함으로써, <span class="S-text">우리는</span> <span class="O-text">그 성취를</span> <span class="C-text">힘들게 얻은 것으로</span>, 그리고 <span class="O-text">우리 자신의 가능성을</span> <span class="C-text">더 타당한 것으로</span> <span class="V-text">볼 가능성이 더 크다</span>.</div><div class="trans-line"><span class="trans-num">6.</span>❻ <span class="S-text">우리가</span> <span class="O-text">결과로 이끄는 일련의 행동들이나 사건들(과정)을</span> <span class="V-text">알게 될</span> 때, 비록 <span class="S-text">그 결과가</span> <span class="S-text">우리가</span> <span class="V-text">희망했던</span> 대로 <span class="V-text">나타나지 않더라도</span> 돌이켜볼 때 <span class="S-text">우리는</span> <span class="C-text">죄책감을 느낄 가능성이 더 적다</span>.</div></div></div>
+</div>
+<button class="header-btn btn-tips" onclick="toggleModal('modalTips')">구문 팁 정리</button>
+<div class="custom-modal modal-right modal-tips" id="modalTips">
+<span class="close-modal-btn" onclick="toggleModal('modalTips')">×</span>
+<h3>구문 팁 정리</h3>
+<div class="modal-content"><div class="logic-section logic-intro"><span class="logic-section-title">[도입] 타인의 지능에 대한 왜곡된 판단</span><div class="trans-line"><span class="trans-num">1.</span>[구문팁] <b>is preceded by</b>: 능동태 'A precede B(A가 B보다 앞서다)'가 수동태가 되어 'B is preceded by A(B 앞에는 A가 선행된다)'로 쓰임.</div></div><div class="logic-section logic-body"><span class="logic-section-title">[예시] 대학원생들의 잘못된 비교와 좌절</span><div class="trans-line"><span class="trans-num">3.</span>[구문팁] <b>compare it to their own ~</b>: 'compare A to(with) B' 구조로 A(완성된 작업물)와 B(자신의 불완전한 초안)를 비교함.</div><div class="trans-line"><span class="trans-num">4.</span>[구문팁] <b>as if it had been born ~</b>: 'as if + 가정법 과거완료(had p.p.)' 구문으로, 주절의 시제(look)보다 이전에 발생한 일(책이 쓰여진 것)을 반대로 가정함.</div></div><div class="logic-section logic-conc"><span class="logic-section-title">[결론] 과정 인식의 중요성과 효과</span><div class="trans-line"><span class="trans-num">5.</span>[구문팁] <b>see the achievement as hard-won and our own chances as more plausible</b>: 'see A as B (A를 B로 간주하다)' 구문이 and를 중심으로 두 개 병렬됨.</div><div class="trans-line"><span class="trans-num">6.</span>[구문팁] <b>as we hoped it would</b>: 'as'는 양태(~대로)의 접속사이며, 'it would' 뒤에는 앞서 나온 'turn out'이 생략되어 있음.</div></div></div>
+</div>
+<button class="header-btn btn-logic" onclick="toggleModal('modalLogic')">3단 논리 흐름</button>
+<div class="custom-modal modal-right modal-logic" id="modalLogic">
+<span class="close-modal-btn" onclick="toggleModal('modalLogic')">×</span>
+<h3>3단 논리 흐름</h3>
+<div class="modal-content">
+<div style="margin-bottom:15px;">
+<div class="flow-card flow-intro">
+<div class="flow-header">
+<span class="flow-title">[도입] 타인의 지능에 대한 왜곡된 판단</span>
+<span class="flow-num-badge">1, 2</span>
+</div>
+<div class="flow-content">우리는 화려한 결과물 이면에 필연적으로 선행하는 <span class="fill-text">과정</span>을 인식하지 못하여 타인의 지능에 대해 왜곡된 판단을 내리기 쉽다.</div>
+</div>
+</div>
+<div style="margin-bottom:15px;">
+<div class="flow-card flow-body">
+<div class="flow-header">
+<span class="flow-title">[예시] 대학원생들의 잘못된 비교와 좌절</span>
+<span class="flow-num-badge">3, 4</span>
+</div>
+<div class="flow-content">대학원생들은 타인의 완성된 논문과 자신의 불완전한 초기 <span class="fill-text">초안</span>을 비교하며, 타인의 결과물이 아무런 노력 없이 탄생했다고 착각한다.</div>
+</div>
+</div>
+<div style="margin-bottom:15px;">
+<div class="flow-card flow-conc">
+<div class="flow-header">
+<span class="flow-title">[결론] 과정 인식의 중요성과 효과</span>
+<span class="flow-num-badge">5, 6</span>
+</div>
+<div class="flow-content">성공에 이른 험난한 과정을 이해하면 타인의 성취를 존중하게 되고 자신의 성공 가능성을 믿게 되며, 결과가 나쁘더라도 <span class="fill-text">죄책감</span>을 덜 느끼게 된다.</div>
+</div>
+</div>
+</div>
+</div>
+<button class="header-btn btn-eng-all" onclick="toggleModal('modalEngAll')">영어 문장 전체 보기</button>
+<div class="custom-modal modal-left modal-eng-all" id="modalEngAll">
+<span class="close-modal-btn" onclick="toggleModal('modalEngAll')">×</span>
+<h3>영어 문장 전체 보기</h3>
+<div class="modal-content"><div class="logic-section logic-intro"><span class="logic-section-title">[도입] 타인의 지능에 대한 왜곡된 판단</span><div class="eng-line"><span class="eng-num">1.</span>❶ <span class="star-red">★</span><span class="syntax-box S-box">Our judgments <span class="slash">/</span> about the intelligence of others</span> <span class="slash">/</span> <span class="syntax-box V-box">can be distorted</span> <span class="slash">/</span> because <span class="syntax-box S-box">we</span> <span class="syntax-box V-box">do not recognize</span> <span class="slash">/</span> <span class="syntax-box O-box">that <span class="highlight-clue"><span class="blank-filled">every outcome <span class="slash">/</span> is preceded <span class="slash">/</span> by a process</span></span></span>.</div><div class="eng-line"><span class="eng-num">2.</span>❷ <span class="syntax-box S-box">Graduate students</span> <span class="syntax-box V-box">forget</span> <span class="syntax-box O-box">this</span> <span class="slash">/</span> all the time.</div></div><div class="logic-section logic-body"><span class="logic-section-title">[예시] 대학원생들의 잘못된 비교와 좌절</span><div class="eng-line"><span class="eng-num">3.</span>❸ <span class="syntax-box S-box">They</span> <span class="syntax-box V-box">begin</span> <span class="slash">/</span> <span class="syntax-box O-box">their dissertations</span> <span class="slash">/</span> with <span class="vocab-container"><span class="vocab-sub">과도한(=excessive)</span><span class="vocab-text">inordinate</span></span> anxiety <span class="slash">/</span> because <span class="syntax-box S-box">they</span> <span class="syntax-box V-box">have seen</span> <span class="slash">/</span> <span class="syntax-box O-box">other people’s completed and <span class="vocab-container"><span class="vocab-sub">다듬어진</span><span class="vocab-text">polished</span></span> work</span> <span class="slash">/</span> and mistakenly <span class="syntax-box V-box">compare</span> <span class="syntax-box O-box">it</span> <span class="slash">/</span> to their own first tentative steps.</div><div class="eng-line"><span class="eng-num">4.</span>❹ With their noses deep <span class="slash">/</span> in file cards and <span class="vocab-container"><span class="vocab-sub">설익은</span><span class="vocab-text">half-baked</span></span> hypotheses, <span class="slash">/</span> <span class="syntax-box S-box">they</span> <span class="syntax-box V-box">look in <span class="vocab-container"><span class="vocab-sub">경외심</span><span class="vocab-text">awe</span></span></span> <span class="slash">/</span> at Dr. So-and-So’s published book <span class="slash">/</span> as if <span class="syntax-box S-box">it</span> <span class="syntax-box V-box">had been born</span> <span class="slash">/</span> without effort or false starts, <span class="slash">/</span> directly from brain to printed page.</div></div><div class="logic-section logic-conc"><span class="logic-section-title">[결론] 과정 인식의 중요성과 효과</span><div class="eng-line"><span class="eng-num">5.</span>❺ <span class="star-yellow">★</span>By investigating <span class="slash">/</span> <span class="syntax-box O-box">how <span class="syntax-box S-box">someone</span> <span class="syntax-box V-box">got</span> somewhere</span>, <span class="slash">/</span> <span class="syntax-box S-box">we</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box">more likely to see</span> <span class="slash">/</span> <span class="syntax-box O-box">the achievement</span> <span class="syntax-box C-box">as <span class="vocab-container"><span class="vocab-sub">힘들게 얻은</span><span class="vocab-text">hard-won</span></span></span> <span class="slash">/</span> and <span class="syntax-box O-box">our own chances</span> <span class="syntax-box C-box">as more <span class="vocab-container"><span class="vocab-sub">그럴듯한</span><span class="vocab-text">plausible</span></span></span>.</div><div class="eng-line"><span class="eng-num">6.</span>❻ When <span class="syntax-box S-box">we</span> <span class="syntax-box V-box">learn</span> <span class="slash">/</span> <span class="syntax-box O-box">a series of actions or events <span class="slash">/</span> leading to a result</span>, <span class="slash">/</span> <span class="syntax-box S-box">we</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box">less likely to feel</span> <span class="slash">/</span> <span class="syntax-box C-box">guilty</span> <span class="slash">/</span> in <span class="vocab-container"><span class="vocab-sub">회고해 볼 때</span><span class="vocab-text">retrospect</span></span> <span class="slash">/</span> even if <span class="syntax-box S-box">the outcome</span> <span class="syntax-box V-box">does not <span class="vocab-container"><span class="vocab-sub">나타나다</span><span class="vocab-text">turn out</span></span></span> <span class="slash">/</span> as <span class="syntax-box S-box">we</span> <span class="syntax-box V-box">hoped</span> <span class="syntax-box O-box">it would</span>.</div></div></div>
+</div>
+<button class="header-btn btn-eng-pure" onclick="toggleModal('modalEngPure')">지문 읽기 (Pure)</button>
+<div class="custom-modal modal-left modal-eng-pure" id="modalEngPure">
+<span class="close-modal-btn" onclick="toggleModal('modalEngPure')">×</span>
+<h3>지문 읽기 (Pure English)</h3>
+<div class="modal-content"><div class="logic-section logic-intro"><span class="logic-section-title">[도입] 타인의 지능에 대한 왜곡된 판단</span><div class="eng-line"><span class="raw-num">1.</span>Our judgments about the intelligence of others can be distorted because we do not recognize that every outcome is preceded by a process.</div><div class="eng-line"><span class="raw-num">2.</span>Graduate students forget this all the time.</div></div><div class="logic-section logic-body"><span class="logic-section-title">[예시] 대학원생들의 잘못된 비교와 좌절</span><div class="eng-line"><span class="raw-num">3.</span>They begin their dissertations with inordinate anxiety because they have seen other people’s completed and polished work and mistakenly compare it to their own first tentative steps.</div><div class="eng-line"><span class="raw-num">4.</span>With their noses deep in file cards and half-baked hypotheses, they look in awe at Dr. So-and-So’s published book as if it had been born without effort or false starts, directly from brain to printed page.</div></div><div class="logic-section logic-conc"><span class="logic-section-title">[결론] 과정 인식의 중요성과 효과</span><div class="eng-line"><span class="raw-num">5.</span>By investigating how someone got somewhere, we are more likely to see the achievement as hard-won and our own chances as more plausible.</div><div class="eng-line"><span class="raw-num">6.</span>When we learn a series of actions or events leading to a result, we are less likely to feel guilty in retrospect even if the outcome does not turn out as we hoped it would.</div></div></div>
+</div>
+<button class="header-btn btn-vis-clean" onclick="toggleModal('modalVisClean')">지문 원문 (Clean)</button>
+<div class="custom-modal modal-left modal-vis-clean" id="modalVisClean">
+<span class="close-modal-btn" onclick="toggleModal('modalVisClean')">×</span>
+<h3>지문 원문 (Clean)</h3>
+<div class="modal-content visual-source-text"><div class="line-last" style="position: relative; padding-right: 28%; margin-bottom: 10px; width: 100%; box-sizing: border-box;"><span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+<span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+<span class="logic-desc" style="font-weight: 800;"><b>S1 (Main Idea): 타인의 지능에 대한 우리의 평가는 왜곡됨 (결과 앞의 과정을 무시하기 때문)</b></span>
+</span>
+</span>❶ <span class="star-red">★</span>Our <span class="highlight-subject">judgments about the intelligence of others</span> can be <span class="highlight-feature">distorted</span> because we do not recognize that <span class="highlight-clue"> __________________ </span>. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+<span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+<span class="logic-desc" style="font-weight: 800;"><b>S2~S4 (Example): 대학원생들의 오류 (남의 완성된 논문과 자신의 불완전한 초안을 비교하며 좌절함)</b></span>
+</span>
+</span>❷ Graduate students forget this all the time. ❸ They begin their dissertations with inordinate anxiety because they have seen other people’s completed and polished work and <span class="highlight-clue">mistakenly compare it to their own first tentative steps</span>. ❹ With their noses deep in file cards and half-baked hypotheses, they look in awe at Dr. So-and-So’s published book <span class="highlight-clue">as if it had been born without effort or false starts</span>, directly from brain to printed page. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+<span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+<span class="logic-desc" style="font-weight: 800;"><b>S5 (Solution): 타인이 어떻게 그 결과를 이뤘는지(과정)</b>를 조사하면, 성취가 힘들게 얻어진 것임을 깨달음</span>
+</span>
+</span>❺ <span class="star-yellow">★</span>By investigating <span class="highlight-clue">how someone got somewhere</span>, we are more likely to see the achievement as hard-won and our own chances as more plausible. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+<span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+<span class="logic-desc" style="font-weight: 800;"><b>S6 (Conclusion)</b>: 결과에 이르는 '과정'을 알면, 결과가 실망스럽더라도 좌절감이나 죄책감을 덜 느낌</span>
+</span>
+</span>❻ When we learn a series of actions or events leading to a result, we are less likely to feel guilty in retrospect even if the outcome does not turn out as we hoped it would.</div></div>
+</div>
+<button class="header-btn btn-learning" onclick="toggleModal('modalLearning')">핵심 콕콕</button>
+<div class="custom-modal modal-left modal-learning" id="modalLearning">
+<span class="close-modal-btn" onclick="toggleModal('modalLearning')">×</span>
+<h3>핵심 콕콕 (Logic &amp; Grammar)</h3>
+<div class="modal-content">
+<div class="learning-item">
+<span class="learning-label logic-label">논리</span>
+<ul class="learning-list"><li>대조와 비교 오류: ❸번 문장에서 타인의 완성된 작업물(completed and polished work)과 자신의 초안(first tentative steps)을 비교하는 인지적 오류 <b>파악</b>.</li><li>해결책 제시: ❺번 문장의 By investigating ~ 을 통해 문제 상황에 대한 필자의 명시적인 해결책(과정 탐구)이 제시되는 논리 전개 <b>확인</b>.</li></ul>
+</div>
+<div class="learning-item">
+<span class="learning-label grammar-label">구문</span>
+<ul class="learning-list"><li>as if 가정법: ❹번 문장의 as if it had been born ~ 에서 주절의 시제보다 이전의 일을 가정하여 과거완료(had p.p.)가 쓰인 형태 <b>주의</b>.</li><li>see A as B: ❺번 문장의 see the achievement as hard-won and our own chances as more plausible 구조에서 A를 B로 간주한다는 의미와 병렬구조 <b>파악</b>.</li></ul>
+</div>
+</div>
+</div>
+<button class="header-btn btn-vocab" onclick="toggleModal('modalVocab')">핵심 어휘</button>
+<div class="custom-modal modal-center modal-vocab" id="modalVocab">
+<span class="close-modal-btn" onclick="toggleModal('modalVocab')">×</span>
+<h3>핵심 어휘 10선</h3>
+<div class="modal-content">
+<table class="vocab-table modal-table">
+<colgroup><col width="12%"/><col width="12%"/><col width="12%"/><col width="12%"/><col width="8%"/><col width="20%"/><col width="24%"/></colgroup>
+<thead><tr><th>Word</th><th>Synonym</th><th>Antonym</th><th>Confusing</th><th>Pronunciation</th><th>Meaning</th><th>Chunk</th></tr></thead>
+<tbody><tr>
+<td class="vocab-word-bold">distort</td>
+<td>misrepresent / falsify</td>
+<td>clarify / represent accurately</td>
+<td>extort (갈취하다)</td>
+<td class="vocab-pron">[디스토'트]<br/><span style="font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;">dis(완전히) + torquere(비틀다)</span></td>
+<td style="text-align:left;">왜곡하다 , 비틀다 (문맥: 타인의 능력에 대해 잘못된 판단을 내리다)</td>
+<td style="text-align:left;"><b>judgments can be <span style="color:#e53935; font-weight:bold;">distorted</span></b><br/><span style="color:#777; font-size:11px;">판단이 왜곡될 수 있다</span></td>
+</tr><tr>
+<td class="vocab-word-bold">inordinate</td>
+<td>excessive / extreme</td>
+<td>moderate / reasonable</td>
+<td>subordinate (종속된)</td>
+<td class="vocab-pron">[인오'더니트]<br/><span style="font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;">in(not) + ordinare(순서대로 하다)</span></td>
+<td style="text-align:left;">과도한 , 지나친 (문맥: 필요 이상으로 너무 큰 불안감)</td>
+<td style="text-align:left;"><b>with <span style="color:#e53935; font-weight:bold;">inordinate</span> anxiety</b><br/><span style="color:#777; font-size:11px;">과도한 불안감을 가지고</span></td>
+</tr><tr>
+<td class="vocab-word-bold">polished</td>
+<td>refined / perfected</td>
+<td>rough / unpolished</td>
+<td>published (출판된)</td>
+<td class="vocab-pron">[팔'리쉬드]<br/><span style="font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;">polire(부드럽게 하다)</span></td>
+<td style="text-align:left;">다듬어진 , 세련된 (문맥: 수정을 거쳐 완벽하게 완성된 결과물)</td>
+<td style="text-align:left;"><b>completed and <span style="color:#e53935; font-weight:bold;">polished</span> work</b><br/><span style="color:#777; font-size:11px;">완성되고 다듬어진 작업물</span></td>
+</tr><tr>
+<td class="vocab-word-bold">tentative</td>
+<td>hesitant / provisional</td>
+<td>definite / certain</td>
+<td>attentive (주의 깊은)</td>
+<td class="vocab-pron">[텐'터티브]<br/><span style="font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;">tentare(시도하다)</span></td>
+<td style="text-align:left;">잠정적인 , 머뭇거리는 (문맥: 아직 확정되지 않고 불완전한 초기 단계)</td>
+<td style="text-align:left;"><b>their own first <span style="color:#e53935; font-weight:bold;">tentative</span> steps</b><br/><span style="color:#777; font-size:11px;">그들 자신의 첫 잠정적인 발걸음</span></td>
+</tr><tr>
+<td class="vocab-word-bold">half-baked</td>
+<td>poorly planned / incomplete</td>
+<td>well-thought-out / mature</td>
+<td>None</td>
+<td class="vocab-pron">[하프-베'익트]<br/><span style="font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;">half(절반) + bake(굽다)</span></td>
+<td style="text-align:left;">섣부른 , 불완전한 (문맥: 빵이 덜 구워진 것처럼 아이디어나 가설이 덜 다듬어진 상태)</td>
+<td style="text-align:left;"><b><span style="color:#e53935; font-weight:bold;">half-baked</span> hypotheses</b><br/><span style="color:#777; font-size:11px;">불완전한 가설들</span></td>
+</tr><tr>
+<td class="vocab-word-bold">awe</td>
+<td>wonder / amazement</td>
+<td>contempt / disrespect</td>
+<td>awful (끔찍한)</td>
+<td class="vocab-pron">[오]<br/><span style="font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;">고대 노르웨이어 agi(공포)</span></td>
+<td style="text-align:left;">경외감 , 두려움 (문맥: 타인의 완성된 책을 보며 느끼는 존경심 섞인 위축감)</td>
+<td style="text-align:left;"><b>they look in <span style="color:#e53935; font-weight:bold;">awe</span> at</b><br/><span style="color:#777; font-size:11px;">그들은 ~을 경외심을 가지고 본다</span></td>
+</tr><tr>
+<td class="vocab-word-bold">hard-won</td>
+<td>earned / achieved with effort</td>
+<td>easily obtained / unearned</td>
+<td>None</td>
+<td class="vocab-pron">[하드-원]<br/><span style="font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;">hard(어렵게) + win(얻다)의 과거분사</span></td>
+<td style="text-align:left;">힘들게 얻은 (문맥: 성취가 쉽게 이루어진 것이 아니라 피나는 노력의 결과임을 깨달음)</td>
+<td style="text-align:left;"><b>see the achievement as <span style="color:#e53935; font-weight:bold;">hard-won</span></b><br/><span style="color:#777; font-size:11px;">성취를 힘들게 얻은 것으로 보다</span></td>
+</tr><tr>
+<td class="vocab-word-bold">plausible</td>
+<td>reasonable / credible</td>
+<td>implausible / unlikely</td>
+<td>flexible (유연한)</td>
+<td class="vocab-pron">[플로'저블]<br/><span style="font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;">plaudere(박수 치다)</span></td>
+<td style="text-align:left;">타당한 , 그럴듯한 (문맥: 우리 자신도 성공할 가능성이 충분히 있다고 믿게 됨)</td>
+<td style="text-align:left;"><b>our own chances as more <span style="color:#e53935; font-weight:bold;">plausible</span></b><br/><span style="color:#777; font-size:11px;">우리 자신의 가능성을 더 타당한 것으로</span></td>
+</tr><tr>
+<td class="vocab-word-bold">in retrospect</td>
+<td>looking back / in hindsight</td>
+<td>in prospect (전망으로)</td>
+<td>introspect (자기 성찰하다)</td>
+<td class="vocab-pron">[인 레'트로스펙트]<br/><span style="font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;">retro(뒤로) + specere(보다)</span></td>
+<td style="text-align:left;">돌이켜보면 , 회고해 볼 때 (문맥: 과거의 과정 전체를 되돌아보고 평가할 때)</td>
+<td style="text-align:left;"><b>feel guilty <span style="color:#e53935; font-weight:bold;">in retrospect</span></b><br/><span style="color:#777; font-size:11px;">돌이켜보며 죄책감을 느끼다</span></td>
+</tr><tr>
+<td class="vocab-word-bold">precede</td>
+<td>come before / lead</td>
+<td>follow / succeed</td>
+<td>proceed (진행하다)</td>
+<td class="vocab-pron">[프리시'드]<br/><span style="font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;">pre(미리) + cedere(가다)</span></td>
+<td style="text-align:left;">선행하다 , 앞서다 (문맥: 모든 빛나는 결과보다 앞서서 힘든 과정이 존재함)</td>
+<td style="text-align:left;"><b>every outcome is <span style="color:#e53935; font-weight:bold;">preceded</span> by</b><br/><span style="color:#777; font-size:11px;">모든 결과 앞에는 ~이 선행된다</span></td>
+</tr></tbody>
+</table>
+</div>
+</div>
+<button class="header-btn btn-keys" onclick="toggleModal('modalKeys')">핵심 문장</button>
+<div class="custom-modal modal-center modal-keys" id="modalKeys">
+<span class="close-modal-btn" onclick="toggleModal('modalKeys')">×</span>
+<h3>핵심 문장 3개</h3>
+<div class="modal-content">
+<div style="margin-bottom:15px; border-bottom:1px dashed #ddd; padding-bottom:10px;">
+<div style="font-weight:bold; color:#0d47a1; margin-bottom:4px;">주제문 <span style="font-size:11px; color:#666; font-weight:normal;">[출처]</span></div>
+<div style="font-family:'Times New Roman'; font-size:15px; margin-bottom:4px;">Our judgments about the intelligence of others can be distorted because we do not recognize that <span style="color:#d32f2f; font-weight:bold;">every outcome is preceded by a process</span>.</div>
+<div style="font-size:13px; color:#333; margin-bottom:4px;">우리는 모든 결과 앞에는 과정이 선행된다는 것을 인식하지 못하기 때문에 타인의 지능에 대한 우리의 판단이 왜곡될 수 있다.</div>
+<div style="font-size:12px; color:#555; background:#f9f9f9; padding:4px;">💡 [빈칸/글의 대주제] 글의 서두에서 필자의 핵심 주장을 명확하게 던지는 주제문이며, 우리가 범하는 인지적 오류의 원인을 밝히고 있습니다.</div>
+</div>
+<div style="margin-bottom:15px; border-bottom:1px dashed #ddd; padding-bottom:10px;">
+<div style="font-weight:bold; color:#0d47a1; margin-bottom:4px;">핵심 구문 <span style="font-size:11px; color:#666; font-weight:normal;">[출처]</span></div>
+<div style="font-family:'Times New Roman'; font-size:15px; margin-bottom:4px;">They begin their dissertations with inordinate anxiety because they have seen other people's completed and polished work and mistakenly compare it <span style="color:#d32f2f; font-weight:bold;">to</span> their own first tentative steps.</div>
+<div style="font-size:13px; color:#333; margin-bottom:4px;">그들은 다른 사람들의 완성되고 다듬어진 작업물을 보았고 그것을 그들 자신의 첫 잠정적인 발걸음과 잘못 비교하기 때문에 과도한 불안감을 가지고 논문을 시작한다.</div>
+<div style="font-size:12px; color:#555; background:#f9f9f9; padding:4px;">💡 [compare A to B] 대학원생들의 구체적 예시를 통해 주제를 뒷받침하는 문장으로, 'compare A to B(A를 B와 비교하다)' 구조를 통해 결과(A)와 과정(B)의 잘못된 비교를 명확히 보여줍니다.</div>
+</div>
+<div style="margin-bottom:15px; border-bottom:1px dashed #ddd; padding-bottom:10px;">
+<div style="font-weight:bold; color:#0d47a1; margin-bottom:4px;">재진술 <span style="font-size:11px; color:#666; font-weight:normal;">[출처]</span></div>
+<div style="font-family:'Times New Roman'; font-size:15px; margin-bottom:4px;">By investigating how someone got somewhere, we are more likely to see the achievement <span style="color:#d32f2f; font-weight:bold;">as</span> hard-won and our own chances <span style="color:#d32f2f; font-weight:bold;">as</span> more plausible.</div>
+<div style="font-size:13px; color:#333; margin-bottom:4px;">누군가가 어떻게 어떤 곳에 도달했는지를 조사함으로써, 우리는 그 성취를 힘들게 얻은 것으로, 그리고 우리 자신의 가능성을 더 타당한 것으로 볼 가능성이 더 크다.</div>
+<div style="font-size:12px; color:#555; background:#f9f9f9; padding:4px;">💡 [see A as B <span class="slash">/</span> 병렬구조] 문제의 해결책을 제시하는 문장으로, 'see A as B(A를 B로 보다)' 구조가 and를 중심으로 두 번 병렬 연결되어 구문 분석이 중요합니다.</div>
+</div>
+</div>
+</div>
+<button class="header-btn btn-ans" onclick="toggleModal('modalAns')">정답 및 해설</button>
+<div class="custom-modal modal-center modal-ans" id="modalAns">
+<span class="close-modal-btn" onclick="toggleModal('modalAns')">×</span>
+<h3>정답 및 해설</h3>
+<div class="modal-content">
+<div style="font-size:16px; font-weight:bold; color:#0277bd; margin-bottom:15px;">정답: ③ every outcome is preceded by a process</div>
+<div style="margin-bottom:15px;"><strong>[해설 요약]</strong><br/>이 글은 타인의 훌륭한 결과물(완성된 논문, 출판된 책)과 자신의 불완전한 시작 단계(과정)를 비교하며 좌절하는 대학원생의 예시를 통해, 모든 결과물 이면에는 힘들고 불완전한 '과정'이 존재함을 인식해야 한다고 말합니다. 따라서 빈칸에는 '모든 결과 앞에는 과정이 선행된다'가 적절합니다.</div>
+<div style="margin-bottom:15px;"><strong>[논리적 근거]</strong><br/><ul style="padding-left:20px;"><li>소재 및 방향성: <span class="highlight-subject">judgments about the intelligence of others</span> and the failure to recognize the process.</li><br/><li>단서 1: "<span class="highlight-clue">mistakenly compare it to their own first tentative steps</span>" (실수로 그것을 그들 자신의 첫 잠정적인 발걸음과 비교한다)</li><br/><li>단서 2: "<span class="highlight-clue">as if it had been born without effort or false starts</span>" (마치 그것이 노력이나 잘못된 출발 없이 태어난 것처럼)</li><br/><li>단서 3: "<span class="highlight-clue">how someone got somewhere</span>" (누군가가 어떻게 어떤 곳에 도달했는지)</li></ul></div>
+<div><strong>[논리 연결]</strong><br/>"[지문] compare completed work to tentative steps (S3) &amp; think it was born without effort (S4)" → "[지문] need to investigate how someone got somewhere (S5)" → **[정답] every outcome is preceded by a process (S1 빈칸)**</div>
+</div>
+</div>
+<button class="header-btn btn-opts" onclick="toggleModal('modalOpts')">선택지 분석</button>
+<div class="custom-modal modal-center modal-opts" id="modalOpts">
+<span class="close-modal-btn" onclick="toggleModal('modalOpts')">×</span>
+<h3>선택지 분석</h3>
+<div class="modal-content"><div style="font-size:14px; font-weight:800; margin-top:8px; margin-bottom:6px; color:#1565c0; border-bottom:1px dashed #ccc; padding-bottom:4px;">📌 3. 다음 빈칸에 들어갈 말로 가장 적절한 것을 고르시오.</div>
+<div class="option-item">
+<div class="opt-header"><span class="opt-text">① life is one long process of learning</span></div>
+<span class="opt-trans">인생은 길고 긴 학습의 과정이다</span>
+<div class="opt-analysis"><span class="err-badge-wrong">무관한 내용</span> '과정'이라는 단어는 있지만, 인생 전반의 학습에 대한 글이 아니라 '타인의 결과물 이면의 과정'을 간과하는 오류에 대한 글입니다.</div>
+</div>
+<div class="option-item">
+<div class="opt-header"><span class="opt-text">② if you fail to plan, then you plan to fail</span></div>
+<span class="opt-trans">만약 당신이 계획하는 데 실패한다면, 당신은 실패를 계획하는 것이다</span>
+<div class="opt-analysis"><span class="err-badge-wrong">매력적 오답 / 무관한 내용</span> 과정이나 준비의 중요성을 연상시킬 수 있는 속담이나, '계획(plan)'의 중요성에 대한 글이 아닙니다.</div>
+</div>
+<div class="option-item">
+<div class="opt-header"><span class="opt-text">③ every outcome is preceded by a process</span></div>
+<span class="opt-trans">모든 결과 앞에는 과정이 선행된다</span>
+<div class="opt-analysis"><span class="err-badge-correct">정답</span> </div>
+</div>
+<div class="option-item">
+<div class="opt-header"><span class="opt-text">④ outcome gauges how the process is going</span></div>
+<span class="opt-trans">결과는 과정이 어떻게 진행되는지를 측정한다</span>
+<div class="opt-analysis"><span class="err-badge-wrong">반대 진술</span> 결과로 과정을 판단한다는 결과주의적 시각으로, 결과를 보고 과정을 보지 못하는 우리의 오류를 지적하는 필자의 의도와 반대됩니다.</div>
+</div>
+<div class="option-item">
+<div class="opt-header"><span class="opt-text">⑤ intelligence may vary depending on time invested</span></div>
+<span class="opt-trans">지능은 투자된 시간에 따라 달라질 수 있다</span>
+<div class="opt-analysis"><span class="err-badge-wrong">지엽적 내용</span> 노력(시간 투자)에 대한 언급이 나오지만, 지능 자체가 변한다는 내용이 아니라 타인의 지능에 대한 우리의 '판단'이 왜곡된다는 것이 글의 초점입니다.</div>
+</div></div>
+</div>
+<button class="header-btn btn-exam" onclick="toggleModal('modalExam')">내신 출제 포인트</button>
+<div class="custom-modal modal-center modal-exam" id="modalExam">
+<span class="close-modal-btn" onclick="toggleModal('modalExam')">×</span>
+<h3>내신 변형 문제 예측 5선</h3>
+<div class="modal-content">
+<div style="margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;">
+<div style="margin-bottom:4px;"><strong>S3.</strong> <span class="exam-badge exam-badge-implied">함축</span> <span class="exam-target">their own first tentative steps</span></div>
+<div style="font-size:13px; color:#555; margin-bottom:2px;"><strong>Meaning:</strong> the messy and imperfect initial stages of a process</div>
+<div style="font-size:13px; color:#444;">💡 <strong>출제이유:</strong> 타인의 완성된 결과(outcome)와 대비되는 개념으로, 글의 핵심 소재인 '과정(process)'을 비유적으로 나타내는 구문입니다.</div>
+</div>
+<div style="margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;">
+<div style="margin-bottom:4px;"><strong>S4.</strong> <span class="exam-badge exam-badge-grammar">어법</span> <span class="exam-target">had been born</span></div>
+<div style="font-size:13px; color:#555; margin-bottom:2px;"><strong>Distractor:</strong> ① was born ② has been born</div>
+<div style="font-size:13px; color:#444;">💡 <strong>출제이유:</strong> [as if 가정법] 주절의 시제(look in awe)보다 책이 출판된 것(태어난 것)이 더 이전의 사실에 대한 반대 가정이므로 가정법 과거완료(had p.p.)를 써야 합니다.</div>
+</div>
+<div style="margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;">
+<div style="margin-bottom:4px;"><strong>S5.</strong> <span class="exam-badge exam-badge-blank">빈칸</span> <span class="exam-target">hard-won</span></div>
+<div style="font-size:13px; color:#555; margin-bottom:2px;"><strong>Paraphrase:</strong> ① earned through intense effort ② accomplished with great difficulty</div>
+<div style="font-size:13px; color:#444;">💡 <strong>출제이유:</strong> 과정을 이해함으로써 결과물을 바라보는 시각이 어떻게 긍정적으로 바뀌는지를 보여주는 핵심 형용사입니다.</div>
+</div>
+<div style="margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;">
+<div style="margin-bottom:4px;"><strong>S6.</strong> <span class="exam-badge exam-badge-grammar">어법</span> <span class="exam-target">less likely</span></div>
+<div style="font-size:13px; color:#555; margin-bottom:2px;"><strong>Distractor:</strong> ① more likely ② less like</div>
+<div style="font-size:13px; color:#444;">💡 <strong>출제이유:</strong> [어휘/문맥] 과정의 험난함을 인지하면 실패 시 자신을 자책하는 마음(feel guilty)이 '줄어들' 것이므로 less likely가 문맥상 맞습니다.</div>
+</div>
+<div style="margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;">
+<div style="margin-bottom:4px;"><strong>S6.</strong> <span class="exam-badge exam-badge-blank">빈칸</span> <span class="exam-target">a series of actions or events leading to a result</span></div>
+<div style="font-size:13px; color:#555; margin-bottom:2px;"><strong>Paraphrase:</strong> ① the intricate process behind an outcome ② the sequential efforts required for success</div>
+<div style="font-size:13px; color:#444;">💡 <strong>출제이유:</strong> 첫 문장의 빈칸 정답이었던 'process'를 그대로 풀어쓴(Paraphrasing) 문구로, 하단부 빈칸으로 출제하기 매우 좋습니다.</div>
+</div>
+</div>
+</div>
+<div class="info-group">
+<div class="difficulty-box">
+<span class="diff-label">DIFFICULTY</span>
+<span class="diff-stars">★★★☆☆</span>
+</div>
+<div class="ri-item ri-material">
+<span class="ri-label">소재</span>
+            결과 이면에 숨겨진 과정의 중요성 (타인의 지능에 대한 왜곡된 판단) <span class="header-badge-them">★주제문: S1</span><span class="header-badge-key">★재진술: S5</span>
+</div>
+<div class="topic-box">
+<strong style="font-size:17.5px;">Topic &amp; Summary</strong><br/>
+<div style="margin-top:6px;">우리는 타인의 완성된 결과물만 보고 그 이면의 힘들고 불완전했던 과정을 보지 못하기 때문에 타인의 지능을 왜곡해서 판단하거나 스스로 좌절하기 쉽다.</div>
+</div>
+<div class="ri-item ri-guide">
+<span class="ri-label">수업 가이드</span>
+            1번 문장에 빈칸이 있지? 우리가 '무엇'을 인식하지 못해서 타인을 오해한대. 뒤에 나오는 대학원생의 예를 보자. 3번 문장에서 그들은 남의 'completed work(완성작)'과 자신의 'tentative steps(잠정적 발걸음, 즉 과정)'를 잘못 비교한대. 4번 문장에서도 남의 책이 '노력이나 잘못된 출발(과정) 없이' 뚝딱 나온 줄 착각한대. 5번 문장에서 해결책을 주지? '어떻게 거기로 갔는지(과정)'를 조사해야 된대. 결국 계속해서 강조하는 건, 완성된 결과(outcome)를 보기 전에 반드시 그 뒤에 숨은 지저분한 '과정(process)'을 봐야 한다는 거야. 그러니까 정답은 '모든 결과 앞에는 과정이 선행된다'인 3번이 완벽해!
+        </div>
+<div class="ri-item ri-tip">
+<span class="ri-label">집중 Tip</span>
+            빈칸이 첫 문장에 있을 때는 글 전체의 대주제입니다. 글의 중후반부에 나오는 예시나 해결책에서 계속 반복되는 키워드(tentative steps, effort, how someone got somewhere)를 하나로 묶을 수 있는 상위 개념(process)을 선지에서 찾아보세요.
+        </div>
+</div>
+</div>
+<div class="top-container">
+<div class="sent-container">
+<div class="sent-logic-col">
+<div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+<span class="logic-desc" style="font-weight: 900;"><b>S1 (Main Idea): 타인의 지능에 대한 우리의 평가는 왜곡됨 (결과 앞의 과정을 무시하기 때문)</b></span>
+</div>
+</div>
+<div class="sent-analysis-col">
+<div class="analysis-card bg-intro card-them">
+<div class="eng-sent">
+<div class="chunk-pair"><div class="eng-chunk">❶ <span class="star-red">★</span><span class="syntax-box S-box">Our judgments</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❶ <span class="star-red">★</span><span class="S-text">우리의 판단은</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">about the intelligence of others</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">타인의 지능에 대한</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box V-box">can be distorted</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="V-text">왜곡될 수 있다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">because <span class="syntax-box S-box">we</span> <span class="syntax-box V-box">do not recognize</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">왜냐하면 <span class="S-text">우리가</span> <span class="V-text">인식하지 못하기</span> 때문이다</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box O-box">that <span class="highlight-clue"><span class="blank-filled">every outcome</span></span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text"><span class="highlight-clue"><span class="blank-filled">모든 결과 앞에는</span></span></span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>is preceded</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">선행된다는 것을</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">by a process.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">과정이. <span style="display: inline-block; vertical-align: middle; margin-left: 6px;"><span class="summary-badge" style="margin: 0;">[주제] 왜곡된 판단의 원인</span></span></div></div>
+</div>
+<div class="analysis-footer"><div class="easy-exp-box"><span class="easy-label">쉬운풀이</span>남들이 얼마나 똑똑한지 평가할 때 우리는 흔히 착각을 해. 왜냐하면 번지르르한 '결과' 이전에 항상 지저분하고 힘든 '과정'이 있었다는 사실을 깜빡하거든.</div><div class="syntax-tip"><span class="syntax-label">구문팁</span>[구문팁] <b>is preceded by</b>: 능동태 'A precede B(A가 B보다 앞서다)'가 수동태가 되어 'B is preceded by A(B 앞에는 A가 선행된다)'로 쓰임.</div></div>
+</div>
+</div>
+</div>
+<div class="sent-container">
+<div class="sent-logic-col">
+<div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+<span class="logic-desc" style="font-weight: 900;"><b>S2~S4 (Example): 대학원생들의 오류 (남의 완성된 논문과 자신의 불완전한 초안을 비교하며 좌절함)</b></span>
+</div>
+<div class="logic-flow-card logic-intro">
+<div style="margin-bottom:6px;">
+<span class="logic-title" style="display:inline; margin-bottom:0;">[도입] 타인의 지능에 대한 왜곡된 판단</span>
+<span style="font-size:12px; font-weight:bold; opacity:0.8; margin-left:5px;">1, 2</span>
+</div>
+<span class="logic-desc">우리는 화려한 결과물 이면에 필연적으로 선행하는 <span class="fill-text">과정</span>을 인식하지 못하여 타인의 지능에 대해 왜곡된 판단을 내리기 쉽다.</span>
+</div>
+</div>
+<div class="sent-analysis-col">
+<div class="analysis-card bg-intro">
+<div class="eng-sent">
+<div class="chunk-pair"><div class="eng-chunk">❷ <span class="syntax-box S-box">Graduate students</span> <span class="syntax-box V-box">forget</span> <span class="syntax-box O-box">this</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❷ <span class="S-text">대학원생들은</span> <span class="O-text">이것을(앞 문장의 사실을)</span> <span class="V-text">잊어버린다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">all the time.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">항상. <span style="display: inline-block; vertical-align: middle; margin-left: 6px;"><span class="summary-badge" style="margin: 0;">[도입] 대학원생의 예시</span></span></div></div>
+</div>
+<div class="analysis-footer"><div class="easy-exp-box"><span class="easy-label">쉬운풀이</span>특히 대학원에서 논문 쓰는 학생들이 이 사실을 맨날 까먹고 좌절해.</div></div>
+</div>
+</div>
+</div>
+<div class="sent-container">
+<div class="sent-logic-col">
+</div>
+<div class="sent-analysis-col">
+<div class="analysis-card bg-body">
+<div class="eng-sent">
+<div class="chunk-pair"><div class="eng-chunk">❸ <span class="syntax-box S-box">They</span> <span class="syntax-box V-box">begin</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❸ <span class="S-text">그들은</span> <span class="V-text">시작한다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box O-box">their dissertations</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text">그들의 학위 논문을</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">with <span class="vocab-container"><span class="vocab-sub">과도한(=excessive)</span><span class="vocab-text">inordinate</span></span> anxiety</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">과도한 불안감을 가지고</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">because <span class="syntax-box S-box">they</span> <span class="syntax-box V-box">have seen</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">왜냐하면 <span class="S-text">그들이</span> <span class="V-text">보았고</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box O-box">other people’s completed and <span class="vocab-container"><span class="vocab-sub">다듬어진</span><span class="vocab-text">polished</span></span> work</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text">다른 사람들의 완성되고 다듬어진 작업물을</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">and mistakenly <span class="syntax-box V-box"><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>compare</span> <span class="syntax-box O-box">it</span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">실수로 <span class="O-text">그것을(완성된 작업물을)</span> <span class="V-text">비교하기</span> 때문이다</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">to <span class="visual-exam-target" style="border-bottom: 2px dashed #9c27b0; background-color: rgba(156, 39, 176, 0.15);"><span class="visual-exam-label" style="background-color: #9c27b0;">함축의미</span>their own</span> first tentative steps.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">그들 자신의 첫 잠정적인 발걸음들과. <span style="display: inline-block; vertical-align: middle; margin-left: 6px;"><span class="summary-badge" style="margin: 0;">[현상] 결과와 과정의 잘못된 비교</span></span></div></div>
+</div>
+<div class="analysis-footer"><div class="easy-exp-box"><span class="easy-label">쉬운풀이</span>남들이 이미 다 쓰고 예쁘게 포장까지 끝낸 논문을 본 다음, 이제 막 첫 줄을 쓰기 시작한 자기 논문이랑 비교하니까 "난 쓰레기야"라며 과도하게 불안해하는 거지.</div><div class="syntax-tip"><span class="syntax-label">구문팁</span>[구문팁] <b>compare it to their own ~</b>: 'compare A to(with) B' 구조로 A(완성된 작업물)와 B(자신의 불완전한 초안)를 비교함.</div></div>
+<div class="exam-point-box">
+<div style="margin-bottom:3px;"><span class="exam-badge exam-badge-implied">함축의미</span> <span class="exam-target">their own first tentative steps</span> ➔ 의미: the messy and imperfect initial stages of a process</div>
+<div style="font-size:11px; color:#666;">💡 타인의 완성된 결과(outcome)와 대비되는 개념으로, 글의 핵심 소재인 '과정(process)'을 비유적으로 나타내는 구문입니다.</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sent-container">
+<div class="sent-logic-col">
+<div class="logic-flow-card logic-body">
+<div style="margin-bottom:6px;">
+<span class="logic-title" style="display:inline; margin-bottom:0;">[예시] 대학원생들의 잘못된 비교와 좌절</span>
+<span style="font-size:12px; font-weight:bold; opacity:0.8; margin-left:5px;">3, 4</span>
+</div>
+<span class="logic-desc">대학원생들은 타인의 완성된 논문과 자신의 불완전한 초기 <span class="fill-text">초안</span>을 비교하며, 타인의 결과물이 아무런 노력 없이 탄생했다고 착각한다.</span>
+</div>
+</div>
+<div class="sent-analysis-col">
+<div class="analysis-card bg-body">
+<div class="eng-sent">
+<div class="chunk-pair"><div class="eng-chunk">❹ With their noses deep</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❹ 그들의 코를 깊이 파묻은 채</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">in file cards and <span class="vocab-container"><span class="vocab-sub">설익은</span><span class="vocab-text">half-baked</span></span> hypotheses,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">자료 카드들과 설익은 가설들 안에,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box S-box">they</span> <span class="syntax-box V-box">look in <span class="vocab-container"><span class="vocab-sub">경외심</span><span class="vocab-text">awe</span></span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text">그들은</span> <span class="V-text">경외심을 가지고 쳐다본다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">at Dr. So-and-So’s published book</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">아무개 박사의 출판된 책을</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>as if <span class="syntax-box S-box">it</span> <span class="syntax-box V-box"><span class="visual-exam-target" style="border-bottom: 2px dashed #f44336; background-color: rgba(244, 67, 54, 0.15);"><span class="visual-exam-label" style="background-color: #f44336;">어법주의</span>had been born</span></span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">마치 <span class="S-text">그것이</span> <span class="V-text">태어난 것처럼</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">without effort or false starts,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">노력이나 잘못된 출발 없이,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">directly from brain to printed page.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">뇌에서 인쇄된 페이지로 곧바로. <span style="display: inline-block; vertical-align: middle; margin-left: 6px;"><span class="summary-badge" style="margin: 0;">[오류] 노력의 과정 간과</span></span></div></div>
+</div>
+<div class="analysis-footer"><div class="easy-exp-box"><span class="easy-label">쉬운풀이</span>자기들은 정리도 안 된 자료랑 엉성한 아이디어 속에서 허우적대면서, 이미 출판된 유명한 박사님 책을 보고는 "와, 저 사람은 한 번의 실패도 없이 천재적인 머리에서 바로 책이 뚝딱 나왔구나" 하고 착각하며 우러러보는 거야.</div><div class="syntax-tip"><span class="syntax-label">구문팁</span>[구문팁] <b>as if it had been born ~</b>: 'as if + 가정법 과거완료(had p.p.)' 구문으로, 주절의 시제(look)보다 이전에 발생한 일(책이 쓰여진 것)을 반대로 가정함.</div></div>
+<div class="exam-point-box">
+<div style="margin-bottom:3px;"><span class="exam-badge exam-badge-grammar">어법주의</span> <span class="exam-target">had been born</span> ➔ 오답함정: ① was born ② has been born</div>
+<div style="font-size:11px; color:#666;">💡 [as if 가정법] 주절의 시제(look in awe)보다 책이 출판된 것(태어난 것)이 더 이전의 사실에 대한 반대 가정이므로 가정법 과거완료(had p.p.)를 써야 합니다.</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sent-container">
+<div class="sent-logic-col">
+<div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+<span class="logic-desc" style="font-weight: 900;"><b>S5 (Solution): 타인이 어떻게 그 결과를 이뤘는지(과정)</b>를 조사하면, 성취가 힘들게 얻어진 것임을 깨달음</span>
+</div>
+</div>
+<div class="sent-analysis-col">
+<div class="analysis-card bg-conc card-key">
+<div class="eng-sent">
+<div class="chunk-pair"><div class="eng-chunk">❺ <span class="star-yellow">★</span>By investigating</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❺ <span class="star-yellow">★</span>조사함으로써</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box O-box">how <span class="syntax-box S-box">someone</span> <span class="syntax-box V-box">got</span> somewhere</span>,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text">어떻게 <span class="S-text">누군가가</span> 어떤 곳에 도달했는지를</span>,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box S-box">we</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box">more likely to <span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>see</span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text">우리는</span> <span class="C-text">볼 가능성이 더 크다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box O-box">the achievement</span> <span class="syntax-box C-box">as <span class="visual-exam-target" style="border-bottom: 2px dashed #4caf50; background-color: rgba(76, 175, 80, 0.15);"><span class="visual-exam-label" style="background-color: #4caf50;">빈칸출제</span><span class="vocab-container"><span class="vocab-sub">힘들게 얻은</span><span class="vocab-text">hard-won</span></span></span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text">그 성취를</span> <span class="C-text">힘들게 얻은 것으로</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">and <span class="syntax-box O-box">our own chances</span> <span class="syntax-box C-box">as more <span class="vocab-container"><span class="vocab-sub">그럴듯한</span><span class="vocab-text">plausible</span></span></span>.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">그리고 <span class="O-text">우리 자신의 가능성을</span> <span class="C-text">더 타당한 것으로</span>. <span style="display: inline-block; vertical-align: middle; margin-left: 6px;"><span class="summary-badge" style="margin: 0;">[해결] 과정 조사의 긍정적 효과</span></span></div></div>
+</div>
+<div class="analysis-footer"><div class="easy-exp-box"><span class="easy-label">쉬운풀이</span>하지만 그 대단한 박사님이 어떤 개고생을 거쳐서 그 책을 썼는지(과정)를 알아보면, "아, 저 사람도 엄청 고생해서 얻은 결과구나. 그럼 나도 할 수 있겠네!"라고 희망을 가지게 될 거야.</div><div class="syntax-tip"><span class="syntax-label">구문팁</span>[구문팁] <b>see the achievement as hard-won and our own chances as more plausible</b>: 'see A as B (A를 B로 간주하다)' 구문이 and를 중심으로 두 개 병렬됨.</div></div>
+<div class="exam-point-box">
+<div style="margin-bottom:3px;"><span class="exam-badge exam-badge-blank">빈칸출제</span> <span class="exam-target">hard-won</span> ➔ 변형: ① earned through intense effort ② accomplished with great difficulty</div>
+<div style="font-size:11px; color:#666;">💡 과정을 이해함으로써 결과물을 바라보는 시각이 어떻게 긍정적으로 바뀌는지를 보여주는 핵심 형용사입니다.</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sent-container">
+<div class="sent-logic-col">
+<div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+<span class="logic-desc" style="font-weight: 900;"><b>S6 (Conclusion)</b>: 결과에 이르는 '과정'을 알면, 결과가 실망스럽더라도 좌절감이나 죄책감을 덜 느낌</span>
+</div>
+<div class="logic-flow-card logic-conc">
+<div style="margin-bottom:6px;">
+<span class="logic-title" style="display:inline; margin-bottom:0;">[결론] 과정 인식의 중요성과 효과</span>
+<span style="font-size:12px; font-weight:bold; opacity:0.8; margin-left:5px;">5, 6</span>
+</div>
+<span class="logic-desc">성공에 이른 험난한 과정을 이해하면 타인의 성취를 존중하게 되고 자신의 성공 가능성을 믿게 되며, 결과가 나쁘더라도 <span class="fill-text">죄책감</span>을 덜 느끼게 된다.</span>
+</div>
+</div>
+<div class="sent-analysis-col">
+<div class="analysis-card bg-conc">
+<div class="eng-sent">
+<div class="chunk-pair"><div class="eng-chunk">❻ When <span class="syntax-box S-box">we</span> <span class="syntax-box V-box">learn</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❻ <span class="S-text">우리가</span> <span class="V-text">알게 될</span> 때</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box O-box"><span class="visual-exam-target" style="border-bottom: 2px dashed #4caf50; background-color: rgba(76, 175, 80, 0.15);"><span class="visual-exam-label" style="background-color: #4caf50;">빈칸출제</span>a series of actions or events</span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text">일련의 행동들이나 사건들을</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">leading to a result,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">결과로 이끄는,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box S-box">we</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box"><span class="visual-exam-target" style="border-bottom: 2px dashed #f44336; background-color: rgba(244, 67, 54, 0.15);"><span class="visual-exam-label" style="background-color: #f44336;">어법주의</span>less likely</span> to feel</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text">우리는</span> <span class="C-text">느낄 가능성이 더 적다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box C-box">guilty</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="C-text">죄책감을</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">in <span class="vocab-container"><span class="vocab-sub">회고해 볼 때</span><span class="vocab-text">retrospect</span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">돌이켜볼 때</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">even if <span class="syntax-box S-box">the outcome</span> <span class="syntax-box V-box">does not <span class="vocab-container"><span class="vocab-sub">나타나다</span><span class="vocab-text">turn out</span></span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">비록 <span class="S-text">그 결과가</span> <span class="V-text">나타나지 않더라도</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>as <span class="syntax-box S-box">we</span> <span class="syntax-box V-box">hoped</span> <span class="syntax-box O-box">it would</span></span>.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text">우리가</span> <span class="O-text">그럴 것이라고</span> <span class="V-text">희망했던</span> 대로. <span style="display: inline-block; vertical-align: middle; margin-left: 6px;"><span class="summary-badge" style="margin: 0;">[결론] 과정 인식에 따른 자책감 감소</span></span></div></div>
+</div>
+<div class="analysis-footer"><div class="easy-exp-box"><span class="easy-label">쉬운풀이</span>성공으로 가는 힘든 '과정'을 제대로 이해하면, 나중에 내 결과가 기대에 못 미치더라도 "내가 과정에서 할 만큼 했으니까 괜찮아"라며 스스로를 덜 자책하게 돼.</div><div class="syntax-tip"><span class="syntax-label">구문팁</span>[구문팁] <b>as we hoped it would</b>: 'as'는 양태(~대로)의 접속사이며, 'it would' 뒤에는 앞서 나온 'turn out'이 생략되어 있음.</div></div>
+<div class="exam-point-box">
+<div style="margin-bottom:3px;"><span class="exam-badge exam-badge-grammar">어법주의</span> <span class="exam-target">less likely</span> ➔ 오답함정: ① more likely ② less like</div>
+<div style="font-size:11px; color:#666;">💡 [어휘/문맥] 과정의 험난함을 인지하면 실패 시 자신을 자책하는 마음(feel guilty)이 '줄어들' 것이므로 less likely가 문맥상 맞습니다.</div>
+</div>
+<div class="exam-point-box">
+<div style="margin-bottom:3px;"><span class="exam-badge exam-badge-blank">빈칸출제</span> <span class="exam-target">a series of actions or events leading to a result</span> ➔ 변형: ① the intricate process behind an outcome ② the sequential efforts required for success</div>
+<div style="font-size:11px; color:#666;">💡 첫 문장의 빈칸 정답이었던 'process'를 그대로 풀어쓴(Paraphrasing) 문구로, 하단부 빈칸으로 출제하기 매우 좋습니다.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bottom-container">
+<div class="b-left">
+<div class="info-group" style="margin-top: 0;">
+<div class="ri-item ri-material">
+<span class="ri-label">소재</span>
+                결과 이면에 숨겨진 과정의 중요성 (타인의 지능에 대한 왜곡된 판단) <span class="header-badge-them">★주제문: S1</span><span class="header-badge-key">★재진술: S5</span>
+</div>
+<div class="topic-box">
+<strong style="font-size:17.5px;">Topic &amp; Summary</strong><br/>
+<div style="margin-top:6px;">우리는 타인의 완성된 결과물만 보고 그 이면의 힘들고 불완전했던 과정을 보지 못하기 때문에 타인의 지능을 왜곡해서 판단하거나 스스로 좌절하기 쉽다.</div>
+</div>
+<div class="ri-item ri-guide">
+<span class="ri-label">수업 가이드</span>
+                1번 문장에 빈칸이 있지? 우리가 '무엇'을 인식하지 못해서 타인을 오해한대. 뒤에 나오는 대학원생의 예를 보자. 3번 문장에서 그들은 남의 'completed work(완성작)'과 자신의 'tentative steps(잠정적 발걸음, 즉 과정)'를 잘못 비교한대. 4번 문장에서도 남의 책이 '노력이나 잘못된 출발(과정) 없이' 뚝딱 나온 줄 착각한대. 5번 문장에서 해결책을 주지? '어떻게 거기로 갔는지(과정)'를 조사해야 된대. 결국 계속해서 강조하는 건, 완성된 결과(outcome)를 보기 전에 반드시 그 뒤에 숨은 지저분한 '과정(process)'을 봐야 한다는 거야. 그러니까 정답은 '모든 결과 앞에는 과정이 선행된다'인 3번이 완벽해!
+            </div>
+<div class="ri-item ri-tip">
+<span class="ri-label">집중 Tip</span>
+                빈칸이 첫 문장에 있을 때는 글 전체의 대주제입니다. 글의 중후반부에 나오는 예시나 해결책에서 계속 반복되는 키워드(tentative steps, effort, how someone got somewhere)를 하나로 묶을 수 있는 상위 개념(process)을 선지에서 찾아보세요.
+            </div>
+</div>
+<div class="answer-box">
+<div class="ans-header">정답: ③ every outcome is preceded by a process</div>
+<div class="ans-content">
+<strong>[해설 요약]</strong><br/>이 글은 타인의 훌륭한 결과물(완성된 논문, 출판된 책)과 자신의 불완전한 시작 단계(과정)를 비교하며 좌절하는 대학원생의 예시를 통해, 모든 결과물 이면에는 힘들고 불완전한 '과정'이 존재함을 인식해야 한다고 말합니다. 따라서 빈칸에는 '모든 결과 앞에는 과정이 선행된다'가 적절합니다.<br/><br/>
+<strong>[논리적 근거]</strong><br/>
+<ul style="margin:5px 0 0 20px; padding:0; list-style-type:circle;"><li>소재 및 방향성: <span class="highlight-subject">judgments about the intelligence of others</span> and the failure to recognize the process.</li><br/><li>단서 1: "<span class="highlight-clue">mistakenly compare it to their own first tentative steps</span>" (실수로 그것을 그들 자신의 첫 잠정적인 발걸음과 비교한다)</li><br/><li>단서 2: "<span class="highlight-clue">as if it had been born without effort or false starts</span>" (마치 그것이 노력이나 잘못된 출발 없이 태어난 것처럼)</li><br/><li>단서 3: "<span class="highlight-clue">how someone got somewhere</span>" (누군가가 어떻게 어떤 곳에 도달했는지)</li></ul><br/>
+<strong>[논리 연결]</strong><br/>"[지문] compare completed work to tentative steps (S3) &amp; think it was born without effort (S4)" → "[지문] need to investigate how someone got somewhere (S5)" → **[정답] every outcome is preceded by a process (S1 빈칸)**
+            </div>
+</div>
+<div class="box-style options-box">
+<strong style="font-size:14px; display:block; margin-bottom:15px; border-bottom:1px solid #ddd; padding-bottom:5px;">선택지 분석 (Why &amp; Why not?)</strong>
+<div style="font-size:14px; font-weight:800; margin-top:8px; margin-bottom:6px; color:#1565c0; border-bottom:1px dashed #ccc; padding-bottom:4px;">📌 3. 다음 빈칸에 들어갈 말로 가장 적절한 것을 고르시오.</div>
+<div class="option-item">
+<div class="opt-header"><span class="opt-text">① life is one long process of learning</span></div>
+<span class="opt-trans">인생은 길고 긴 학습의 과정이다</span>
+<div class="opt-analysis"><span class="err-badge-wrong">무관한 내용</span> '과정'이라는 단어는 있지만, 인생 전반의 학습에 대한 글이 아니라 '타인의 결과물 이면의 과정'을 간과하는 오류에 대한 글입니다.</div>
+</div>
+<div class="option-item">
+<div class="opt-header"><span class="opt-text">② if you fail to plan, then you plan to fail</span></div>
+<span class="opt-trans">만약 당신이 계획하는 데 실패한다면, 당신은 실패를 계획하는 것이다</span>
+<div class="opt-analysis"><span class="err-badge-wrong">매력적 오답 / 무관한 내용</span> 과정이나 준비의 중요성을 연상시킬 수 있는 속담이나, '계획(plan)'의 중요성에 대한 글이 아닙니다.</div>
+</div>
+<div class="option-item">
+<div class="opt-header"><span class="opt-text">③ every outcome is preceded by a process</span></div>
+<span class="opt-trans">모든 결과 앞에는 과정이 선행된다</span>
+<div class="opt-analysis"><span class="err-badge-correct">정답</span> </div>
+</div>
+<div class="option-item">
+<div class="opt-header"><span class="opt-text">④ outcome gauges how the process is going</span></div>
+<span class="opt-trans">결과는 과정이 어떻게 진행되는지를 측정한다</span>
+<div class="opt-analysis"><span class="err-badge-wrong">반대 진술</span> 결과로 과정을 판단한다는 결과주의적 시각으로, 결과를 보고 과정을 보지 못하는 우리의 오류를 지적하는 필자의 의도와 반대됩니다.</div>
+</div>
+<div class="option-item">
+<div class="opt-header"><span class="opt-text">⑤ intelligence may vary depending on time invested</span></div>
+<span class="opt-trans">지능은 투자된 시간에 따라 달라질 수 있다</span>
+<div class="opt-analysis"><span class="err-badge-wrong">지엽적 내용</span> 노력(시간 투자)에 대한 언급이 나오지만, 지능 자체가 변한다는 내용이 아니라 타인의 지능에 대한 우리의 '판단'이 왜곡된다는 것이 글의 초점입니다.</div>
+</div>
+</div>
+<div class="logic-box">
+<strong>문장별 논리 전개 (Micro Flow)</strong>
+<b>S1 (Main Idea): 타인의 지능에 대한 우리의 평가는 왜곡됨 (결과 앞의 과정을 무시하기 때문)</b><br/>↓<br/><b>S2~S4 (Example): 대학원생들의 오류 (남의 완성된 논문과 자신의 불완전한 초안을 비교하며 좌절함)</b><br/>↓<br/><b>S5 (Solution): 타인이 어떻게 그 결과를 이뤘는지(과정)</b>를 조사하면, 성취가 힘들게 얻어진 것임을 깨달음<br/>↓<br/><b>S6 (Conclusion)</b>: 결과에 이르는 '과정'을 알면, 결과가 실망스럽더라도 좌절감이나 죄책감을 덜 느낌
+        </div>
+<div class="scenario-box">
+<div class="scene-header">지문 마킹 시뮬레이션</div>
+<div class="scene-content">❶ ... we do not recognize that <span class="highlight-clue">every outcome is preceded by a process</span>. 
+  ↓ (For example)
+❸ ... mistakenly compare it to their own first <span class="highlight-clue">tentative steps</span>.
+  ↓ (By doing so)
+❺ By investigating <span class="highlight-clue">how someone got somewhere</span>, we are more likely to see the achievement as hard-won...</div>
+</div>
+<div class="box-style learning-box">
+<strong style="font-size:14px; display:block; margin-bottom:10px; border-bottom:1px solid #ddd; padding-bottom:5px;">Learning Points (핵심 콕콕)</strong>
+<div class="learning-item">
+<span class="learning-label logic-label">논리</span>
+<ul class="learning-list"><li>대조와 비교 오류: ❸번 문장에서 타인의 완성된 작업물(completed and polished work)과 자신의 초안(first tentative steps)을 비교하는 인지적 오류 <b>파악</b>.</li><li>해결책 제시: ❺번 문장의 By investigating ~ 을 통해 문제 상황에 대한 필자의 명시적인 해결책(과정 탐구)이 제시되는 논리 전개 <b>확인</b>.</li></ul>
+</div>
+<div class="learning-item">
+<span class="learning-label grammar-label">구문</span>
+<ul class="learning-list"><li>as if 가정법: ❹번 문장의 as if it had been born ~ 에서 주절의 시제보다 이전의 일을 가정하여 과거완료(had p.p.)가 쓰인 형태 <b>주의</b>.</li><li>see A as B: ❺번 문장의 see the achievement as hard-won and our own chances as more plausible 구조에서 A를 B로 간주한다는 의미와 병렬구조 <b>파악</b>.</li></ul>
+</div>
+</div>
+<div class="csat-container">
+<div class="csat-header">
+<div class="csat-title"><span class="csat-badge">S</span> 요약문 빈칸 완성 &amp; 해석</div>
+<div class="csat-subtitle">* 정답이 채워진 요약문과 해석입니다.</div>
+</div>
+<div class="csat-text">We tend to have (A) <span class="csat-blank-ans">distorted</span> judgments about others' intelligence because we focus on their polished outcomes while ignoring the messy (B) <span class="csat-blank-ans">process</span> that inevitably precedes them.</div>
+<div class="csat-trans-header">▼ 해석 및 구문 분석 (Interpretation)</div>
+<div class="csat-trans-text">우리는 타인의 세련된 결과물에 초점을 맞추는 반면 그것에 필연적으로 선행하는 어수선한 "과정"을 무시하기 때문에, 타인의 지능에 대해 "왜곡된" 판단을 내리는 경향이 있다.</div>
+</div>
+</div>
+<div class="b-right">
+<strong style="font-size:14px; display:block; margin-bottom:15px;">글의 흐름 (3단 구조)</strong>
+<div class="flow-container">
+<div class="flow-card flow-intro">
+<div class="flow-header">
+<span class="flow-title">[도입] 타인의 지능에 대한 왜곡된 판단</span>
+<span class="flow-num-badge">1, 2</span>
+</div>
+<div class="flow-content">우리는 화려한 결과물 이면에 필연적으로 선행하는 <span class="fill-text">과정</span>을 인식하지 못하여 타인의 지능에 대해 왜곡된 판단을 내리기 쉽다.</div>
+</div>
+<div class="flow-arrow">→</div>
+<div class="flow-card flow-body">
+<div class="flow-header">
+<span class="flow-title">[예시] 대학원생들의 잘못된 비교와 좌절</span>
+<span class="flow-num-badge">3, 4</span>
+</div>
+<div class="flow-content">대학원생들은 타인의 완성된 논문과 자신의 불완전한 초기 <span class="fill-text">초안</span>을 비교하며, 타인의 결과물이 아무런 노력 없이 탄생했다고 착각한다.</div>
+</div>
+<div class="flow-arrow">→</div>
+<div class="flow-card flow-conc">
+<div class="flow-header">
+<span class="flow-title">[결론] 과정 인식의 중요성과 효과</span>
+<span class="flow-num-badge">5, 6</span>
+</div>
+<div class="flow-content">성공에 이른 험난한 과정을 이해하면 타인의 성취를 존중하게 되고 자신의 성공 가능성을 믿게 되며, 결과가 나쁘더라도 <span class="fill-text">죄책감</span>을 덜 느끼게 된다.</div>
+</div>
+</div>
+<div class="question-header" style="margin-top: 40px;">3. 다음 빈칸에 들어갈 말로 가장 적절한 것을 고르시오. <span class="source-tag">2026학년도 대비 모의고사 분석 (가정)</span></div>
+<div class="source-text"><div class="line-last" style="position: relative; padding-right: 28%; margin-bottom: 10px; width: 100%; box-sizing: border-box;"><span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+<span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+<span class="logic-desc" style="font-weight: 800;"><b>S1 (Main Idea): 타인의 지능에 대한 우리의 평가는 왜곡됨 (결과 앞의 과정을 무시하기 때문)</b></span>
+</span>
+</span><span class="interactive-num" onclick="toggleBubble(this)">❶<span class="translation-bubble"><div class="bubble-eng">❶ <span class="star-red">★</span><span class="syntax-box S-box">Our judgments <span class="slash">/</span> about the intelligence of others</span> <span class="slash">/</span> <span class="syntax-box V-box">can be distorted</span> <span class="slash">/</span> because <span class="syntax-box S-box">we</span> <span class="syntax-box V-box">do not recognize</span> <span class="slash">/</span> <span class="syntax-box O-box">that <span class="highlight-clue"><span class="blank-filled">every outcome <span class="slash">/</span> is preceded <span class="slash">/</span> by a process</span></span></span>.</div><div class="bubble-kor">❶ <span class="star-red">★</span><span class="S-text">우리의 판단은 <span class="slash">/</span> 타인의 지능에 대한</span> <span class="slash">/</span> <span class="V-text">왜곡될 수 있다</span> <span class="slash">/</span> 왜냐하면 <span class="S-text">우리가</span> <span class="V-text">인식하지 못하기</span> 때문이다 <span class="slash">/</span> <span class="O-text"><span class="highlight-clue"><span class="blank-filled">모든 결과 앞에는 <span class="slash">/</span> 선행된다는 것을 <span class="slash">/</span> 과정이</span></span></span>. <span class="summary-badge">[주제] 왜곡된 판단의 원인</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>남들이 얼마나 똑똑한지 평가할 때 우리는 흔히 착각을 해. 왜냐하면 번지르르한 '결과' 이전에 항상 지저분하고 힘든 '과정'이 있었다는 사실을 깜빡하거든.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[어법] <b>is preceded by</b>: 능동태 'A precede B(A가 B보다 앞서다)'가 수동태가 되어 'B is preceded by A(B 앞에는 A가 선행된다)'로 쓰임.</div></div></span></span> <span class="star-red">★</span>Our <span class="highlight-subject">judgments about the intelligence of others</span> can be <span class="highlight-feature">distorted</span> because we do not recognize that <span class="highlight-clue"> __________________ </span>. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+<span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+<span class="logic-desc" style="font-weight: 800;"><b>S2~S4 (Example): 대학원생들의 오류 (남의 완성된 논문과 자신의 불완전한 초안을 비교하며 좌절함)</b></span>
+</span>
+</span><span class="interactive-num" onclick="toggleBubble(this)">❷<span class="translation-bubble"><div class="bubble-eng">❷ <span class="syntax-box S-box">Graduate students</span> <span class="syntax-box V-box">forget</span> <span class="syntax-box O-box">this</span> <span class="slash">/</span> all the time.</div><div class="bubble-kor">❷ <span class="S-text">대학원생들은</span> <span class="O-text">이것을(앞 문장의 사실을)</span> <span class="V-text">잊어버린다</span> <span class="slash">/</span> 항상. <span class="summary-badge">[도입] 대학원생의 예시</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>특히 대학원에서 논문 쓰는 학생들이 이 사실을 맨날 까먹고 좌절해.</div></div></span></span> Graduate students forget this all the time. <span class="interactive-num" onclick="toggleBubble(this)">❸<span class="translation-bubble"><div class="bubble-eng">❸ <span class="syntax-box S-box">They</span> <span class="syntax-box V-box">begin</span> <span class="slash">/</span> <span class="syntax-box O-box">their dissertations</span> <span class="slash">/</span> with inordinate anxiety <span class="slash">/</span> because <span class="syntax-box S-box">they</span> <span class="syntax-box V-box">have seen</span> <span class="slash">/</span> <span class="syntax-box O-box">other people’s completed and polished work</span> <span class="slash">/</span> and mistakenly <span class="syntax-box V-box">compare</span> <span class="syntax-box O-box">it</span> <span class="slash">/</span> to their own first tentative steps.</div><div class="bubble-kor">❸ <span class="S-text">그들은</span> <span class="V-text">시작한다</span> <span class="slash">/</span> <span class="O-text">그들의 학위 논문을</span> <span class="slash">/</span> 과도한 불안감을 가지고 <span class="slash">/</span> 왜냐하면 <span class="S-text">그들이</span> <span class="V-text">보았고</span> <span class="slash">/</span> <span class="O-text">다른 사람들의 완성되고 다듬어진 작업물을</span> <span class="slash">/</span> 실수로 <span class="O-text">그것을(완성된 작업물을)</span> <span class="V-text">비교하기</span> 때문이다 <span class="slash">/</span> 그들 자신의 첫 잠정적인 발걸음들과. <span class="summary-badge">[현상] 결과와 과정의 잘못된 비교</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>남들이 이미 다 쓰고 예쁘게 포장까지 끝낸 논문을 본 다음, 이제 막 첫 줄을 쓰기 시작한 자기 논문이랑 비교하니까 "난 쓰레기야"라며 과도하게 불안해하는 거지.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[어법] <b>compare it to their own ~</b>: 'compare A to(with) B' 구조로 A(완성된 작업물)와 B(자신의 불완전한 초안)를 비교함.</div></div></span></span> They begin their dissertations with <span class="vocab-container"><span class="vocab-sub">과도한(=excessive)</span><span class="vocab-text">inordinate</span></span> anxiety because they have seen other people’s completed and <span class="vocab-container"><span class="vocab-sub">다듬어진</span><span class="vocab-text">polished</span></span> work and <span class="highlight-clue">mistakenly compare it to <span class="visual-exam-target" style="border-bottom: 2px dashed #9c27b0; background-color: rgba(156, 39, 176, 0.15);"><span class="visual-exam-label" style="background-color: #9c27b0;">함축의미</span>their own first tentative steps</span></span>. <span class="interactive-num" onclick="toggleBubble(this)">❹<span class="translation-bubble"><div class="bubble-eng">❹ With their noses deep <span class="slash">/</span> in file cards and half-baked hypotheses, <span class="slash">/</span> <span class="syntax-box S-box">they</span> <span class="syntax-box V-box">look in awe</span> <span class="slash">/</span> at Dr. So-and-So’s published book <span class="slash">/</span> as if <span class="syntax-box S-box">it</span> <span class="syntax-box V-box">had been born</span> <span class="slash">/</span> without effort or false starts, <span class="slash">/</span> directly from brain to printed page.</div><div class="bubble-kor">❹ 그들의 코를 깊이 파묻은 채 <span class="slash">/</span> 자료 카드들과 설익은 가설들 안에, <span class="slash">/</span> <span class="S-text">그들은</span> <span class="V-text">경외심을 가지고 쳐다본다</span> <span class="slash">/</span> 아무개 박사의 출판된 책을 <span class="slash">/</span> 마치 <span class="S-text">그것이</span> <span class="V-text">태어난 것처럼</span> <span class="slash">/</span> 노력이나 잘못된 출발 없이, <span class="slash">/</span> 뇌에서 인쇄된 페이지로 곧바로. <span class="summary-badge">[오류] 노력의 과정 간과</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>자기들은 정리도 안 된 자료랑 엉성한 아이디어 속에서 허우적대면서, 이미 출판된 유명한 박사님 책을 보고는 "와, 저 사람은 한 번의 실패도 없이 천재적인 머리에서 바로 책이 뚝딱 나왔구나" 하고 착각하며 우러러보는 거야.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[어법] <b>as if it had been born ~</b>: 'as if + 가정법 과거완료(had p.p.)' 구문으로, 주절의 시제(look)보다 이전에 발생한 일(책이 쓰여진 것)을 반대로 가정함.</div></div></span></span> With their noses deep in file cards and <span class="vocab-container"><span class="vocab-sub">설익은</span><span class="vocab-text">half-baked</span></span> hypotheses, they look in <span class="vocab-container"><span class="vocab-sub">경외심</span><span class="vocab-text">awe</span></span> at Dr. So-and-So’s published book <span class="highlight-clue">as if it <span class="visual-exam-target" style="border-bottom: 2px dashed #f44336; background-color: rgba(244, 67, 54, 0.15);"><span class="visual-exam-label" style="background-color: #f44336;">어법주의</span>had been born</span> without effort or false starts</span>, directly from brain to printed page. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+<span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+<span class="logic-desc" style="font-weight: 800;"><b>S5 (Solution): 타인이 어떻게 그 결과를 이뤘는지(과정)</b>를 조사하면, 성취가 힘들게 얻어진 것임을 깨달음</span>
+</span>
+</span><span class="interactive-num" onclick="toggleBubble(this)">❺<span class="translation-bubble"><div class="bubble-eng">❺ <span class="star-yellow">★</span>By investigating <span class="slash">/</span> <span class="syntax-box O-box">how <span class="syntax-box S-box">someone</span> <span class="syntax-box V-box">got</span> somewhere</span>, <span class="slash">/</span> <span class="syntax-box S-box">we</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box">more likely to see</span> <span class="slash">/</span> <span class="syntax-box O-box">the achievement</span> <span class="syntax-box C-box">as hard-won</span> <span class="slash">/</span> and <span class="syntax-box O-box">our own chances</span> <span class="syntax-box C-box">as more plausible</span>.</div><div class="bubble-kor">❺ <span class="star-yellow">★</span>조사함으로써 <span class="slash">/</span> <span class="O-text">어떻게 <span class="S-text">누군가가</span> 어떤 곳에 도달했는지를</span>, <span class="slash">/</span> <span class="S-text">우리는</span> <span class="C-text">볼 가능성이 더 크다</span> <span class="slash">/</span> <span class="O-text">그 성취를</span> <span class="C-text">힘들게 얻은 것으로</span> <span class="slash">/</span> 그리고 <span class="O-text">우리 자신의 가능성을</span> <span class="C-text">더 타당한 것으로</span>. <span class="summary-badge">[해결] 과정 조사의 긍정적 효과</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>하지만 그 대단한 박사님이 어떤 개고생을 거쳐서 그 책을 썼는지(과정)를 알아보면, "아, 저 사람도 엄청 고생해서 얻은 결과구나. 그럼 나도 할 수 있겠네!"라고 희망을 가지게 될 거야.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[구조] <b>see the achievement as hard-won and our own chances as more plausible</b>: 'see A as B (A를 B로 간주하다)' 구문이 and를 중심으로 두 개 병렬됨.</div></div></span></span> <span class="star-yellow">★</span>By investigating <span class="highlight-clue">how someone got somewhere</span>, we are more likely to see the achievement as <span class="visual-exam-target" style="border-bottom: 2px dashed #4caf50; background-color: rgba(76, 175, 80, 0.15);"><span class="visual-exam-label" style="background-color: #4caf50;">빈칸출제</span><span class="vocab-container"><span class="vocab-sub">힘들게 얻은</span><span class="vocab-text">hard-won</span></span></span> and our own chances as more <span class="vocab-container"><span class="vocab-sub">그럴듯한</span><span class="vocab-text">plausible</span></span>. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+<span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+<span class="logic-desc" style="font-weight: 800;"><b>S6 (Conclusion)</b>: 결과에 이르는 '과정'을 알면, 결과가 실망스럽더라도 좌절감이나 죄책감을 덜 느낌</span>
+</span>
+</span><span class="interactive-num" onclick="toggleBubble(this)">❻<span class="translation-bubble"><div class="bubble-eng">❻ When <span class="syntax-box S-box">we</span> <span class="syntax-box V-box">learn</span> <span class="slash">/</span> <span class="syntax-box O-box">a series of actions or events <span class="slash">/</span> leading to a result</span>, <span class="slash">/</span> <span class="syntax-box S-box">we</span> <span class="syntax-box V-box">are</span> <span class="syntax-box C-box">less likely to feel</span> <span class="slash">/</span> <span class="syntax-box C-box">guilty</span> <span class="slash">/</span> in retrospect <span class="slash">/</span> even if <span class="syntax-box S-box">the outcome</span> <span class="syntax-box V-box">does not turn out</span> <span class="slash">/</span> as <span class="syntax-box S-box">we</span> <span class="syntax-box V-box">hoped</span> <span class="syntax-box O-box">it would</span>.</div><div class="bubble-kor">❻ <span class="S-text">우리가</span> <span class="V-text">알게 될</span> 때 <span class="slash">/</span> <span class="O-text">일련의 행동들이나 사건들을 <span class="slash">/</span> 결과로 이끄는</span>, <span class="slash">/</span> <span class="S-text">우리는</span> <span class="C-text">느낄 가능성이 더 적다</span> <span class="slash">/</span> <span class="C-text">죄책감을</span> <span class="slash">/</span> 돌이켜볼 때 <span class="slash">/</span> 비록 <span class="S-text">그 결과가</span> <span class="V-text">나타나지 않더라도</span> <span class="slash">/</span> <span class="S-text">우리가</span> <span class="O-text">그럴 것이라고</span> <span class="V-text">희망했던</span> 대로. <span class="summary-badge">[결론] 과정 인식에 따른 자책감 감소</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>성공으로 가는 힘든 '과정'을 제대로 이해하면, 나중에 내 결과가 기대에 못 미치더라도 "내가 과정에서 할 만큼 했으니까 괜찮아"라며 스스로를 덜 자책하게 돼.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[어법] <b>as we hoped it would</b>: 'as'는 양태(~대로)의 접속사이며, 'it would' 뒤에는 앞서 나온 'turn out'이 생략되어 있음.</div></div></span></span> When we learn <span class="visual-exam-target" style="border-bottom: 2px dashed #4caf50; background-color: rgba(76, 175, 80, 0.15);"><span class="visual-exam-label" style="background-color: #4caf50;">빈칸출제</span>a series of actions or events leading to a result</span>, we are <span class="visual-exam-target" style="border-bottom: 2px dashed #f44336; background-color: rgba(244, 67, 54, 0.15);"><span class="visual-exam-label" style="background-color: #f44336;">어법주의</span>less likely</span> to feel guilty in <span class="vocab-container"><span class="vocab-sub">회고해 볼 때</span><span class="vocab-text">retrospect</span></span> even if the outcome does not <span class="vocab-container"><span class="vocab-sub">나타나다</span><span class="vocab-text">turn out</span></span> as we hoped it would.</div></div>
+<span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">Vocabulary</span>
+<div class="sec-vocab">
+<div class="v-header">
+<div class="cell col-chk">Chk</div>
+<div class="cell col-word">Word</div>
+<div class="cell col-mean">Mean &amp; Syn / Ant</div>
+<div class="cell col-context">Context</div>
+<div class="cell col-chunk">Chunk Example</div>
+</div>
+<div class="v-list">
+<div class="v-row">
+<div class="cell col-chk"><div class="chk-box"></div></div>
+<div class="cell col-word"><span class="word-txt">distort</span><div class="word-pron">[디스토'트]</div><div class="word-ety">dis(완전히) + torquere(비틀다)</div></div>
+<div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">왜곡하다, 비틀다</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>misrepresent / falsify</div><div class="rel-item item-ant"><span class="bg-ant">반</span>clarify / represent accurately</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>extort (갈취하다)</div></div></div>
+<div class="cell col-context"><span class="vm-context">문맥: 타인의 능력에 대해 잘못된 판단을 내리다</span></div>
+<div class="cell col-chunk"><span class="vch-en">judgments can be <span class="c-hl">distorted</span></span><br/><span class="vch-ko">판단이 왜곡될 수 있다</span></div>
+</div>
+<div class="v-row">
+<div class="cell col-chk"><div class="chk-box"></div></div>
+<div class="cell col-word"><span class="word-txt">inordinate</span><div class="word-pron">[인오'더니트]</div><div class="word-ety">in(not) + ordinare(순서대로 하다)</div></div>
+<div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">과도한, 지나친</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>excessive / extreme</div><div class="rel-item item-ant"><span class="bg-ant">반</span>moderate / reasonable</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>subordinate (종속된)</div></div></div>
+<div class="cell col-context"><span class="vm-context">문맥: 필요 이상으로 너무 큰 불안감</span></div>
+<div class="cell col-chunk"><span class="vch-en">with <span class="c-hl">inordinate</span> anxiety</span><br/><span class="vch-ko">과도한 불안감을 가지고</span></div>
+</div>
+<div class="v-row">
+<div class="cell col-chk"><div class="chk-box"></div></div>
+<div class="cell col-word"><span class="word-txt">polished</span><div class="word-pron">[팔'리쉬드]</div><div class="word-ety">polire(부드럽게 하다)</div></div>
+<div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">다듬어진, 세련된</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>refined / perfected</div><div class="rel-item item-ant"><span class="bg-ant">반</span>rough / unpolished</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>published (출판된)</div></div></div>
+<div class="cell col-context"><span class="vm-context">문맥: 수정을 거쳐 완벽하게 완성된 결과물</span></div>
+<div class="cell col-chunk"><span class="vch-en">completed and <span class="c-hl">polished</span> work</span><br/><span class="vch-ko">완성되고 다듬어진 작업물</span></div>
+</div>
+<div class="v-row">
+<div class="cell col-chk"><div class="chk-box"></div></div>
+<div class="cell col-word"><span class="word-txt">tentative</span><div class="word-pron">[텐'터티브]</div><div class="word-ety">tentare(시도하다)</div></div>
+<div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">잠정적인, 머뭇거리는</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>hesitant / provisional</div><div class="rel-item item-ant"><span class="bg-ant">반</span>definite / certain</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>attentive (주의 깊은)</div></div></div>
+<div class="cell col-context"><span class="vm-context">문맥: 아직 확정되지 않고 불완전한 초기 단계</span></div>
+<div class="cell col-chunk"><span class="vch-en">their own first <span class="c-hl">tentative</span> steps</span><br/><span class="vch-ko">그들 자신의 첫 잠정적인 발걸음</span></div>
+</div>
+<div class="v-row">
+<div class="cell col-chk"><div class="chk-box"></div></div>
+<div class="cell col-word"><span class="word-txt">half-baked</span><div class="word-pron">[하프-베'익트]</div><div class="word-ety">half(절반) + bake(굽다)</div></div>
+<div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">섣부른, 불완전한</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>poorly planned / incomplete</div><div class="rel-item item-ant"><span class="bg-ant">반</span>well-thought-out / mature</div></div></div>
+<div class="cell col-context"><span class="vm-context">문맥: 빵이 덜 구워진 것처럼 아이디어나 가설이 덜 다듬어진 상태</span></div>
+<div class="cell col-chunk"><span class="vch-en"><span class="c-hl">half-baked</span> hypotheses</span><br/><span class="vch-ko">불완전한 가설들</span></div>
+</div>
+<div class="v-row">
+<div class="cell col-chk"><div class="chk-box"></div></div>
+<div class="cell col-word"><span class="word-txt">awe</span><div class="word-pron">[오]</div><div class="word-ety">고대 노르웨이어 agi(공포)</div></div>
+<div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">경외감, 두려움</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>wonder / amazement</div><div class="rel-item item-ant"><span class="bg-ant">반</span>contempt / disrespect</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>awful (끔찍한)</div></div></div>
+<div class="cell col-context"><span class="vm-context">문맥: 타인의 완성된 책을 보며 느끼는 존경심 섞인 위축감</span></div>
+<div class="cell col-chunk"><span class="vch-en">they look in <span class="c-hl">awe</span> at</span><br/><span class="vch-ko">그들은 ~을 경외심을 가지고 본다</span></div>
+</div>
+<div class="v-row">
+<div class="cell col-chk"><div class="chk-box"></div></div>
+<div class="cell col-word"><span class="word-txt">hard-won</span><div class="word-pron">[하드-원]</div><div class="word-ety">hard(어렵게) + win(얻다)의 과거분사</div></div>
+<div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">힘들게 얻은</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>earned / achieved with effort</div><div class="rel-item item-ant"><span class="bg-ant">반</span>easily obtained / unearned</div></div></div>
+<div class="cell col-context"><span class="vm-context">문맥: 성취가 쉽게 이루어진 것이 아니라 피나는 노력의 결과임을 깨달음</span></div>
+<div class="cell col-chunk"><span class="vch-en">see the achievement as <span class="c-hl">hard-won</span></span><br/><span class="vch-ko">성취를 힘들게 얻은 것으로 보다</span></div>
+</div>
+<div class="v-row">
+<div class="cell col-chk"><div class="chk-box"></div></div>
+<div class="cell col-word"><span class="word-txt">plausible</span><div class="word-pron">[플로'저블]</div><div class="word-ety">plaudere(박수 치다)</div></div>
+<div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">타당한, 그럴듯한</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>reasonable / credible</div><div class="rel-item item-ant"><span class="bg-ant">반</span>implausible / unlikely</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>flexible (유연한)</div></div></div>
+<div class="cell col-context"><span class="vm-context">문맥: 우리 자신도 성공할 가능성이 충분히 있다고 믿게 됨</span></div>
+<div class="cell col-chunk"><span class="vch-en">our own chances as more <span class="c-hl">plausible</span></span><br/><span class="vch-ko">우리 자신의 가능성을 더 타당한 것으로</span></div>
+</div>
+<div class="v-row">
+<div class="cell col-chk"><div class="chk-box"></div></div>
+<div class="cell col-word"><span class="word-txt">in retrospect</span><div class="word-pron">[인 레'트로스펙트]</div><div class="word-ety">retro(뒤로) + specere(보다)</div></div>
+<div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">돌이켜보면, 회고해 볼 때</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>looking back / in hindsight</div><div class="rel-item item-ant"><span class="bg-ant">반</span>in prospect (전망으로)</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>introspect (자기 성찰하다)</div></div></div>
+<div class="cell col-context"><span class="vm-context">문맥: 과거의 과정 전체를 되돌아보고 평가할 때</span></div>
+<div class="cell col-chunk"><span class="vch-en">feel guilty <span class="c-hl">in retrospect</span></span><br/><span class="vch-ko">돌이켜보며 죄책감을 느끼다</span></div>
+</div>
+<div class="v-row">
+<div class="cell col-chk"><div class="chk-box"></div></div>
+<div class="cell col-word"><span class="word-txt">precede</span><div class="word-pron">[프리시'드]</div><div class="word-ety">pre(미리) + cedere(가다)</div></div>
+<div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">선행하다, 앞서다</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>come before / lead</div><div class="rel-item item-ant"><span class="bg-ant">반</span>follow / succeed</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>proceed (진행하다)</div></div></div>
+<div class="cell col-context"><span class="vm-context">문맥: 모든 빛나는 결과보다 앞서서 힘든 과정이 존재함</span></div>
+<div class="cell col-chunk"><span class="vch-en">every outcome is <span class="c-hl">preceded</span> by</span><br/><span class="vch-ko">모든 결과 앞에는 ~이 선행된다</span></div>
+</div>
+</div>
+</div>
+<span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">Key Sentences Analysis</span>
+<table class="analysis-table">
+<colgroup><col width="12%"/> <col width="10%"/> <col width="35%"/> <col width="25%"/> <col width="18%"/></colgroup>
+<thead><tr><th style="text-align:center;">출처</th><th style="text-align:center;">종류</th><th style="text-align:center;">영어 문장</th><th style="text-align:center;">한글 해석</th><th style="text-align:center;">선정 사유</th></tr></thead>
+<tbody><tr><td style="text-align:center; color:#555;">[출처]</td><td style="text-align:center; font-weight:bold; color:#0d47a1;">주제문</td><td style="font-family:Times New Roman; font-size:14px; text-align:left;">Our judgments about the intelligence of others can be distorted because we do not recognize that <span style="color:#d32f2f; font-weight:bold;">every outcome is preceded by a process</span>.</td><td style="font-size:13px; text-align:left;">우리는 모든 결과 앞에는 과정이 선행된다는 것을 인식하지 못하기 때문에 타인의 지능에 대한 우리의 판단이 왜곡될 수 있다.</td><td style="font-size:12px; color:#555; text-align:left;">[빈칸/글의 대주제] 글의 서두에서 필자의 핵심 주장을 명확하게 던지는 주제문이며, 우리가 범하는 인지적 오류의 원인을 밝히고 있습니다.</td></tr><tr><td style="text-align:center; color:#555;">[출처]</td><td style="text-align:center; font-weight:bold; color:#0d47a1;">핵심 구문</td><td style="font-family:Times New Roman; font-size:14px; text-align:left;">They begin their dissertations with inordinate anxiety because they have seen other people's completed and polished work and mistakenly compare it <span style="color:#d32f2f; font-weight:bold;">to</span> their own first tentative steps.</td><td style="font-size:13px; text-align:left;">그들은 다른 사람들의 완성되고 다듬어진 작업물을 보았고 그것을 그들 자신의 첫 잠정적인 발걸음과 잘못 비교하기 때문에 과도한 불안감을 가지고 논문을 시작한다.</td><td style="font-size:12px; color:#555; text-align:left;">[compare A to B] 대학원생들의 구체적 예시를 통해 주제를 뒷받침하는 문장으로, 'compare A to B(A를 B와 비교하다)' 구조를 통해 결과(A)와 과정(B)의 잘못된 비교를 명확히 보여줍니다.</td></tr><tr><td style="text-align:center; color:#555;">[출처]</td><td style="text-align:center; font-weight:bold; color:#0d47a1;">재진술</td><td style="font-family:Times New Roman; font-size:14px; text-align:left;">By investigating how someone got somewhere, we are more likely to see the achievement <span style="color:#d32f2f; font-weight:bold;">as</span> hard-won and our own chances <span style="color:#d32f2f; font-weight:bold;">as</span> more plausible.</td><td style="font-size:13px; text-align:left;">누군가가 어떻게 어떤 곳에 도달했는지를 조사함으로써, 우리는 그 성취를 힘들게 얻은 것으로, 그리고 우리 자신의 가능성을 더 타당한 것으로 볼 가능성이 더 크다.</td><td style="font-size:12px; color:#555; text-align:left;">[see A as B <span class="slash">/</span> 병렬구조] 문제의 해결책을 제시하는 문장으로, 'see A as B(A를 B로 보다)' 구조가 and를 중심으로 두 번 병렬 연결되어 구문 분석이 중요합니다.</td></tr></tbody>
+</table>
+<span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">True / False 문제 분석</span>
+<div style="font-size:13px; color:#777;">True/False 데이터가 없습니다.</div>
+<span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">영영 풀이 (English Definitions)</span>
+<div style="font-size:13px; color:#777;">영영 풀이 데이터가 없습니다.</div>
+</div>
+</div>
+<script>
+function toggleBubble(element) {
+    const all = document.querySelectorAll('.interactive-num');
+    const wasActive = element.classList.contains('active');
+    all.forEach(el => el.classList.remove('active'));
+    if (!wasActive) {
+        element.classList.add('active');
+    }
+}
+
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('.interactive-num')) {
+        const all = document.querySelectorAll('.interactive-num');
+        all.forEach(el => el.classList.remove('active'));
+    }
+});
+
+let currentZIndex = 1000;
+
+function toggleModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal.style.display === 'block') {
+        modal.style.display = 'none';
+    } else {
+        currentZIndex++;
+        modal.style.zIndex = currentZIndex;
+        modal.style.display = 'block';
+    }
+}
+</script>
+</body>
+</html>
