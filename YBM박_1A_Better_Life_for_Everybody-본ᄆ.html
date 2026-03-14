@@ -1,0 +1,1476 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>영어 지문 분석 학습지</title>
+<style>
+/* [인쇄 시 설정] */
+@media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .container { box-shadow: none; border: 1px solid #ddd; }
+    @page { margin: 10mm; size: A4; }
+    .page-break { page-break-before: always; }
+    .interactive-num { pointer-events: none; color: inherit; }
+    .translation-bubble { display: none !important; }
+    .header-btn { display: none !important; }
+    .custom-modal { display: none !important; }
+}
+
+:root {
+    --bg-color: #f9f9f9;
+    --font-eng: 'Times New Roman', serif;
+    --font-kor: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    --c-S: #0d47a1;
+    --c-V: #b71c1c;
+    --c-O: #7b1fa2;
+    --c-C: #1b5e20;
+    --c-M: #9e9e9e;
+    --c-con: #8e24aa;
+}
+
+body { font-family: var(--font-kor); font-size: 15px; color: #333; margin: 20px; line-height: 1.6; background: var(--bg-color); }
+
+.text-underline {
+    text-decoration: underline;
+    text-underline-position: under;
+    text-decoration-thickness: 1px;
+}
+
+.header-container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    min-width: 1000px;
+    max-width: 1600px;
+    margin: 0 auto 30px;
+    display: block;
+    position: relative;
+    min-height: 220px;
+}
+
+.header-btn {
+    position: absolute;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: background 0.3s, transform 0.1s;
+    z-index: 100;
+    width: 110px;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+.header-btn:active { transform: translateY(1px); }
+
+.btn-literal { top: 20px; right: 20px; background-color: #0277bd; }
+.btn-literal:hover { background-color: #01579b; }
+.btn-liberal { top: 55px; right: 20px; background-color: #546e7a; }
+.btn-liberal:hover { background-color: #455a64; }
+.btn-tips { top: 90px; right: 20px; background-color: #7b1fa2; }
+.btn-tips:hover { background-color: #4a148c; }
+.btn-logic { top: 125px; right: 20px; background-color: #00897b; }
+.btn-logic:hover { background-color: #00695c; }
+
+.btn-eng-all { top: 20px; left: 20px; background-color: #3949ab; }
+.btn-eng-all:hover { background-color: #283593; }
+.btn-eng-pure { top: 55px; left: 20px; background-color: #00695c; }
+.btn-eng-pure:hover { background-color: #004d40; }
+.btn-vis-clean { top: 90px; left: 20px; background-color: #455a64; }
+.btn-vis-clean:hover { background-color: #263238; }
+.btn-learning { top: 125px; left: 20px; background-color: #d84315; }
+.btn-learning:hover { background-color: #bf360c; }
+
+.btn-vocab { top: 20px; left: 50%; margin-left: -55px; background-color: #ef6c00; }
+.btn-vocab:hover { background-color: #e65100; }
+.btn-keys { top: 55px; left: 50%; margin-left: -55px; background-color: #c62828; }
+.btn-keys:hover { background-color: #b71c1c; }
+.btn-ans { top: 90px; left: 50%; margin-left: -55px; background-color: #2e7d32; }
+.btn-ans:hover { background-color: #1b5e20; }
+.btn-opts { top: 125px; left: 50%; margin-left: -55px; background-color: #5d4037; }
+.btn-opts:hover { background-color: #3e2723; }
+.btn-exam { top: 160px; left: 50%; margin-left: -55px; background-color: #d81b60; box-shadow: 0 0 8px rgba(216,27,96,0.5); }
+.btn-exam:hover { background-color: #ad1457; }
+
+.custom-modal {
+    display: none;
+    position: absolute;
+    top: 60px;
+    width: 600px;
+    max-width: 48vw;
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-literal { right: 20px; border: 3px solid #0277bd; top: 50px; }
+.modal-liberal { right: 20px; border: 3px solid #546e7a; top: 85px; }
+.modal-tips { right: 20px; border: 3px solid #7b1fa2; top: 120px; }
+.modal-logic { right: 20px; border: 3px solid #00897b; top: 155px; }
+
+.modal-eng-all { left: 20px; border: 3px solid #3949ab; top: 50px; }
+.modal-eng-pure { left: 20px; border: 3px solid #00695c; top: 85px; }
+.modal-vis-clean { left: 20px; border: 3px solid #455a64; top: 120px; width: 600px; }
+.modal-learning { left: 20px; border: 3px solid #d84315; top: 155px; width: 600px; }
+.modal-learning h3 { color: #d84315; }
+
+.modal-center { left: 50%; margin-left: -350px; width: 700px; }
+.modal-vocab { left: 50%; margin-left: -350px; border: 3px solid #ef6c00; top: 50px; width: 700px; }
+.modal-keys { left: 50%; margin-left: -350px; border: 3px solid #c62828; top: 85px; width: 700px; }
+.modal-ans { left: 50%; margin-left: -350px; border: 3px solid #2e7d32; top: 120px; width: 700px; }
+.modal-opts { left: 50%; margin-left: -350px; border: 3px solid #5d4037; top: 155px; width: 700px; }
+.modal-exam { left: 50%; margin-left: -350px; border: 3px solid #d81b60; top: 190px; width: 700px; }
+
+.custom-modal h3 {
+    margin-top: 0;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 8px;
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.modal-liberal h3 { color: #546e7a; }
+.modal-literal h3 { color: #0277bd; }
+.modal-tips h3 { color: #7b1fa2; }
+.modal-logic h3 { color: #00897b; }
+.modal-eng-all h3 { color: #3949ab; }
+.modal-eng-pure h3 { color: #00695c; }
+.modal-vis-clean h3 { color: #455a64; }
+.modal-vocab h3 { color: #ef6c00; }
+.modal-keys h3 { color: #c62828; }
+.modal-ans h3 { color: #2e7d32; }
+.modal-opts h3 { color: #5d4037; }
+.modal-exam h3 { color: #d81b60; }
+
+.modal-content {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #333;
+}
+
+.logic-section {
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 6px;
+    border-left-width: 4px;
+    border-left-style: solid;
+}
+.logic-section-intro { background-color: #f0f7ff; border-left-color: #1565c0; }
+.logic-section-body { background-color: #fffbf2; border-left-color: #ef6c00; }
+.logic-section-conc { background-color: #f3fcf5; border-left-color: #2e7d32; }
+.logic-section-none { background-color: #f5f5f5; border-left-color: #9e9e9e; }
+
+.logic-section-title {
+    display: block;
+    font-weight: 800;
+    font-size: 13px;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.logic-section-intro .logic-section-title { color: #1565c0; }
+.logic-section-body .logic-section-title { color: #ef6c00; }
+.logic-section-conc .logic-section-title { color: #2e7d32; }
+
+.trans-line, .eng-line {
+    margin-bottom: 10px;
+    padding-left: 4px;
+}
+.trans-line:last-child, .eng-line:last-child { margin-bottom: 0; }
+
+.modal-eng-all .modal-content,
+.modal-eng-pure .modal-content,
+.modal-vis-clean .modal-content {
+    font-family: var(--font-eng);
+    font-size: 16px;
+}
+
+.visual-source-text {
+    font-family: var(--font-eng);
+    font-size: 19px;
+    line-height: 2.2;
+}
+
+.trans-num { font-weight: bold; margin-right: 5px; color: #546e7a; }
+.eng-num { font-weight: bold; margin-right: 5px; color: #3949ab; font-family: var(--font-kor); font-size:13px; }
+.raw-num { font-weight: bold; margin-right: 5px; color: #00695c; font-family: var(--font-kor); font-size:13px; }
+
+.trans-summary {
+    display: inline-block;
+    font-size: 11px;
+    color: #555;
+    background-color: #fff;
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-left: 6px;
+    vertical-align: 1px;
+    font-weight: bold;
+    font-family: var(--font-kor);
+}
+
+.trans-logic {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    color: #1565c0;
+    background-color: #e3f2fd;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 4px;
+    vertical-align: 1px;
+    font-family: var(--font-kor);
+}
+
+.top-container {
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    min-width: 1000px;
+    max-width: 1600px;
+    margin: 0 auto 30px;
+    display: block;
+}
+
+.bottom-container {
+    display: flex;
+    gap: 40px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    min-width: 1000px;
+    max-width: 1600px;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+.b-left { flex: 40; display: flex; flex-direction: column; gap: 25px; border-right: 1px dashed #ddd; padding-right: 30px; }
+.b-right { flex: 60; display: flex; flex-direction: column; }
+
+.box-style {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.info-group { display: flex; flex-direction: column; gap: 10px; margin-top: 170px; }
+.ri-item { background-color: #fff; border: 1px solid #eee; border-left-width: 4px; border-left-style: solid; border-radius: 6px; padding: 12px 15px; font-size: 15px; line-height: 1.5; color: #444; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+.ri-material { border-left-color: #4caf50; }
+.ri-guide { border-left-color: #ff9800; }
+.ri-tip { border-left-color: #9c27b0; }
+.ri-label { font-weight: 800; margin-bottom: 4px; color: #222; font-size: 15.5px; display: block; }
+
+.topic-box { background-color: #e8f5e9; border-left: 5px solid #4caf50; padding: 12px 15px; font-size: 17.5px; color: #1b5e20; border-radius: 4px; }
+
+.answer-box { background-color: #e1f5fe; border: 1px solid #81d4fa; border-radius: 8px; padding: 20px; }
+.ans-header { font-weight: bold; color: #0277bd; font-size: 16px; margin-bottom: 12px; border-bottom: 1px solid #b3e5fc; padding-bottom: 8px; }
+.ans-content { font-size: 13.5px; color: #37474f; line-height: 1.6; }
+
+.options-box { border-top: 2px solid #333; background: #fff; padding-top:10px; }
+.option-item { margin-bottom: 8px; border: 1px solid #eee; border-radius: 6px; padding: 10px; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+.opt-header { margin-bottom: 3px; line-height: 1.3; }
+.opt-text { font-family: var(--font-eng); font-weight: bold; font-size: 16px; color: #000; }
+.opt-trans { font-size: 12.5px; color: #777; margin-bottom: 6px; display: block; line-height: 1.3; }
+.opt-analysis { background-color: #f9f9f9; padding: 6px 10px; border-radius: 4px; font-size: 13px; color: #444; border-left: 3px solid #ddd; line-height: 1.4; }
+.err-badge-wrong { font-size: 11px; background-color: #fff3e0; color: #ef6c00; padding: 1px 5px; border-radius: 3px; border: 1px solid #ffe0b2; margin-right: 5px; font-weight: bold; }
+.err-badge-correct { font-size: 11px; background-color: #e8f5e9; color: #2e7d32; padding: 1px 5px; border-radius: 3px; border: 1px solid #a5d6a7; margin-right: 5px; font-weight: bold; }
+
+.logic-box { background-color: #f5f5f5; border: 1px solid #e0e0e0; padding: 15px; border-radius: 8px; font-family: 'D2Coding', monospace; font-size: 12.5px; line-height: 1.7; color: #333; }
+.logic-box strong { font-size: 14px; color: #000; margin-bottom: 10px; display: block; }
+.scenario-box { background-color: #fff3e0; border: 1px solid #ffe0b2; border-radius: 8px; padding: 15px; }
+.scene-header { font-size: 15px; font-weight: 900; color: #e65100; margin-bottom: 12px; border-bottom: 2px solid #ffe0b2; padding-bottom: 6px; }
+.scene-content { font-size: 13px; color: #444; line-height: 1.5; background:#fff; padding:10px; border-radius:4px; border-left:4px solid #ff9800; }
+
+.learning-box { margin-top: 20px; }
+.learning-item { margin-bottom: 12px; }
+.learning-label { display: inline-block; font-size: 11px; font-weight: bold; color: #fff; padding: 2px 6px; border-radius: 4px; margin-bottom: 4px; vertical-align: 1px; }
+.logic-label { background-color: #7e57c2; }
+.grammar-label { background-color: #00897b; }
+.learning-list { margin: 5px 0 0 15px; padding: 0; list-style-type: disc; font-size: 13.5px; color: #444; }
+.learning-list li { margin-bottom: 4px; line-height: 1.5; }
+
+.difficulty-box {
+    background-color: #f1f8e9;
+    border: 1px solid #c5e1a5;
+    border-radius: 6px;
+    padding: 6px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-family: var(--font-eng);
+}
+.diff-label { font-weight: 900; font-size: 14px; color: #558b2f; letter-spacing: 0.5px; }
+.diff-stars { font-size: 16px; color: #fdd835; letter-spacing: 1px; }
+
+.visual-box-given {
+    border: 2px solid #333;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+.visual-box-summary {
+    border: 2px solid #333;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.question-header { font-weight: 800; font-size: 18px; color: #222; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #222; }
+.source-tag { font-size: 11px; color: #fff; background-color: #555; padding: 2px 7px; border-radius: 12px; margin-left: 8px; vertical-align: middle; font-weight: normal; }
+
+.source-text {
+    font-family: var(--font-eng);
+    font-size: 19px;
+    line-height: 3.4;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 0 30px 0;
+    color: #111;
+    display: block;
+}
+
+.line-justify { display: block; text-align: justify; text-align-last: justify; word-break: keep-all; }
+.line-last { display: block; text-align: left; text-align-last: left; }
+.line-with-sub { display: block; text-align: left; text-align-last: left; word-break: keep-all; }
+
+.interactive-num {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    transition: transform 0.2s ease;
+    z-index: 10;
+}
+.interactive-num:hover {
+    transform: scale(1.3);
+    color: #1565c0;
+}
+.translation-bubble {
+    visibility: hidden;
+    width: 480px;
+    max-width: 90vw;
+    background-color: #ffffff;
+    color: #333;
+    text-align: left !important;
+    text-align-last: left !important;
+    white-space: normal;
+    border-radius: 8px;
+    padding: 15px;
+    position: absolute;
+    z-index: 1000;
+    bottom: 140%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    font-family: var(--font-kor);
+    font-size: 14px;
+    line-height: 1.6;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+    border: 2px solid #333;
+    font-weight: normal;
+    pointer-events: none;
+    word-break: keep-all;
+}
+.translation-bubble::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+.interactive-num.active .translation-bubble {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.bubble-eng { font-family: var(--font-eng); font-size: 17px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px dashed #ccc; line-height: 1.5; }
+.bubble-kor { font-size: 14px; color: #444; margin-bottom: 10px; line-height: 1.5; }
+.bubble-easy, .bubble-tip { background: #f1f3f5; padding: 8px 10px; border-radius: 6px; font-size: 12.5px; margin-top: 6px; color: #444; display: flex; align-items: flex-start; gap: 8px; }
+.bubble-easy .easy-label, .bubble-tip .syntax-label { flex-shrink: 0; margin-right: 0; font-size: 11px; padding: 2px 6px; }
+
+span[class^="highlight-"] {
+    border-radius: 4px; padding: 2px 4px; margin: 0 1px;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+    position: relative; z-index: 1;
+}
+span[class^="highlight-"]::before { content: none; display: none; }
+
+.highlight-subject { background-color: #fff9c4; border-bottom: 2px solid #fbc02d; }
+.highlight-feature { background-color: #fff9c4; border-bottom: 2px solid #fbc02d; }
+.highlight-clue { background-color: #e3f2fd; border-bottom: 2px solid #64b5f6; }
+
+.fill-text { font-weight: 900; text-decoration: underline; text-decoration-thickness: 2px; }
+
+.badge-them { display: inline-block; font-size: 11px; background-color: #7e57c2; color: #fff; padding: 2px 6px; border-radius: 4px; margin-right: 6px; font-weight: bold; vertical-align: 2px; font-family: var(--font-kor); }
+.badge-key { display: inline-block; font-size: 11px; background-color: #0277bd; color: #fff; padding: 2px 6px; border-radius: 4px; margin-right: 6px; font-weight: bold; vertical-align: 2px; font-family: var(--font-kor); }
+.header-badge-them { font-size: 12px; background-color: #ffebee; color: #c62828; border: 1px solid #ef9a9a; padding: 2px 8px; border-radius: 12px; margin-left: 8px; vertical-align: middle; font-weight: bold; }
+.header-badge-key { font-size: 12px; background-color: #fffde7; color: #f57f17; border: 1px solid #fff59d; padding: 2px 8px; border-radius: 12px; margin-left: 5px; vertical-align: middle; font-weight: bold; }
+
+.vocab-container { display: inline; position: relative; text-indent: 0; line-height: 1.0; }
+.vocab-text { color: inherit; border-bottom: 1px dotted #bbb; font-weight: inherit; }
+.vocab-sub { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); width: max-content; margin-top: 1px; font-size: 9px; color: #d32f2f; background-color: transparent; text-shadow: 1px 1px 0 #eeeeee, -1px -1px 0 #eeeeee, 1px -1px 0 #eeeeee, -1px 1px 0 #eeeeee; padding: 0 1px; font-weight: bold; font-family: var(--font-kor); z-index: 10; line-height: 1.1; pointer-events: none; }
+
+.syntax-box { display: inline; position: relative; padding-bottom: 1px; margin-right: 1px; border-bottom: none; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.syntax-box::before { position: absolute; top: -3px; left: 0; font-size: 6px; font-weight: normal; font-family: sans-serif; line-height: 1; }
+
+.S-box { color: var(--c-S) !important; font-weight: normal !important; } .S-box::before { content: 'S'; color: var(--c-S); }
+.V-box { color: var(--c-V) !important; font-weight: normal !important; } .V-box::before { content: 'V'; color: var(--c-V); }
+.O-box { color: var(--c-O) !important; font-weight: normal !important; } .O-box::before { content: 'O'; color: var(--c-O); }
+.C-box { color: var(--c-C) !important; font-weight: normal !important; } .C-box::before { content: 'C'; color: var(--c-C); }
+.M-box { color: var(--c-M) !important; font-weight: normal !important; } .M-box::before { content: 'M'; color: var(--c-M); }
+.con-box { color: var(--c-con) !important; font-weight: normal !important; } .con-box::before { content: "con"; color: var(--c-con); }
+.IO-box { color: var(--c-O) !important; font-weight: normal !important; } .IO-box::before { content: 'IO'; color: var(--c-O); }
+.DO-box { color: var(--c-O) !important; font-weight: normal !important; } .DO-box::before { content: 'DO'; color: var(--c-O); }
+
+.S-text { color: var(--c-S) !important; font-weight: 900 !important; }
+.V-text { color: var(--c-V) !important; font-weight: 900 !important; }
+.O-text { color: var(--c-O) !important; font-weight: 900 !important; }
+.C-text { color: var(--c-C) !important; font-weight: 900 !important; }
+.M-text { color: var(--c-M) !important; font-weight: 900 !important; }
+.con-text { color: var(--c-con) !important; font-weight: 900 !important; }
+.IO-text { color: var(--c-O) !important; font-weight: 900 !important; }
+.DO-text { color: var(--c-O) !important; font-weight: 900 !important; }
+
+.analysis-card { margin-bottom: 10px; border-bottom: 1px dashed #ddd; background-color: #fff; padding: 8px; border-radius: 4px; break-inside: avoid; }
+.analysis-card.card-them { background-color: #fff; border: 2px solid #e53935; border-left: 6px solid #e53935; border-bottom: 2px solid #e53935; box-shadow: 0 2px 8px rgba(229, 57, 53, 0.1); }
+.analysis-card.card-key { background-color: #fff; border: 2px solid #fbc02d; border-left: 6px solid #fbc02d; border-bottom: 2px solid #fbc02d; box-shadow: 0 2px 8px rgba(251, 192, 45, 0.1); }
+
+.analysis-card.bg-intro { background-color: #f0f7ff; border: 1px solid #bbdefb; }
+.analysis-card.bg-body { background-color: #fffbf2; border: 1px solid #ffecb3; }
+.analysis-card.bg-conc { background-color: #f3fcf5; border: 1px solid #c8e6c9; }
+
+.analysis-card.card-them { border: 2px solid #e53935; border-left: 6px solid #e53935; border-bottom: 2px solid #e53935; }
+.analysis-card.card-key { border: 2px solid #fbc02d; border-left: 6px solid #fbc02d; border-bottom: 2px solid #fbc02d; }
+
+.eng-sent { font-family: var(--font-eng); font-size: 22.5px; background-color: transparent; padding: 4px 12px; border-left: 4px solid var(--c-S); position: relative; margin-top: 15px; margin-bottom: 15px; line-height: 2.3; color: #5d4037; display: flex; flex-wrap: wrap; align-items: flex-start; }
+.chunk-pair { display: flex; flex-direction: column; vertical-align: top; margin-right: 6px; margin-bottom: 12px; max-width: 100%; }
+.eng-chunk { background-color: #f4f4f4; padding: 2px 8px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; word-break: keep-all; mix-blend-mode: multiply; color: #5d4037; }
+.kor-chunk { font-family: var(--font-kor); font-size: 19px; color: #5d4037; font-weight: 900; padding-left: 4px; margin-top: 6px; line-height: 1.4; word-break: keep-all; letter-spacing: -0.5px; }
+.slash-divider { color: #ccc; font-weight: 300; margin: 0 4px; font-size: 24px; margin-top: 4px; display: flex; align-items: center; }
+.num-badge { display: inline-block; background-color: #333; color: #fff; border-radius: 50%; width: 22px; height: 22px; text-align: center; line-height: 22px; font-size: 13px; font-weight: bold; margin-right: 0px; vertical-align: 1px; box-shadow: 1px 1px 2px rgba(0,0,0,0.2); font-family: var(--font-kor); }
+
+.kor-sent, .kor-sent * { font-size: 19px; color: #5d4037; font-weight: 900 !important; line-height: 2.0; word-break: keep-all; }
+.kor-sent { padding-left: 5px; margin-bottom: 3px; display: none; }
+
+.analysis-footer { margin-top: 8px; font-size: 13px; line-height: 1.7; word-break: keep-all; }
+
+.easy-exp-box { display: inline-block; position: relative; background: #f5f5f5; border: 2px solid #e0e0e0; border-radius: 12px; padding: 8px 12px; margin-top: 12px; margin-bottom: 5px; font-size: 14px; color: #424242; line-height: 1.5; font-weight: 500; }
+.easy-exp-box::after, .easy-exp-box::before { bottom: 100%; left: 20px; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+.easy-exp-box::after { border-color: rgba(245, 245, 245, 0); border-bottom-color: #f5f5f5; border-width: 8px; margin-left: -8px; }
+.easy-exp-box::before { border-color: rgba(224, 224, 224, 0); border-bottom-color: #e0e0e0; border-width: 11px; margin-left: -11px; }
+.easy-label { display: inline-block; background-color: #757575; color: #fff; padding: 0px 4px; border-radius: 3px; margin-right: 5px; font-weight: bold; vertical-align: 1px; font-size: 11px; }
+
+.syntax-tip { display: block; width: fit-content; max-width: 100%; margin-top: 6px; padding: 4px 8px; border: 1px solid #333; background-color: #fff; border-radius: 4px; font-size: 13px; color: #000; line-height: 1.4; box-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
+.syntax-label { display: inline-block; background-color: #333; color: #fff; padding: 0px 4px; border-radius: 2px; margin-right: 5px; font-weight: bold; vertical-align: 1px; font-size: 11px; }
+
+.exam-point-box { margin-top: 8px; padding: 8px 12px; background-color: #fffaf0; border: 1px dashed #f48fb1; border-radius: 6px; font-size: 12.5px; line-height: 1.5; color: #333; }
+.exam-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; color: #fff; margin-right: 6px; vertical-align: 1px; font-family: var(--font-kor); }
+.exam-badge-blank { background-color: #4caf50; }
+.exam-badge-implied { background-color: #9c27b0; }
+.exam-badge-grammar { background-color: #f44336; }
+.exam-target { font-weight: bold; color: #c2185b; text-decoration: underline; }
+
+.visual-exam-target { position: relative; }
+.visual-exam-label { position: absolute; bottom: 100%; left: 0; margin-bottom: 2px; font-size: 11px; color: #fff; padding: 2px 6px; border-radius: 4px; font-family: var(--font-kor); font-weight: 900; letter-spacing: 0.5px; box-shadow: 1px 1px 2px rgba(0,0,0,0.2); white-space: nowrap; line-height: 1; z-index: 5; }
+
+.inline-syntax-target { position: relative; border-bottom: 2px dotted #333; background-color: rgba(0, 0, 0, 0.05); }
+.inline-syntax-label { position: absolute; top: 100%; right: 0; margin-top: 2px; font-size: 11px; background-color: #333; color: #fff; padding: 2px 5px; border-radius: 4px; font-family: var(--font-kor); font-weight: 900; white-space: nowrap; line-height: 1; z-index: 4; box-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+
+.csat-container { background-color: #fcfaf2; border: 1px solid #e0dcd0; padding: 20px; border-radius: 8px; margin-top: 20px; }
+.csat-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; margin-bottom: 15px; }
+.csat-title { font-family: var(--font-kor); font-size: 16px; font-weight: 900; color: #333; display: flex; align-items: center; gap: 6px; }
+.csat-badge { background-color: #546e7a; color: white; font-size: 12px; padding: 2px 6px; border-radius: 4px; }
+.csat-subtitle { font-family: var(--font-kor); font-size: 12px; color: #7b909a; font-weight: bold; }
+.csat-text { font-family: var(--font-eng); font-size: 17px; line-height: 1.8; color: #222; margin-bottom: 25px; text-align: justify; }
+.csat-blank-ans { display: inline-block; border-bottom: 1px solid #333; min-width: 80px; text-align: center; font-weight: bold; color: #d32f2f; padding: 0 5px; }
+.csat-trans-header { font-family: var(--font-kor); font-size: 14px; font-weight: bold; color: #e6a822; margin-bottom: 10px; }
+.csat-trans-text { font-family: var(--font-kor); font-size: 14.5px; line-height: 32px; color: #444; background-image: repeating-linear-gradient(transparent, transparent 31px, #b0bec5 31px, #b0bec5 32px); background-position: 0 6px; padding-bottom: 8px; }
+
+.summary-badge { display: inline-block; font-family: var(--font-kor); font-size: 11px; color: #fff; background-color: #78909c; padding: 1px 8px; border-radius: 10px; font-weight: bold; margin-left: 6px; vertical-align: 1px; position: static; }
+
+.sent-container { display: flex; gap: 15px; align-items: flex-start; margin-bottom: 20px; }
+.sent-logic-col { flex: 0 0 130px; display: flex; flex-direction: column; gap: 10px; }
+.sent-analysis-col { flex: 1; min-width: 0; }
+.logic-flow-card { border-radius: 8px; padding: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #eee; font-size: 13px; }
+.logic-intro { background: #e3f2fd; border-color: #90caf9; color: #1565c0; }
+.logic-body { background: #fff8e1; border-color: #ffe082; color: #ef6c00; }
+.logic-conc { background: #e8f5e9; border-color: #a5d6a7; color: #2e7d32; }
+.logic-title { font-weight: bold; display: block; margin-bottom: 4px; font-size: 14px; }
+.logic-desc { line-height: 1.4; color: #333; }
+
+.flow-container { display: flex; justify-content: space-between; gap: 15px; margin-top: 15px; margin-bottom: 25px; }
+.flow-card { flex: 1; background: #fff; border-radius: 12px; padding: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; position: relative; border: 1px solid #eee; }
+.flow-card.flow-intro .flow-header { background: #e3f2fd; color: #1565c0; border-bottom: 2px solid #90caf9; }
+.flow-card.flow-body .flow-header { background: #fff8e1; color: #ef6c00; border-bottom: 2px solid #ffe082; }
+.flow-card.flow-conc .flow-header { background: #e8f5e9; color: #2e7d32; border-bottom: 2px solid #a5d6a7; }
+.flow-header { padding: 12px 15px; text-align: left; position: relative; }
+.flow-title { font-weight: 800; font-size: 15px; display: block; margin-bottom: 2px; }
+.flow-num-badge { display: inline-block; background: rgba(0,0,0,0.1); color: inherit; border-radius: 12px; padding: 1px 8px; font-size: 12px; font-weight: bold; margin-top: 4px; }
+.flow-content { padding: 15px; font-size: 13.5px; color: #444; line-height: 1.5; text-align: left; }
+.flow-arrow { align-self: center; font-size: 24px; color: #bdbdbd; font-weight: bold; flex-basis: 20px; text-align: center; }
+
+.sec-vocab { flex: 1.25; display: flex; flex-direction: column; margin-top: 0px; border: 1px solid #cfd8dc; border-radius: 8px; overflow: hidden; }
+.v-header { display: flex; background: #37474f; color: white; font-family: var(--font-eng, 'Montserrat', sans-serif); font-size: 11px; font-weight: 700; padding: 6px 0; border-bottom: 1px solid #cfd8dc; }
+.v-list { flex: 1; display: flex; flex-direction: column; overflow-y: hidden; background: white; }
+.v-row { display: flex; align-items: stretch; border-bottom: 1px solid #eceff1; padding: 0; min-height: 32px; flex: 1; }
+.v-row:nth-child(even) { background-color: #fafafa; }
+
+.cell { display: flex; align-items: center; padding: 1px 8px; box-sizing: border-box; overflow: hidden; }
+.cell.col-word, .cell.col-mean, .cell.col-context { border-right: 1px solid rgba(0,0,0,0.05); }
+.v-header .cell { justify-content: center; padding: 3px 8px; text-align: center; }
+.v-header .cell.col-word, .v-header .cell.col-mean, .v-header .cell.col-context { border-right: 1px solid rgba(255,255,255,0.2); }
+.cell:last-child { border-right: none; }
+
+.col-chk { width: 30px; justify-content: center; flex-shrink: 0; }
+.col-word { width: 16%; flex-shrink: 0; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+.col-mean { width: 38%; flex-shrink: 0; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+.col-context { width: 14%; flex-shrink: 0; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+.col-chunk { flex: 1; flex-direction: column; align-items: flex-start; padding-top: 8px; padding-bottom: 8px; }
+
+.v-row .col-chk { padding-top: 8px; align-items: flex-start; }
+
+.chk-box { width: 10px; height: 10px; border: 1px solid var(--c-brand, #003b6f); border-radius: 2px; background: white; margin-top:4px; }
+.word-txt { font-family: var(--font-eng, 'Montserrat', sans-serif); font-weight: 900; color: var(--c-brand, #003b6f); font-size: 16px; word-break: break-word; line-height: 1.2; }
+.word-pron { font-size: 12px; color: #616161; font-family: var(--font-eng); margin-top: 3px; }
+.word-ety { font-size: 11px; color: #8d6e63; font-family: var(--font-kor); margin-top: 3px; font-weight: 600; letter-spacing: -0.5px; word-break: keep-all; line-height: 1.2; }
+
+.vm-kor { font-weight: 800; color: #212121; font-size: 13.5px; line-height: 1.3; font-family: 'NanumSquareRound', sans-serif; display: block; width: 100%; }
+.vm-context { font-size: 12.5px; color: #00695c; line-height: 1.4; font-weight: bold; white-space: normal; word-break: keep-all; display: block; width: 100%; }
+
+.vch-en { font-family: var(--font-eng, 'Montserrat', sans-serif); font-weight: 600; color: var(--c-chunk-text, #263238); font-size: 14.5px; line-height: 1.3; margin-bottom: 3px; }
+.vch-ko { font-size: 13.5px; color: #78909c; line-height: 1.2; font-family: 'NanumSquareRound', sans-serif; }
+.c-hl { color: var(--c-chunk-hl, #d84315); font-weight: 900; }
+
+.rel-box { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; width: 100%; }
+.rel-item { display: inline-flex; align-items: center; font-size: 13.5px; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background: #f5f5f5; padding: 3px 6px; border-radius: 4px; line-height: 1; }
+.item-syn { color: #1b5e20; font-weight: 900; }
+.item-ant { color: #d32f2f; font-weight: 600; }
+.item-conf { color: #333; font-weight: 900; }
+.rel-item span { margin-right: 4px; font-size: 12px; padding: 2px 4px; border-radius: 2px; color: white; font-family: var(--font-kor); font-weight: bold; }
+
+.bg-syn { background-color: #26a69a; }
+.bg-ant { background-color: #ef5350; }
+.bg-conf { background-color: #ffa726; }
+
+table.modal-table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; border: 1px solid #e0e0e0; }
+table.modal-table th { background: #eee; padding: 6px; border: 1px solid #ccc; text-align: center; font-family: var(--font-kor); color:#444; }
+table.modal-table td { padding: 6px; border: 1px solid #ccc; vertical-align: middle; word-wrap: break-word; background:#fff; text-align:center; }
+table.modal-table td:nth-child(6) { text-align: left; }
+table.modal-table td:nth-child(7) { text-align: left; }
+table.modal-table col:nth-child(1) { width: 12%; }
+table.modal-table col:nth-child(2) { width: 12%; }
+table.modal-table col:nth-child(3) { width: 12%; }
+table.modal-table col:nth-child(4) { width: 12%; }
+table.modal-table col:nth-child(5) { width: 8%; }
+table.modal-table col:nth-child(6) { width: 20%; }
+table.modal-table col:nth-child(7) { width: 24%; }
+.vocab-word-bold { font-weight: 900; font-family: var(--font-eng); color: #000; font-size: 16px; }
+.vocab-pron { color: #555; font-size: 12px; }
+
+.analysis-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; border: 1px solid #e0e0e0; }
+.analysis-table th { background: #546e7a; color: #fff; padding: 8px; border: 1px solid #ddd; text-align: center; font-weight: bold; }
+.analysis-table td { padding: 8px; border: 1px solid #ddd; vertical-align: middle; background: #fff; text-align: left; }
+
+.slash { font-weight: 900; color: #000; margin: 0 3px; font-size: 1.1em; }
+.blank-filled { border-bottom: 2px solid #000; font-weight: 900; color: #000; padding: 0 2px; }
+.blank-empty { display: inline-block; width: 40px; height: 18px; border-bottom: 1px solid #333; vertical-align: middle; margin: 0 2px; }
+.err-wrong { color: #d32f2f; text-decoration: line-through; margin-right: 3px; }
+.err-right { color: #1565c0; font-weight: 900; margin-left: 3px; }
+.err-arrow { color: #555; font-size: 0.9em; font-weight: bold; }
+.star-red { color: #e53935; text-shadow: 1px 1px 0px #b71c1c; font-size: 1.1em; margin-right: 5px; vertical-align: -1px; }
+.star-yellow { color: #fbc02d; text-shadow: 1px 1px 0px #f57f17; font-size: 1.1em; margin-right: 5px; vertical-align: -1px; }
+</style>
+</head>
+<body>
+
+<div class="header-container">
+    <button class="header-btn btn-literal" onclick="toggleModal('modalLiteral')">직독직해 (Literal)</button>
+    <div class="custom-modal modal-right modal-literal" id="modalLiteral">
+        <span class="close-modal-btn" onclick="toggleModal('modalLiteral')">&times;</span>
+        <h3>직독직해 (Literal)</h3>
+        <div class="modal-content"><div class='logic-section logic-intro'><span class='logic-section-title'>[도입] 패션 산업으로 확장된 보편적 설계</span><div class='trans-line'><span class='trans-num'>1.</span>❶ <span class="star-red">★</span><span class="S-text">보편적 설계가</span> <span class="V-text">활용되어 온</span> 반면 <span class="slash">/</span> 건축과 교통 체계에서 <span class="slash">/</span> 얼마 동안, <span class="slash">/</span> <span class="S-text">더 새로운 적용은</span> <span class="V-text">있다</span> <span class="slash">/</span> <span class="highlight-subject">패션 산업</span>에.<span class='trans-summary'>[도입] 패션 산업으로의 확장</span></div></div><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 보편적 설계 의류의 특징</span><div class='trans-line'><span class='trans-num'>2.</span>❷ <span class="S-text">의류는</span> <span class="slash">/</span> 보편적 설계로 디자인된 <span class="slash">/</span> <span class="O-text">신축성 있고 통기성 있는 재료들을</span> <span class="V-text">통합한다</span>, <span class="slash">/</span> <span class="O-text">편안함과 이동성을</span> <span class="V-text">향상시키면서</span>.<span class='trans-summary'>[특징 1] 신축성과 통기성 소재</span></div><div class='trans-line'><span class='trans-num'>3.</span>❸ <span class="S-text">다른 특징들은</span> <span class="O-text">자석과 벨크로의 사용을</span> <span class="V-text">포함한다</span> <span class="slash">/</span> 단추를 대신하여, <span class="slash">/</span> <span class="O-text">그것을</span> <span class="C-text">더 쉽게</span> <span class="V-text">만들면서</span> <span class="slash">/</span> <span class="O-text">옷을</span> <span class="V-text">입고 벗는 것을</span>.<span class='trans-summary'>[특징 2] 자석과 벨크로 사용</span></div><div class='trans-line'><span class='trans-num'>4.</span>❹ <span class="S-text">그것은(이 옷은)</span> 또한 <span class="O-text">특징들을</span> <span class="V-text">포함한다</span> <span class="slash">/</span> 신축성 있는 허리띠와 조절 가능한 소매들과 같은 <span class="slash">/</span> <span class="O-text">장애가 있는 개인들이</span> <span class="V-text">허락하기 위해</span> <span class="slash">/</span> 독립적으로 <span class="V-text">옷을 입도록</span>.<span class='trans-summary'>[특징 3] 독립적 착탈 지원</span></div></div><div class='logic-section logic-conc'><span class='logic-section-title'>[결론] 모든 사람을 위한 혜택</span><div class='trans-line'><span class='trans-num'>5.</span>❺ <span class="S-text">이러한 유형의 의류는</span> 또한 <span class="C-text">유익하다</span> <span class="slash">/</span> 임산부들, 노인들을 위해 <span class="slash">/</span> <span class="O-text">이동성 문제들을</span> <span class="V-text">겪을지도 모르는</span>, <span class="slash">/</span> 그리고 개인들을 위해 <span class="slash">/</span> 일시적인 부상이나 의학적 상태(질환)를 가진.<span class='trans-summary'>[효과] 수혜 대상의 확장</span></div><div class='trans-line'><span class='trans-num'>6.</span>❻ <span class="star-yellow">★</span>전반적으로, <span class="slash">/</span> <span class="S-text"><span class="highlight-subject">보편적 설계 의류는</span></span> <span class="O-text">증가된 편안함, 편리함, 독립성, 그리고 향상된 이동성과 유연성을</span> <span class="V-text">증진시킨다</span> <span class="slash">/</span> 모든 능력을 가진 착용자들을 위해.<span class='trans-summary'>[결론] 모두의 편의와 독립성 증진</span></div></div></div>
+    </div>
+
+    <button class="header-btn btn-liberal" onclick="toggleModal('modalLiberal')">전체 해석 (의역)</button>
+    <div class="custom-modal modal-right modal-liberal" id="modalLiberal">
+        <span class="close-modal-btn" onclick="toggleModal('modalLiberal')">&times;</span>
+        <h3>전체 해석 (의역)</h3>
+        <div class="modal-content"><div class='logic-section logic-intro'><span class='logic-section-title'>[도입] 패션 산업으로 확장된 보편적 설계</span><div class='trans-line'><span class='trans-num'>1.</span>❶ <span class="star-red">★</span><span class="S-text">보편적 설계는</span> 얼마 동안 건축 및 교통 체계에서 <span class="V-text">활용되어 왔지만</span>, <span class="S-text">더 새로운 적용 분야는</span> 바로 <span class="highlight-subject">패션 산업</span><span class="V-text">이다</span>.</div></div><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 보편적 설계 의류의 특징</span><div class='trans-line'><span class='trans-num'>2.</span>❷ 보편적 설계로 디자인된 <span class="S-text">의류는</span> <span class="O-text">신축성 있고 통기성이 좋은 소재를</span> <span class="V-text">결합하여</span> <span class="O-text">편안함과 활동성을</span> <span class="V-text">높여준다</span>.</div><div class='trans-line'><span class='trans-num'>3.</span>❸ <span class="S-text">또 다른 특징으로는</span> 단추 대신 <span class="O-text">자석과 벨크로(찍찍이)를 사용하는 것이</span> <span class="V-text">있는데</span>, 이는 <span class="O-text">옷을</span> <span class="V-text">입고 벗는 것을</span> <span class="C-text">더욱 쉽게</span> <span class="V-text">만들어준다</span>.</div><div class='trans-line'><span class='trans-num'>4.</span>❹ <span class="S-text">이 옷은</span> 또한 <span class="O-text">장애가 있는 사람들이</span> 남의 도움 없이 <span class="V-text">옷을 입을</span> 수 있도록 <span class="V-text">돕기 위해</span> 잘 늘어나는 허리띠나 길이 조절이 가능한 소매 같은 <span class="O-text">특징들도</span> <span class="V-text">포함하고 있다</span>.</div></div><div class='logic-section logic-conc'><span class='logic-section-title'>[결론] 모든 사람을 위한 혜택</span><div class='trans-line'><span class='trans-num'>5.</span>❺ <span class="S-text">이런 종류의 옷은</span> 임산부나 <span class="O-text">거동에 불편을</span> <span class="V-text">겪을 수 있는</span> 노인들, 그리고 일시적으로 다치거나 질병이 있는 사람들에게도 <span class="C-text">유익하다</span>.</div><div class='trans-line'><span class='trans-num'>6.</span>❻ <span class="star-yellow">★</span>전반적으로, <span class="S-text"><span class="highlight-subject">보편적 설계 의류는</span></span> 신체 능력에 상관없이 모든 착용자에게 <span class="O-text">향상된 편안함, 편리함, 독립성, 그리고 더 나은 활동성과 유연성을</span> <span class="V-text">제공한다</span>.</div></div></div>
+    </div>
+
+    <button class="header-btn btn-tips" onclick="toggleModal('modalTips')">구문 팁 정리</button>
+    <div class="custom-modal modal-right modal-tips" id="modalTips">
+        <span class="close-modal-btn" onclick="toggleModal('modalTips')">&times;</span>
+        <h3>구문 팁 정리</h3>
+        <div class="modal-content"><div class='logic-section logic-intro'><span class='logic-section-title'>[도입] 패션 산업으로 확장된 보편적 설계</span><div class='trans-line'><span class='trans-num'>1.</span>[구문팁] <b>While universal design has been utilized</b>: 접속사 While이 '~인 반면에(지만)'의 양보 의미로 쓰였고, 주절과 시제를 맞춰 현재완료 수동태(has been pp)가 사용됨.</div></div><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 보편적 설계 의류의 특징</span><div class='trans-line'><span class='trans-num'>2.</span>[구문팁] <b>Clothing designed</b>: 과거분사 designed가 앞의 Clothing을 수동의 의미로 수식함.<br>[구문팁] <b>enhancing</b>: 콤마 뒤에 오는 현재분사 구문으로 '~하면서(능동)'라는 동시 동작이나 연속 상황을 나타냄. (and it enhances로 바꿀 수 있음)</div><div class='trans-line'><span class='trans-num'>3.</span>[구문팁] <b>making it easier to put on</b>: 능동의 현재분사 making이 이끄는 분사구문 내에 목적어 자리에는 가목적어 it을 쓰고 목적격 보어 easier 뒤에 진목적어인 to부정사 구문(to put on ~)을 둔 매우 중요한 5형식 구조임.</div><div class='trans-line'><span class='trans-num'>4.</span>[구문팁] <b>to allow individuals ... to dress</b>: 5형식 동사 allow는 목적격 보어로 to부정사(to dress)를 취함.</div></div><div class='logic-section logic-conc'><span class='logic-section-title'>[결론] 모든 사람을 위한 혜택</span><div class='trans-line'><span class='trans-num'>6.</span>[구문팁] <b>wearers of all abilities</b>: 직역하면 '모든 능력을 가진 착용자들'이지만, 문맥상 장애 유무나 신체적 조건의 '다양성'을 포괄하는 매우 중요한 표현임.</div></div></div>
+    </div>
+
+    <button class="header-btn btn-logic" onclick="toggleModal('modalLogic')">3단 논리 흐름</button>
+    <div class="custom-modal modal-right modal-logic" id="modalLogic">
+        <span class="close-modal-btn" onclick="toggleModal('modalLogic')">&times;</span>
+        <h3>3단 논리 흐름</h3>
+        <div class="modal-content">
+            <div style='margin-bottom:15px;'>
+                <div class='flow-card flow-intro'>
+                    <div class='flow-header'>
+                        <span class='flow-title'>[도입] 패션 산업으로 확장된 보편적 설계</span>
+                        <span class='flow-num-badge'>1</span>
+                    </div>
+                    <div class='flow-content'>보편적 설계의 적용 분야는 건축과 교통을 넘어 새롭게 <span class="fill-text">패션</span> 산업으로 확장되고 있다.</div>
+                </div>
+            </div>
+            
+            <div style='margin-bottom:15px;'>
+                <div class='flow-card flow-body'>
+                    <div class='flow-header'>
+                        <span class='flow-title'>[전개] 보편적 설계 의류의 특징</span>
+                        <span class='flow-num-badge'>2, 3, 4</span>
+                    </div>
+                    <div class='flow-content'>이 의류들은 신축성 소재, 자석, 벨크로, 고무줄 허리띠 등을 통해 옷을 입고 벗기 쉽게 만들어 개인의 <span class="fill-text">독립성</span>을 보장한다.</div>
+                </div>
+            </div>
+            
+            <div style='margin-bottom:15px;'>
+                <div class='flow-card flow-conc'>
+                    <div class='flow-header'>
+                        <span class='flow-title'>[결론] 모든 사람을 위한 혜택</span>
+                        <span class='flow-num-badge'>5, 6</span>
+                    </div>
+                    <div class='flow-content'>이러한 의류는 영구적 장애인뿐 아니라 임산부, 일시적 부상자 등 모든 신체적 <span class="fill-text">능력</span>을 가진 사람들에게 편안함과 유연성을 제공한다.</div>
+                </div>
+            </div>
+            </div>
+    </div>
+
+    <button class="header-btn btn-eng-all" onclick="toggleModal('modalEngAll')">영어 문장 전체 보기</button>
+    <div class="custom-modal modal-left modal-eng-all" id="modalEngAll">
+        <span class="close-modal-btn" onclick="toggleModal('modalEngAll')">&times;</span>
+        <h3>영어 문장 전체 보기</h3>
+        <div class="modal-content"><div class='logic-section logic-intro'><span class='logic-section-title'>[도입] 패션 산업으로 확장된 보편적 설계</span><div class='eng-line'><span class='eng-num'>1.</span>❶ <span class="star-red">★</span>While <span class="syntax-box S-box">universal design</span> <span class="syntax-box V-box">has been utilized</span> <span class="slash">/</span> in architecture and transportation systems <span class="slash">/</span> for some time, <span class="slash">/</span> <span class="syntax-box S-box">a newer application</span> <span class="syntax-box V-box">is</span> <span class="slash">/</span> in the <span class="highlight-subject">fashion industry</span>.</div></div><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 보편적 설계 의류의 특징</span><div class='eng-line'><span class='eng-num'>2.</span>❷ <span class="syntax-box S-box">Clothing</span> <span class="slash">/</span> designed with universal design <span class="slash">/</span> <span class="syntax-box V-box">integrates</span> <span class="syntax-box O-box">stretchable and breathable materials</span>, <span class="slash">/</span> <span class="syntax-box V-box">enhancing</span> <span class="syntax-box O-box">comfort and mobility</span>.</div><div class='eng-line'><span class='eng-num'>3.</span>❸ <span class="syntax-box S-box">Other features</span> <span class="syntax-box V-box">include</span> <span class="syntax-box O-box">the use of magnets and Velcro</span> <span class="slash">/</span> <span class="vocab-container"><span class="vocab-sub">~을 대신하여(=instead of)</span><span class="vocab-text">in place of</span></span> buttons, <span class="slash">/</span> <span class="syntax-box V-box">making</span> <span class="syntax-box O-box">it</span> <span class="syntax-box C-box">easier</span> <span class="slash">/</span> to <span class="syntax-box V-box">put on and take off</span> <span class="syntax-box O-box">clothing</span>.</div><div class='eng-line'><span class='eng-num'>4.</span>❹ <span class="syntax-box S-box">It</span> also <span class="syntax-box V-box">incorporates</span> <span class="syntax-box O-box">traits</span> <span class="slash">/</span> like stretchy waistbands and adjustable sleeves <span class="slash">/</span> to <span class="syntax-box V-box">allow</span> <span class="syntax-box O-box">individuals with disabilities</span> <span class="slash">/</span> to <span class="syntax-box V-box">dress</span> <span class="vocab-container"><span class="vocab-sub">독립적으로</span><span class="vocab-text">independently</span></span>.</div></div><div class='logic-section logic-conc'><span class='logic-section-title'>[결론] 모든 사람을 위한 혜택</span><div class='eng-line'><span class='eng-num'>5.</span>❺ <span class="syntax-box S-box">This type of clothing</span> <span class="syntax-box V-box">is</span> also <span class="syntax-box C-box">beneficial</span> <span class="slash">/</span> for pregnant women, older adults <span class="slash">/</span> who <span class="syntax-box V-box">may experience</span> <span class="syntax-box O-box">mobility issues</span>, <span class="slash">/</span> and individuals <span class="slash">/</span> with <span class="vocab-container"><span class="vocab-sub">일시적인</span><span class="vocab-text">temporary</span></span> injuries or medical conditions.</div><div class='eng-line'><span class='eng-num'>6.</span>❻ <span class="star-yellow">★</span>Overall, <span class="slash">/</span> <span class="syntax-box S-box"><span class="highlight-subject">universal design clothing</span></span> <span class="syntax-box V-box">promotes</span> <span class="syntax-box O-box">increased comfort, convenience, independence, and improved mobility and flexibility</span> <span class="slash">/</span> for wearers of all abilities.</div></div></div>
+    </div>
+
+    <button class="header-btn btn-eng-pure" onclick="toggleModal('modalEngPure')">지문 읽기 (Pure)</button>
+    <div class="custom-modal modal-left modal-eng-pure" id="modalEngPure">
+        <span class="close-modal-btn" onclick="toggleModal('modalEngPure')">&times;</span>
+        <h3>지문 읽기 (Pure English)</h3>
+        <div class="modal-content"><div class='logic-section logic-intro'><span class='logic-section-title'>[도입] 패션 산업으로 확장된 보편적 설계</span><div class='eng-line'><span class='raw-num'>1.</span>While universal design has been utilized in architecture and transportation systems for some time, a newer application is in the fashion industry.</div></div><div class='logic-section logic-body'><span class='logic-section-title'>[전개] 보편적 설계 의류의 특징</span><div class='eng-line'><span class='raw-num'>2.</span>Clothing designed with universal design integrates stretchable and breathable materials, enhancing comfort and mobility.</div><div class='eng-line'><span class='raw-num'>3.</span>Other features include the use of magnets and Velcro in place of buttons, making it easier to put on and take off clothing.</div><div class='eng-line'><span class='raw-num'>4.</span>It also incorporates traits like stretchy waistbands and adjustable sleeves to allow individuals with disabilities to dress independently.</div></div><div class='logic-section logic-conc'><span class='logic-section-title'>[결론] 모든 사람을 위한 혜택</span><div class='eng-line'><span class='raw-num'>5.</span>This type of clothing is also beneficial for pregnant women, older adults who may experience mobility issues, and individuals with temporary injuries or medical conditions.</div><div class='eng-line'><span class='raw-num'>6.</span>Overall, universal design clothing promotes increased comfort, convenience, independence, and improved mobility and flexibility for wearers of all abilities.</div></div></div>
+    </div>
+
+    <button class="header-btn btn-vis-clean" onclick="toggleModal('modalVisClean')">지문 원문 (Clean)</button>
+    <div class="custom-modal modal-left modal-vis-clean" id="modalVisClean">
+        <span class="close-modal-btn" onclick="toggleModal('modalVisClean')">&times;</span>
+        <h3>지문 원문 (Clean)</h3>
+        <div class="modal-content visual-source-text"><div class="line-last" style="position: relative; padding-right: 28%; margin-bottom: 10px; width: 100%; box-sizing: border-box;"><span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S1 (Intro): 화제 전환 - 건축/교통 체계 → **패션 산업(Fashion Industry)</b>**으로의 보편적 설계 확장</span>
+                            </span>
+                        </span>❶ <span class="star-red">★</span>While universal design has been utilized in architecture and transportation systems for some time, a newer application is in the <span class="highlight-subject">fashion industry</span>. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S2 (Feature 1): 신축성 및 통기성 소재 사용 (편안함, 이동성 향상)</b></span>
+                            </span>
+                        </span>❷ Clothing designed with universal design integrates stretchable and breathable materials, enhancing comfort and mobility. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S3 (Feature 2): 단추 대신 **자석과 벨크로** 사용 (입고 벗기 쉬움)</b></span>
+                            </span>
+                        </span>❸ Other features include the use of magnets and Velcro in place of buttons, making it easier to put on and take off clothing. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S4 (Feature 3): 고무줄 허리띠, 조절 가능 소매 (장애인의 **독립적(independently)** 착탈 허용)</b></span>
+                            </span>
+                        </span>❹ It also incorporates traits like stretchy waistbands and adjustable sleeves to allow individuals with disabilities to dress independently. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S5 (Target): 수혜 대상의 확장 - 임산부, 거동 불편 노인, **일시적(temporary)</b>** 부상자에게도 유익함</span>
+                            </span>
+                        </span>❺ This type of clothing is also beneficial for pregnant women, older adults who may experience mobility issues, and individuals with temporary injuries or medical conditions. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S6 (Conclusion): 종합 - 보편적 설계 의류는 **모든 신체 조건(all abilities)</b>**을 가진 착용자의 편의와 독립성을 증진함</span>
+                            </span>
+                        </span>❻ <span class="star-yellow">★</span>Overall, <span class="highlight-subject">universal design clothing</span> promotes increased comfort, convenience, independence, and improved mobility and flexibility for wearers of all abilities.</div></div>
+    </div>
+
+    <button class="header-btn btn-learning" onclick="toggleModal('modalLearning')">핵심 콕콕</button>
+    <div class="custom-modal modal-left modal-learning" id="modalLearning">
+        <span class="close-modal-btn" onclick="toggleModal('modalLearning')">&times;</span>
+        <h3>핵심 콕콕 (Logic & Grammar)</h3>
+        <div class="modal-content">
+            <div class="learning-item">
+                <span class="learning-label logic-label">논리</span>
+                <ul class="learning-list"><li><b>화제 전환 (Transition):</b> ❶번 문장에서 `While`을 활용하여 기존의 건축/교통에서 <b>패션(fashion)</b>으로 글의 소재가 새롭게 전환됨을 <b>파악</b>.</li><li><b>대상 확장 및 요지:</b> 패션의 보편적 설계가 장애인뿐만 아니라 임산부, 노인, 일시적 부상자 등 <b>모두(all abilities)</b>를 위한 것임을 밝히는 ❻번 문장의 결론적 성격 <b>주의</b>.</li></ul>
+            </div>
+            <div class="learning-item">
+                <span class="learning-label grammar-label">구문</span>
+                <ul class="learning-list"><li><b>가목적어-진목적어 구문:</b> ❸번 문장의 분사구문 `making it(가목적어) easier(목적격보어) to put on~(진목적어)` 구조의 완벽한 형태 <b>암기</b> (서술형 최다 빈출).</li><li><b>5형식 동사 allow:</b> ❹번 문장의 `allow individuals with disabilities to dress` 구조에서 목적격 보어로 to부정사가 오는 점 <b>확인</b>.</li><li><b>분사 후위 수식:</b> ❷번 문장의 `Clothing (which is) designed~` 구조에서 과거분사가 명사를 능동이 아닌 수동으로 수식하는 점 <b>이해</b>.</li></ul>
+            </div>
+        </div>
+    </div>
+
+    <button class="header-btn btn-vocab" onclick="toggleModal('modalVocab')">핵심 어휘</button>
+    <div class="custom-modal modal-center modal-vocab" id="modalVocab">
+        <span class="close-modal-btn" onclick="toggleModal('modalVocab')">&times;</span>
+        <h3>핵심 어휘 10선</h3>
+        <div class="modal-content">
+        <table class='vocab-table modal-table'>
+            <colgroup><col width="12%"><col width="12%"><col width="12%"><col width="12%"><col width="8%"><col width="20%"><col width="24%"></colgroup>
+            <thead><tr><th>Word</th><th>Synonym</th><th>Antonym</th><th>Confusing</th><th>Pronunciation</th><th>Meaning</th><th>Chunk</th></tr></thead>
+            <tbody><tr>
+                <td class='vocab-word-bold'>utilize</td>
+                <td>use / employ</td>
+                <td>neglect / ignore</td>
+                <td>utility (유용성, 공공시설)</td>
+                <td class='vocab-pron'>[유틸라이즈]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>utilis(유용한) + ize(~하게 만들다) = 유용하게 만들다 -> 활용하다</span></td>
+                <td style='text-align:left;'>활용하다 , 이용하다 (문맥: 기존에 건축이나 교통 시스템에서 유용하게 쓰여 오다)</td>
+                <td style='text-align:left;'><b>has been <span style='color:#e53935; font-weight:bold;'>utilized</span> in architecture</b><br><span style='color:#777; font-size:11px;'>건축에서 활용되어 왔다</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>integrate</td>
+                <td>incorporate / combine</td>
+                <td>separate / divide</td>
+                <td>interrogate (심문하다)</td>
+                <td class='vocab-pron'>[인터그레이트]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>integer(완전한) + ate(동사형 접미사) = 완전하게 하나로 만들다 -> 통합하다</span></td>
+                <td style='text-align:left;'>통합하다 , 접목하다 (문맥: 옷을 만들 때 신축성 있는 소재 등의 특징을 하나로 합쳐서 넣다)</td>
+                <td style='text-align:left;'><b><span style='color:#e53935; font-weight:bold;'>integrates</span> stretchable and breathable materials</b><br><span style='color:#777; font-size:11px;'>신축성 있고 통기성 있는 재료를 통합한다</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>stretchable</td>
+                <td>elastic / flexible</td>
+                <td>rigid / stiff</td>
+                <td>sketchy (대략적인)</td>
+                <td class='vocab-pron'>[스트레처블]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>stretch(늘어나다) + able(~할 수 있는)</span></td>
+                <td style='text-align:left;'>신축성 있는 , 늘어나는 (문맥: 당기면 늘어나서 움직이기 편한 소재)</td>
+                <td style='text-align:left;'><b><span style='color:#e53935; font-weight:bold;'>stretchable</span> and breathable materials</b><br><span style='color:#777; font-size:11px;'>신축성 있고 통기성 있는 재료</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>breathable</td>
+                <td>ventilated / airy</td>
+                <td>airtight / stifling</td>
+                <td>breakable (깨지기 쉬운)</td>
+                <td class='vocab-pron'>[브리더블]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>breath(숨) + able(~할 수 있는) = 숨 쉴 수 있는 -> 통기성이 있는</span></td>
+                <td style='text-align:left;'>통기성이 있는 (문맥: 공기가 잘 통해서 땀이 차지 않고 쾌적한)</td>
+                <td style='text-align:left;'><b>stretchable and <span style='color:#e53935; font-weight:bold;'>breathable</span> materials</b><br><span style='color:#777; font-size:11px;'>신축성 있고 통기성 있는 재료</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>mobility</td>
+                <td>movement / flexibility</td>
+                <td>immobility / stiffness</td>
+                <td>nobility (귀족)</td>
+                <td class='vocab-pron'>[모빌러티]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>mobilis(움직일 수 있는) + ity(명사형 접미사)</span></td>
+                <td style='text-align:left;'>이동성 , 기동성 (문맥: 몸을 움직이거나 이동하기 편한 정도)</td>
+                <td style='text-align:left;'><b>enhancing comfort and <span style='color:#e53935; font-weight:bold;'>mobility</span></b><br><span style='color:#777; font-size:11px;'>편안함과 이동성을 향상시키며</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>in place of</td>
+                <td>instead of / replacing</td>
+                <td>in addition to</td>
+                <td>in spite of (~에도 불구하고)</td>
+                <td class='vocab-pron'>[인 플레이스 오브]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>None</span></td>
+                <td style='text-align:left;'>~을 대신하여 (문맥: 기존의 단추를 빼고 그 자리에 자석 등을 쓰다)</td>
+                <td style='text-align:left;'><b><span style='color:#e53935; font-weight:bold;'>in place of</span> buttons</b><br><span style='color:#777; font-size:11px;'>단추를 대신하여</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>trait</td>
+                <td>characteristic / feature</td>
+                <td>None</td>
+                <td>trail (흔적, 오솔길)</td>
+                <td class='vocab-pron'>[트레이트]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>tractus(끌어내다) = 끌어낸 선 -> 얼굴의 생김새 -> 특징</span></td>
+                <td style='text-align:left;'>특성 , 특징 (문맥: 고무줄 허리띠 등 옷이 가진 유용한 성질)</td>
+                <td style='text-align:left;'><b>incorporates <span style='color:#e53935; font-weight:bold;'>traits</span> like stretchy waistbands</b><br><span style='color:#777; font-size:11px;'>신축성 있는 허리띠와 같은 특징들을 포함한다</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>independently</td>
+                <td>autonomously / on one's own</td>
+                <td>dependently / rely on others</td>
+                <td>indefinitely (무기한으로)</td>
+                <td class='vocab-pron'>[인디펜던틀리]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>in(부정) + depend(의존하다) + ent + ly = 의존하지 않게 -> 독립적으로</span></td>
+                <td style='text-align:left;'>독립적으로 , 남의 도움 없이 (문맥: 타인의 도움 없이 스스로 옷을 입고 벗을 수 있는)</td>
+                <td style='text-align:left;'><b>dress <span style='color:#e53935; font-weight:bold;'>independently</span></b><br><span style='color:#777; font-size:11px;'>독립적으로 옷을 입다</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>temporary</td>
+                <td>momentary / short-term</td>
+                <td>permanent / everlasting</td>
+                <td>contemporary (동시대의)</td>
+                <td class='vocab-pron'>[템퍼레리]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>tempus(시간) + ary(~와 관련된) = 일정 시간 동안만의 -> 일시적인</span></td>
+                <td style='text-align:left;'>일시적인 , 임시의 (문맥: 영구적인 장애가 아니라 잠시 다쳐서 깁스 등을 한 상태)</td>
+                <td style='text-align:left;'><b>individuals with <span style='color:#e53935; font-weight:bold;'>temporary</span> injuries</b><br><span style='color:#777; font-size:11px;'>일시적인 부상을 가진 개인들</span></td>
+            </tr><tr>
+                <td class='vocab-word-bold'>promote</td>
+                <td>encourage / advance</td>
+                <td>hinder / prevent</td>
+                <td>prompt (즉각적인)</td>
+                <td class='vocab-pron'>[프로모트]<br><span style='font-size:11px; color:#8d6e63; font-weight:bold; letter-spacing:-0.5px;'>pro(앞으로) + movere(움직이다) = 앞으로 나아가게 하다 -> 증진하다</span></td>
+                <td style='text-align:left;'>증진하다 , 촉진하다 (문맥: 편안함이나 독립성 등을 더 높아지게 만들다)</td>
+                <td style='text-align:left;'><b><span style='color:#e53935; font-weight:bold;'>promotes</span> increased comfort</b><br><span style='color:#777; font-size:11px;'>증가된 편안함을 증진시킨다</span></td>
+            </tr></tbody>
+        </table>
+        </div>
+    </div>
+
+    <button class="header-btn btn-keys" onclick="toggleModal('modalKeys')">핵심 문장</button>
+    <div class="custom-modal modal-center modal-keys" id="modalKeys">
+        <span class="close-modal-btn" onclick="toggleModal('modalKeys')">&times;</span>
+        <h3>핵심 문장 3개</h3>
+        <div class="modal-content">
+            <div style="margin-bottom:15px; border-bottom:1px dashed #ddd; padding-bottom:10px;">
+                <div style="font-weight:bold; color:#0d47a1; margin-bottom:4px;">주제문 <span style="font-size:11px; color:#666; font-weight:normal;">[본문]</span></div>
+                <div style="font-family:'Times New Roman'; font-size:15px; margin-bottom:4px;">While universal design has been utilized in architecture and transportation systems for some time, a newer application is in the fashion industry.</div>
+                <div style="font-size:13px; color:#333; margin-bottom:4px;">보편적 설계가 얼마 동안 건축과 교통 체계에서 활용되어 온 반면, 더 새로운 적용은 패션 산업에 있다.</div>
+                <div style="font-size:12px; color:#555; background:#f9f9f9; padding:4px;">💡 [접속사 While <span class="slash">/</span> 화제 전환] 글의 중심 소재가 기존의 건축/교통에서 '패션 산업'으로 새롭게 전환됨을 선언하는 도입부이자 주제문입니다.</div>
+            </div>
+            
+            <div style="margin-bottom:15px; border-bottom:1px dashed #ddd; padding-bottom:10px;">
+                <div style="font-weight:bold; color:#0d47a1; margin-bottom:4px;">핵심 구문 <span style="font-size:11px; color:#666; font-weight:normal;">[본문]</span></div>
+                <div style="font-family:'Times New Roman'; font-size:15px; margin-bottom:4px;">Other features include the use of magnets and Velcro in place of buttons, <span style="color:#d32f2f; font-weight:bold;">making it easier to</span> put on and take off clothing.</div>
+                <div style="font-size:13px; color:#333; margin-bottom:4px;">다른 특징들은 단추 대신 자석과 벨크로를 사용하는 것을 포함하며, 이는 옷을 입고 벗는 것을 더 쉽게 만든다.</div>
+                <div style="font-size:12px; color:#555; background:#f9f9f9; padding:4px;">💡 [분사구문 <span class="slash">/</span> 가목적어-진목적어] 콤마 뒤에 능동의 분사구문 <span style="color:#d32f2f; font-weight:bold;">making</span>이 쓰였고, 그 안에서 가목적어 <span style="color:#d32f2f; font-weight:bold;">it</span>과 진목적어 <span style="color:#d32f2f; font-weight:bold;">to put on ~</span> 구문이 사용된 매우 중요한 서술형 및 어법 출제 포인트입니다.</div>
+            </div>
+            
+            <div style="margin-bottom:15px; border-bottom:1px dashed #ddd; padding-bottom:10px;">
+                <div style="font-weight:bold; color:#0d47a1; margin-bottom:4px;">재진술 <span style="font-size:11px; color:#666; font-weight:normal;">[본문]</span></div>
+                <div style="font-family:'Times New Roman'; font-size:15px; margin-bottom:4px;">Overall, universal design clothing promotes increased comfort, convenience, independence, and improved mobility and flexibility for wearers of <span style="color:#d32f2f; font-weight:bold;">all abilities</span>.</div>
+                <div style="font-size:13px; color:#333; margin-bottom:4px;">전반적으로, 보편적 설계 의류는 모든 능력(신체 조건)을 가진 착용자들을 위해 증가된 편안함, 편리함, 독립성, 그리고 향상된 이동성과 유연성을 증진시킨다.</div>
+                <div style="font-size:12px; color:#555; background:#f9f9f9; padding:4px;">💡 [결론 <span class="slash">/</span> 핵심어 요약] 패션에 적용된 보편적 설계의 이점들을 총망라하여 요약해 주는 결론 문장으로, 특정 장애인이 아닌 <span style="color:#d32f2f; font-weight:bold;">all abilities</span>를 위한 것이라는 보편적 설계의 철학을 잘 보여줍니다.</div>
+            </div>
+            </div>
+    </div>
+
+    <button class="header-btn btn-ans" onclick="toggleModal('modalAns')">정답 및 해설</button>
+    <div class="custom-modal modal-center modal-ans" id="modalAns">
+        <span class="close-modal-btn" onclick="toggleModal('modalAns')">&times;</span>
+        <h3>정답 및 해설</h3>
+        <div class="modal-content">
+        <div style="font-size:16px; font-weight:bold; color:#0277bd; margin-bottom:15px;">정답: </div>
+        <div style="margin-bottom:15px;"><strong>[해설 요약]</strong><br></div>
+        <div style="margin-bottom:15px;"><strong>[논리적 근거]</strong><br><ul style="padding-left:20px;"></ul></div>
+        <div><strong>[논리 연결]</strong><br></div>
+        </div>
+    </div>
+
+    <button class="header-btn btn-opts" onclick="toggleModal('modalOpts')">선택지 분석</button>
+    <div class="custom-modal modal-center modal-opts" id="modalOpts">
+        <span class="close-modal-btn" onclick="toggleModal('modalOpts')">&times;</span>
+        <h3>선택지 분석</h3>
+        <div class="modal-content">선택지 분석 데이터가 없습니다.</div>
+    </div>
+
+    <button class="header-btn btn-exam" onclick="toggleModal('modalExam')">내신 출제 포인트</button>
+    <div class="custom-modal modal-center modal-exam" id="modalExam">
+        <span class="close-modal-btn" onclick="toggleModal('modalExam')">&times;</span>
+        <h3>내신 변형 문제 예측 5선</h3>
+        <div class="modal-content">
+                <div style='margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;'>
+                    <div style='margin-bottom:4px;'><strong>S6.</strong> <span class='exam-badge exam-badge-blank'>빈칸</span> <span class='exam-target'>wearers of all abilities</span></div>
+                    <div style='font-size:13px; color:#555; margin-bottom:2px;'><strong>Paraphrase:</strong> ① people with diverse physical conditions ② users regardless of their physical limitations</div>
+                    <div style='font-size:13px; color:#444;'>💡 <strong>출제이유:</strong> 보편적 설계가 특정 장애인뿐만 아니라 신체적 조건이 각기 다른 모든 사람을 포용한다는 핵심 주제를 담고 있는 결론 어구입니다.</div>
+                </div>
+                
+                <div style='margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;'>
+                    <div style='margin-bottom:4px;'><strong>S3.</strong> <span class='exam-badge exam-badge-grammar'>어법</span> <span class='exam-target'>making it easier to put on and take off clothing</span></div>
+                    <div style='font-size:13px; color:#555; margin-bottom:2px;'><strong>Distractor:</strong> ① making easier to put on ② making it easily to put on</div>
+                    <div style='font-size:13px; color:#444;'>💡 <strong>출제이유:</strong> [가목적어-진목적어] 능동의 분사구문(making) 뒤에 가목적어 it, 목적격 보어인 형용사(easier), 그리고 진목적어(to부정사)가 이어지는 고난도 5형식 구조로 영작 및 어법 문제 1순위입니다.</div>
+                </div>
+                
+                <div style='margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;'>
+                    <div style='margin-bottom:4px;'><strong>S4.</strong> <span class='exam-badge exam-badge-blank'>빈칸</span> <span class='exam-target'>dress independently</span></div>
+                    <div style='font-size:13px; color:#555; margin-bottom:2px;'><strong>Paraphrase:</strong> ① put on clothes without external assistance ② manage dressing autonomously</div>
+                    <div style='font-size:13px; color:#444;'>💡 <strong>출제이유:</strong> 보편적 설계 의류가 착용자에게 부여하는 가장 핵심적인 기능적 가치(타인에게 의존하지 않음)를 나타내는 구절입니다.</div>
+                </div>
+                
+                <div style='margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;'>
+                    <div style='margin-bottom:4px;'><strong>S2.</strong> <span class='exam-badge exam-badge-grammar'>어법</span> <span class='exam-target'>enhancing</span></div>
+                    <div style='font-size:13px; color:#555; margin-bottom:2px;'><strong>Distractor:</strong> ① enhances ② enhanced</div>
+                    <div style='font-size:13px; color:#444;'>💡 <strong>출제이유:</strong> [분사구문] 문장의 본동사(integrates)가 이미 존재하고, 접속사 없이 문장을 이어주며 '향상시키면서'라는 능동의 동시 동작을 나타내므로 현재분사 enhancing이 와야 합니다.</div>
+                </div>
+                
+                <div style='margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;'>
+                    <div style='margin-bottom:4px;'><strong>S5.</strong>  <span class='exam-target'>temporary</span></div>
+                    <div style='font-size:13px; color:#555; margin-bottom:2px;'></div>
+                    <div style='font-size:13px; color:#444;'>💡 <strong>출제이유:</strong> [문맥상 어휘 추론] 지문에서 임산부나 노인과 함께 예시로 든 대상은 영구적인(permanent) 장애가 아니라 뼈가 부러지는 등의 '일시적인(temporary)' 부상을 입은 사람들이므로 반의어 출제에 유의해야 합니다.</div>
+                </div>
+                </div>
+    </div>
+
+    <div class="info-group">
+        
+        <div class="difficulty-box">
+            <span class="diff-label">DIFFICULTY</span>
+            <span class="diff-stars">☆☆☆☆☆</span>
+        </div>
+        
+
+        <div class="ri-item ri-material">
+            <span class="ri-label">소재</span>
+            패션 산업에 적용된 보편적 설계 (Universal Design) <span class='header-badge-them'>★주제문: S1</span><span class='header-badge-key'>★재진술: S6</span>
+        </div>
+
+        <div class="topic-box">
+            <strong style="font-size:17.5px;">Topic & Summary</strong><br>
+            <div style="margin-top:6px;">보편적 설계는 건축과 교통을 넘어 패션 산업으로 새롭게 적용되어, 신축성 있는 소재나 자석, 벨크로 등을 활용해 장애인뿐만 아니라 임산부, 노인 등 모든 사람의 편안함과 독립적인 착탈을 돕는다.</div>
+        </div>
+
+        <div class="ri-item ri-guide">
+            <span class="ri-label">수업 가이드</span>
+            자, 이전까지는 건물 경사로나 버스 이야기를 하다가 1번 문장에서 "While~"을 쓰면서 드디어 '패션 산업'이라는 새로운 무대로 넘어왔어. 패션에 유니버설 디자인이 어떻게 쓰이냐고? 3번 문장을 보면 단추 대신 자석이나 찍찍이를 쓴대. 여기서 진짜 중요한 어법! "making it easier to put on..." 이거 분사구문에 가목적어 it, 진목적어 to부정사까지 아주 문법 종합선물세트야. 서술형 영작 1순위니까 무조건 외워! 그리고 5번 문장에서 눈여겨볼 건, 이 옷이 영구적인 장애인뿐만 아니라 'temporary(일시적인)' 부상을 입은 사람한테도 좋다는 거야. 결국 마지막 6번 문장에서 말하듯 'all abilities(모든 신체 능력)'를 가진 사람들을 위한 디자인이라는 게 이 글의 최종 보스격 결론이지.
+        </div>
+        <div class="ri-item ri-tip">
+            <span class="ri-label">집중 Tip</span>
+            어휘 문제로 4번의 'independently(독립적으로)'나 5번의 'temporary(일시적인)'가 반의어(dependently, permanent)로 바뀌어 나올 수 있으니 문맥을 잘 파악해 둬!
+        </div>
+    </div>
+</div>
+
+<div class="top-container">
+    
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+                    <span class="logic-desc" style="font-weight: 900;"><b>S1 (Intro): 화제 전환 - 건축/교통 체계 → **패션 산업(Fashion Industry)</b>**으로의 보편적 설계 확장</span>
+                </div>
+                
+                <div class="logic-flow-card logic-intro">
+                    <div style="margin-bottom:6px;">
+                        <span class="logic-title" style="display:inline; margin-bottom:0;">[도입] 패션 산업으로 확장된 보편적 설계</span>
+                        <span style="font-size:12px; font-weight:bold; opacity:0.8; margin-left:5px;">1</span>
+                    </div>
+                    <span class="logic-desc">보편적 설계의 적용 분야는 건축과 교통을 넘어 새롭게 <span class="fill-text">패션</span> 산업으로 확장되고 있다.</span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-intro card-them">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❶ <span class="star-red">★</span><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>While <span class="syntax-box S-box">universal design</span> <span class="syntax-box V-box">has been utilized</span></span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❶ <span class="star-red">★</span><span class="S-text">보편적 설계가</span> <span class="V-text">활용되어 온</span> 반면</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">in architecture and transportation systems</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">건축과 교통 체계에서</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">for some time,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">얼마 동안,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box S-box">a newer application</span> <span class="syntax-box V-box">is</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text">더 새로운 적용은</span> <span class="V-text">있다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">in the <span class="highlight-subject">fashion industry</span>.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="highlight-subject">패션 산업</span>에. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[도입] 패션 산업으로의 확장</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>지금까지 건물이나 교통 이야기만 했지? 근데 요새는 이 유니버설 디자인이 옷, 즉 패션 산업에도 아주 새롭게 쓰이고 있어.</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>While universal design has been utilized</b>: 접속사 While이 '~인 반면에(지만)'의 양보 의미로 쓰였고, 주절과 시제를 맞춰 현재완료 수동태(has been pp)가 사용됨.</div></div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+                    <span class="logic-desc" style="font-weight: 900;"><b>S2 (Feature 1): 신축성 및 통기성 소재 사용 (편안함, 이동성 향상)</b></span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-body">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❷ <span class="syntax-box S-box"><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>Clothing</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❷ <span class="S-text">의류는</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">designed</span> with universal design</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">보편적 설계로 디자인된</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box V-box">integrates</span> <span class="syntax-box O-box">stretchable and breathable materials</span>,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text">신축성 있고 통기성 있는 재료들을</span> <span class="V-text">통합한다</span>,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box V-box"><span class="visual-exam-target" style="border-bottom: 2px dashed #f44336; background-color: rgba(244, 67, 54, 0.15);"><span class="visual-exam-label" style="background-color: #f44336;">어법주의</span><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>enhancing</span></span></span> <span class="syntax-box O-box">comfort and mobility</span>.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text">편안함과 이동성을</span> <span class="V-text">향상시키면서</span>. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[특징 1] 신축성과 통기성 소재</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>유니버설 디자인으로 만든 옷은 쭉쭉 잘 늘어나고 땀도 잘 통하는 소재를 써서, 사람들이 훨씬 편하게 움직일 수 있게 만들어 줘.</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>Clothing designed</b>: 과거분사 designed가 앞의 Clothing을 수동의 의미로 수식함.<br>[구문팁] <b>enhancing</b>: 콤마 뒤에 오는 현재분사 구문으로 '~하면서(능동)'라는 동시 동작이나 연속 상황을 나타냄. (and it enhances로 바꿀 수 있음)</div></div>
+                        
+                    <div class='exam-point-box'>
+                        <div style='margin-bottom:3px;'><span class='exam-badge exam-badge-grammar'>어법주의</span> <span class='exam-target'>enhancing</span> ➔ 오답함정: ① enhances ② enhanced</div>
+                        <div style='font-size:11px; color:#666;'>💡 [분사구문] 문장의 본동사(integrates)가 이미 존재하고, 접속사 없이 문장을 이어주며 '향상시키면서'라는 능동의 동시 동작을 나타내므로 현재분사 enhancing이 와야 합니다.</div>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+                    <span class="logic-desc" style="font-weight: 900;"><b>S3 (Feature 2): 단추 대신 **자석과 벨크로** 사용 (입고 벗기 쉬움)</b></span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-body">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❸ <span class="syntax-box S-box">Other features</span> <span class="syntax-box V-box">include</span> <span class="syntax-box O-box">the use of magnets and Velcro</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❸ <span class="S-text">다른 특징들은</span> <span class="O-text">자석과 벨크로의 사용을</span> <span class="V-text">포함한다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="vocab-container"><span class="vocab-sub">~을 대신하여(=instead of)</span><span class="vocab-text">in place of</span></span> buttons,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">단추를 대신하여,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box V-box"><span class="visual-exam-target" style="border-bottom: 2px dashed #f44336; background-color: rgba(244, 67, 54, 0.15);"><span class="visual-exam-label" style="background-color: #f44336;">어법주의</span><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>making</span> <span class="syntax-box O-box">it</span> <span class="syntax-box C-box">easier</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text">그것을</span> <span class="C-text">더 쉽게</span> <span class="V-text">만들면서</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">to <span class="syntax-box V-box">put on</span> and take off</span> <span class="syntax-box O-box">clothing</span></span>.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text">옷을</span> <span class="V-text">입고 벗는 것을</span>. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[특징 2] 자석과 벨크로 사용</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>단추 잠그기 힘든 사람들을 위해서 단추 대신 자석이나 찍찍이를 달아 놨어. 덕분에 옷 입고 벗는 게 훨씬 수월해졌지.</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>making it easier to put on</b>: 능동의 현재분사 making이 이끄는 분사구문 내에 목적어 자리에는 가목적어 it을 쓰고 목적격 보어 easier 뒤에 진목적어인 to부정사 구문(to put on ~)을 둔 매우 중요한 5형식 구조임.</div></div>
+                        
+                    <div class='exam-point-box'>
+                        <div style='margin-bottom:3px;'><span class='exam-badge exam-badge-grammar'>어법주의</span> <span class='exam-target'>making it easier to put on and take off clothing</span> ➔ 오답함정: ① making easier to put on ② making it easily to put on</div>
+                        <div style='font-size:11px; color:#666;'>💡 [가목적어-진목적어] 능동의 분사구문(making) 뒤에 가목적어 it, 목적격 보어인 형용사(easier), 그리고 진목적어(to부정사)가 이어지는 고난도 5형식 구조로 영작 및 어법 문제 1순위입니다.</div>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+                    <span class="logic-desc" style="font-weight: 900;"><b>S4 (Feature 3): 고무줄 허리띠, 조절 가능 소매 (장애인의 **독립적(independently)** 착탈 허용)</b></span>
+                </div>
+                
+                <div class="logic-flow-card logic-body">
+                    <div style="margin-bottom:6px;">
+                        <span class="logic-title" style="display:inline; margin-bottom:0;">[전개] 보편적 설계 의류의 특징</span>
+                        <span style="font-size:12px; font-weight:bold; opacity:0.8; margin-left:5px;">2, 3, 4</span>
+                    </div>
+                    <span class="logic-desc">이 의류들은 신축성 소재, 자석, 벨크로, 고무줄 허리띠 등을 통해 옷을 입고 벗기 쉽게 만들어 개인의 <span class="fill-text">독립성</span>을 보장한다.</span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-body">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❹ <span class="syntax-box S-box">It</span> also <span class="syntax-box V-box">incorporates</span> <span class="syntax-box O-box">traits</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❹ <span class="S-text">그것은(이 옷은)</span> 또한 <span class="O-text">특징들을</span> <span class="V-text">포함한다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">like stretchy waistbands and adjustable sleeves</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">신축성 있는 허리띠와 조절 가능한 소매들과 같은</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">to <span class="syntax-box V-box">allow</span> <span class="syntax-box O-box">individuals with disabilities</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text">장애가 있는 개인들이</span> <span class="V-text">허락하기 위해</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">to <span class="syntax-box V-box"><span class="visual-exam-target" style="border-bottom: 2px dashed #4caf50; background-color: rgba(76, 175, 80, 0.15);"><span class="visual-exam-label" style="background-color: #4caf50;">빈칸출제</span>dress</span> <span class="vocab-container"><span class="vocab-sub">독립적으로</span><span class="vocab-text">independently</span></span></span>.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">독립적으로 <span class="V-text">옷을 입도록</span>. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[특징 3] 독립적 착탈 지원</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>또 밴딩 처리된 고무줄 바지나 소매 길이를 조절할 수 있게 만들어서, 장애가 있는 분들도 남의 도움 없이 스스로 옷을 입을 수 있게 배려했어.</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>to allow individuals ... to dress</b>: 5형식 동사 allow는 목적격 보어로 to부정사(to dress)를 취함.</div></div>
+                        
+                    <div class='exam-point-box'>
+                        <div style='margin-bottom:3px;'><span class='exam-badge exam-badge-blank'>빈칸출제</span> <span class='exam-target'>dress independently</span> ➔ 변형: ① put on clothes without external assistance ② manage dressing autonomously</div>
+                        <div style='font-size:11px; color:#666;'>💡 보편적 설계 의류가 착용자에게 부여하는 가장 핵심적인 기능적 가치(타인에게 의존하지 않음)를 나타내는 구절입니다.</div>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+                    <span class="logic-desc" style="font-weight: 900;"><b>S5 (Target): 수혜 대상의 확장 - 임산부, 거동 불편 노인, **일시적(temporary)</b>** 부상자에게도 유익함</span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-conc">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❺ <span class="syntax-box S-box">This type of clothing</span> <span class="syntax-box V-box">is</span> also <span class="syntax-box C-box">beneficial</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❺ <span class="S-text">이러한 유형의 의류는</span> 또한 <span class="C-text">유익하다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">for pregnant women, older adults</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">임산부들, 노인들을 위해</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">who <span class="syntax-box V-box">may experience</span> <span class="syntax-box O-box">mobility issues</span>,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="O-text">이동성 문제들을</span> <span class="V-text">겪을지도 모르는</span>,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">and individuals</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">그리고 개인들을 위해</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">with <span class="visual-exam-target" style="border-bottom: 2px dashed #ff9800; background-color: rgba(255, 152, 0, 0.15);"><span class="visual-exam-label" style="background-color: #ff9800;">변형출제</span><span class="vocab-container"><span class="vocab-sub">일시적인</span><span class="vocab-text">temporary</span></span></span> injuries or medical conditions.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">일시적인 부상이나 의학적 상태(질환)를 가진. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[효과] 수혜 대상의 확장</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>이렇게 만든 옷이 장애인한테만 좋게? 배가 나온 임산부, 몸이 쑤시는 할머니 할아버지, 심지어 팔 부러져서 깁스한 사람한테도 진짜 편하고 유익해!</div></div>
+                        
+                    <div class='exam-point-box'>
+                        <div style='margin-bottom:3px;'> <span class='exam-target'>temporary</span> </div>
+                        <div style='font-size:11px; color:#666;'>💡 [문맥상 어휘 추론] 지문에서 임산부나 노인과 함께 예시로 든 대상은 영구적인(permanent) 장애가 아니라 뼈가 부러지는 등의 '일시적인(temporary)' 부상을 입은 사람들이므로 반의어 출제에 유의해야 합니다.</div>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="sent-container">
+                <div class="sent-logic-col">
+                    
+                <div class="logic-flow-card" style="background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', monospace; font-weight: bold; margin-bottom: 8px;">
+                    <span class="logic-desc" style="font-weight: 900;"><b>S6 (Conclusion): 종합 - 보편적 설계 의류는 **모든 신체 조건(all abilities)</b>**을 가진 착용자의 편의와 독립성을 증진함</span>
+                </div>
+                
+                <div class="logic-flow-card logic-conc">
+                    <div style="margin-bottom:6px;">
+                        <span class="logic-title" style="display:inline; margin-bottom:0;">[결론] 모든 사람을 위한 혜택</span>
+                        <span style="font-size:12px; font-weight:bold; opacity:0.8; margin-left:5px;">5, 6</span>
+                    </div>
+                    <span class="logic-desc">이러한 의류는 영구적 장애인뿐 아니라 임산부, 일시적 부상자 등 모든 신체적 <span class="fill-text">능력</span>을 가진 사람들에게 편안함과 유연성을 제공한다.</span>
+                </div>
+                
+                </div>
+                <div class="sent-analysis-col">
+                    <div class="analysis-card bg-conc card-key">
+                        <div class="eng-sent">
+                            <div class="chunk-pair"><div class="eng-chunk">❻ <span class="star-yellow">★</span>Overall,</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">❻ <span class="star-yellow">★</span>전반적으로,</div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk"><span class="syntax-box S-box"><span class="highlight-subject">universal design clothing</span></span> <span class="syntax-box V-box">promotes</span> <span class="syntax-box O-box">increased comfort, convenience, independence, and improved mobility and flexibility</span></div><div class="kor-chunk" style="display: inline-flex; align-items: center;"><span class="S-text"><span class="highlight-subject">보편적 설계 의류는</span></span> <span class="O-text">증가된 편안함, 편리함, 독립성, 그리고 향상된 이동성과 유연성을</span> <span class="V-text">증진시킨다</span></div></div>
+<div class="slash-divider">/</div>
+<div class="chunk-pair"><div class="eng-chunk">for <span class="visual-exam-target" style="border-bottom: 2px dashed #4caf50; background-color: rgba(76, 175, 80, 0.15);"><span class="visual-exam-label" style="background-color: #4caf50;">빈칸출제</span><span class="inline-syntax-target"><span class="inline-syntax-label">구문팁</span>wearers of all abilities</span></span>.</div><div class="kor-chunk" style="display: inline-flex; align-items: center;">모든 능력을 가진 착용자들을 위해. <span style='display: inline-block; vertical-align: middle; margin-left: 6px;'><span class='summary-badge' style='margin: 0;'>[결론] 모두의 편의와 독립성 증진</span></span></div></div>
+                            
+                        </div>
+                        <div class="analysis-footer"><div class='easy-exp-box'><span class='easy-label'>쉬운풀이</span>결론! 패션에 적용된 유니버설 디자인은 특정 소수만이 아니라, 어떤 신체 조건을 가졌든 '모든' 사람의 편안함과 독립성을 높여주는 착한 디자인이야.</div><div class='syntax-tip'><span class='syntax-label'>구문팁</span>[구문팁] <b>wearers of all abilities</b>: 직역하면 '모든 능력을 가진 착용자들'이지만, 문맥상 장애 유무나 신체적 조건의 '다양성'을 포괄하는 매우 중요한 표현임.</div></div>
+                        
+                    <div class='exam-point-box'>
+                        <div style='margin-bottom:3px;'><span class='exam-badge exam-badge-blank'>빈칸출제</span> <span class='exam-target'>wearers of all abilities</span> ➔ 변형: ① people with diverse physical conditions ② users regardless of their physical limitations</div>
+                        <div style='font-size:11px; color:#666;'>💡 보편적 설계가 특정 장애인뿐만 아니라 신체적 조건이 각기 다른 모든 사람을 포용한다는 핵심 주제를 담고 있는 결론 어구입니다.</div>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+</div>
+
+<div class="bottom-container">
+    <div class="b-left">
+        <div class="info-group" style="margin-top: 0;">
+            <div class="ri-item ri-material">
+                <span class="ri-label">소재</span>
+                패션 산업에 적용된 보편적 설계 (Universal Design) <span class='header-badge-them'>★주제문: S1</span><span class='header-badge-key'>★재진술: S6</span>
+            </div>
+
+            <div class="topic-box">
+                <strong style="font-size:17.5px;">Topic & Summary</strong><br>
+                <div style="margin-top:6px;">보편적 설계는 건축과 교통을 넘어 패션 산업으로 새롭게 적용되어, 신축성 있는 소재나 자석, 벨크로 등을 활용해 장애인뿐만 아니라 임산부, 노인 등 모든 사람의 편안함과 독립적인 착탈을 돕는다.</div>
+            </div>
+
+            <div class="ri-item ri-guide">
+                <span class="ri-label">수업 가이드</span>
+                자, 이전까지는 건물 경사로나 버스 이야기를 하다가 1번 문장에서 "While~"을 쓰면서 드디어 '패션 산업'이라는 새로운 무대로 넘어왔어. 패션에 유니버설 디자인이 어떻게 쓰이냐고? 3번 문장을 보면 단추 대신 자석이나 찍찍이를 쓴대. 여기서 진짜 중요한 어법! "making it easier to put on..." 이거 분사구문에 가목적어 it, 진목적어 to부정사까지 아주 문법 종합선물세트야. 서술형 영작 1순위니까 무조건 외워! 그리고 5번 문장에서 눈여겨볼 건, 이 옷이 영구적인 장애인뿐만 아니라 'temporary(일시적인)' 부상을 입은 사람한테도 좋다는 거야. 결국 마지막 6번 문장에서 말하듯 'all abilities(모든 신체 능력)'를 가진 사람들을 위한 디자인이라는 게 이 글의 최종 보스격 결론이지.
+            </div>
+            <div class="ri-item ri-tip">
+                <span class="ri-label">집중 Tip</span>
+                어휘 문제로 4번의 'independently(독립적으로)'나 5번의 'temporary(일시적인)'가 반의어(dependently, permanent)로 바뀌어 나올 수 있으니 문맥을 잘 파악해 둬!
+            </div>
+        </div>
+
+        <div class="answer-box">
+            <div class="ans-header">정답: </div>
+            <div class="ans-content">
+                <strong>[해설 요약]</strong><br><br><br>
+                <strong>[논리적 근거]</strong><br>
+                <ul style="margin:5px 0 0 20px; padding:0; list-style-type:circle;"></ul><br>
+                <strong>[논리 연결]</strong><br>
+            </div>
+        </div>
+
+        <div class="box-style options-box">
+            <strong style="font-size:14px; display:block; margin-bottom:15px; border-bottom:1px solid #ddd; padding-bottom:5px;">선택지 분석 (Why & Why not?)</strong>
+            
+        </div>
+
+        <div class="logic-box">
+            <strong>문장별 논리 전개 (Micro Flow)</strong>
+            <b>S1 (Intro): 화제 전환 - 건축/교통 체계 → **패션 산업(Fashion Industry)</b>**으로의 보편적 설계 확장<br>↓<br><b>S2 (Feature 1): 신축성 및 통기성 소재 사용 (편안함, 이동성 향상)</b><br>↓<br><b>S3 (Feature 2): 단추 대신 **자석과 벨크로** 사용 (입고 벗기 쉬움)</b><br>↓<br><b>S4 (Feature 3): 고무줄 허리띠, 조절 가능 소매 (장애인의 **독립적(independently)** 착탈 허용)</b><br>↓<br><b>S5 (Target): 수혜 대상의 확장 - 임산부, 거동 불편 노인, **일시적(temporary)</b>** 부상자에게도 유익함<br>↓<br><b>S6 (Conclusion): 종합 - 보편적 설계 의류는 **모든 신체 조건(all abilities)</b>**을 가진 착용자의 편의와 독립성을 증진함
+        </div>
+
+        <div class="scenario-box">
+            <div class="scene-header">지문 마킹 시뮬레이션</div>
+            <div class="scene-content">❶ While universal design has been utilized in architecture and transportation ... a newer application is in the fashion industry. (화제 전환)
+↓ (Features)
+❸ ... use of magnets and Velcro in place of buttons, making it easier to put on ... (특징과 장점)
+↓ (Targets & Conclusion)
+❺ ... beneficial for pregnant women ... and individuals with temporary injuries ... (대상 확장)
+❻ Overall, universal design clothing promotes ... for wearers of all abilities. (요약 결론)</div>
+        </div>
+
+        <div class="box-style learning-box">
+            <strong style="font-size:14px; display:block; margin-bottom:10px; border-bottom:1px solid #ddd; padding-bottom:5px;">Learning Points (핵심 콕콕)</strong>
+            <div class="learning-item">
+                <span class="learning-label logic-label">논리</span>
+                <ul class="learning-list"><li><b>화제 전환 (Transition):</b> ❶번 문장에서 `While`을 활용하여 기존의 건축/교통에서 <b>패션(fashion)</b>으로 글의 소재가 새롭게 전환됨을 <b>파악</b>.</li><li><b>대상 확장 및 요지:</b> 패션의 보편적 설계가 장애인뿐만 아니라 임산부, 노인, 일시적 부상자 등 <b>모두(all abilities)</b>를 위한 것임을 밝히는 ❻번 문장의 결론적 성격 <b>주의</b>.</li></ul>
+            </div>
+            <div class="learning-item">
+                <span class="learning-label grammar-label">구문</span>
+                <ul class="learning-list"><li><b>가목적어-진목적어 구문:</b> ❸번 문장의 분사구문 `making it(가목적어) easier(목적격보어) to put on~(진목적어)` 구조의 완벽한 형태 <b>암기</b> (서술형 최다 빈출).</li><li><b>5형식 동사 allow:</b> ❹번 문장의 `allow individuals with disabilities to dress` 구조에서 목적격 보어로 to부정사가 오는 점 <b>확인</b>.</li><li><b>분사 후위 수식:</b> ❷번 문장의 `Clothing (which is) designed~` 구조에서 과거분사가 명사를 능동이 아닌 수동으로 수식하는 점 <b>이해</b>.</li></ul>
+            </div>
+        </div>
+
+        
+            <div class="csat-container">
+                <div class="csat-header">
+                    <div class="csat-title"><span class="csat-badge">S</span> 요약문 빈칸 완성 & 해석</div>
+                    <div class="csat-subtitle">* 정답이 채워진 요약문과 해석입니다.</div>
+                </div>
+                <div class="csat-text">The application of universal design has expanded into the (A) <span class="csat-blank-ans">fashion</span> industry, utilizing adaptable features like magnets and stretchable materials to promote comfort and allow a (B) <span class="csat-blank-ans">diverse (또는 broad)</span> range of people to dress independently.</div>
+                <div class="csat-trans-header">▼ 해석 및 구문 분석 (Interpretation)</div>
+                <div class="csat-trans-text">보편적 설계의 적용은 자석과 신축성 있는 재료 같은 적응 가능한 특징들을 활용하여 편안함을 증진시키고 "(B) 다양한" 범위의 사람들이 독립적으로 옷을 입을 수 있도록 허용하면서 "(A) 패션" 산업으로 확장되었다.</div>
+            </div>
+            
+
+    </div>
+
+    <div class="b-right">
+        <strong style="font-size:14px; display:block; margin-bottom:15px;">글의 흐름 (3단 구조)</strong>
+        <div class="flow-container">
+            
+            <div class='flow-card flow-intro'>
+                <div class='flow-header'>
+                    <span class='flow-title'>[도입] 패션 산업으로 확장된 보편적 설계</span>
+                    <span class='flow-num-badge'>1</span>
+                </div>
+                <div class='flow-content'>보편적 설계의 적용 분야는 건축과 교통을 넘어 새롭게 <span class="fill-text">패션</span> 산업으로 확장되고 있다.</div>
+            </div>
+            <div class='flow-arrow'>→</div>
+            
+            <div class='flow-card flow-body'>
+                <div class='flow-header'>
+                    <span class='flow-title'>[전개] 보편적 설계 의류의 특징</span>
+                    <span class='flow-num-badge'>2, 3, 4</span>
+                </div>
+                <div class='flow-content'>이 의류들은 신축성 소재, 자석, 벨크로, 고무줄 허리띠 등을 통해 옷을 입고 벗기 쉽게 만들어 개인의 <span class="fill-text">독립성</span>을 보장한다.</div>
+            </div>
+            <div class='flow-arrow'>→</div>
+            
+            <div class='flow-card flow-conc'>
+                <div class='flow-header'>
+                    <span class='flow-title'>[결론] 모든 사람을 위한 혜택</span>
+                    <span class='flow-num-badge'>5, 6</span>
+                </div>
+                <div class='flow-content'>이러한 의류는 영구적 장애인뿐 아니라 임산부, 일시적 부상자 등 모든 신체적 <span class="fill-text">능력</span>을 가진 사람들에게 편안함과 유연성을 제공한다.</div>
+            </div>
+            
+            
+        </div>
+
+        <div class="question-header" style="margin-top: 40px;"> <span class="source-tag"></span></div>
+        <div class="source-text"><div class="line-last" style="position: relative; padding-right: 28%; margin-bottom: 10px; width: 100%; box-sizing: border-box;"><span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S1 (Intro): 화제 전환 - 건축/교통 체계 → **패션 산업(Fashion Industry)</b>**으로의 보편적 설계 확장</span>
+                            </span>
+                        </span><span class="interactive-num" onclick="toggleBubble(this)">❶<span class="translation-bubble"><div class="bubble-eng">❶ <span class="star-red">★</span>While <span class="syntax-box S-box">universal design</span> <span class="syntax-box V-box">has been utilized</span> <span class="slash">/</span> in architecture and transportation systems <span class="slash">/</span> for some time, <span class="slash">/</span> <span class="syntax-box S-box">a newer application</span> <span class="syntax-box V-box">is</span> <span class="slash">/</span> in the <span class="highlight-subject">fashion industry</span>.</div><div class="bubble-kor">❶ <span class="star-red">★</span><span class="S-text">보편적 설계가</span> <span class="V-text">활용되어 온</span> 반면 <span class="slash">/</span> 건축과 교통 체계에서 <span class="slash">/</span> 얼마 동안, <span class="slash">/</span> <span class="S-text">더 새로운 적용은</span> <span class="V-text">있다</span> <span class="slash">/</span> <span class="highlight-subject">패션 산업</span>에. <span class='summary-badge'>[도입] 패션 산업으로의 확장</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>지금까지 건물이나 교통 이야기만 했지? 근데 요새는 이 유니버설 디자인이 옷, 즉 패션 산업에도 아주 새롭게 쓰이고 있어.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[어법] <b>While universal design has been utilized</b>: 접속사 While이 '~인 반면에(지만)'의 양보 의미로 쓰였고, 주절과 시제를 맞춰 현재완료 수동태(has been pp)가 사용됨.</div></div></span></span> <span class="star-red">★</span>While universal design has been utilized in architecture and transportation systems for some time, a newer application is in the <span class="highlight-subject">fashion industry</span>. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S2 (Feature 1): 신축성 및 통기성 소재 사용 (편안함, 이동성 향상)</b></span>
+                            </span>
+                        </span><span class="interactive-num" onclick="toggleBubble(this)">❷<span class="translation-bubble"><div class="bubble-eng">❷ <span class="syntax-box S-box">Clothing</span> <span class="slash">/</span> designed with universal design <span class="slash">/</span> <span class="syntax-box V-box">integrates</span> <span class="syntax-box O-box">stretchable and breathable materials</span>, <span class="slash">/</span> <span class="syntax-box V-box">enhancing</span> <span class="syntax-box O-box">comfort and mobility</span>.</div><div class="bubble-kor">❷ <span class="S-text">의류는</span> <span class="slash">/</span> 보편적 설계로 디자인된 <span class="slash">/</span> <span class="O-text">신축성 있고 통기성 있는 재료들을</span> <span class="V-text">통합한다</span>, <span class="slash">/</span> <span class="O-text">편안함과 이동성을</span> <span class="V-text">향상시키면서</span>. <span class='summary-badge'>[특징 1] 신축성과 통기성 소재</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>유니버설 디자인으로 만든 옷은 쭉쭉 잘 늘어나고 땀도 잘 통하는 소재를 써서, 사람들이 훨씬 편하게 움직일 수 있게 만들어 줘.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[분사] <b>Clothing designed</b>: 과거분사 designed가 앞의 Clothing을 수동의 의미로 수식함.<br>[분사] <b>enhancing</b>: 콤마 뒤에 오는 현재분사 구문으로 '~하면서(능동)'라는 동시 동작이나 연속 상황을 나타냄. (and it enhances로 바꿀 수 있음)</div></div></span></span> Clothing designed with universal design integrates stretchable and breathable materials, <span class="visual-exam-target" style="border-bottom: 2px dashed #f44336; background-color: rgba(244, 67, 54, 0.15);"><span class="visual-exam-label" style="background-color: #f44336;">어법주의</span>enhancing</span> comfort and mobility. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S3 (Feature 2): 단추 대신 **자석과 벨크로** 사용 (입고 벗기 쉬움)</b></span>
+                            </span>
+                        </span><span class="interactive-num" onclick="toggleBubble(this)">❸<span class="translation-bubble"><div class="bubble-eng">❸ <span class="syntax-box S-box">Other features</span> <span class="syntax-box V-box">include</span> <span class="syntax-box O-box">the use of magnets and Velcro</span> <span class="slash">/</span> in place of buttons, <span class="slash">/</span> <span class="syntax-box V-box">making</span> <span class="syntax-box O-box">it</span> <span class="syntax-box C-box">easier</span> <span class="slash">/</span> to <span class="syntax-box V-box">put on and take off</span> <span class="syntax-box O-box">clothing</span>.</div><div class="bubble-kor">❸ <span class="S-text">다른 특징들은</span> <span class="O-text">자석과 벨크로의 사용을</span> <span class="V-text">포함한다</span> <span class="slash">/</span> 단추를 대신하여, <span class="slash">/</span> <span class="O-text">그것을</span> <span class="C-text">더 쉽게</span> <span class="V-text">만들면서</span> <span class="slash">/</span> <span class="O-text">옷을</span> <span class="V-text">입고 벗는 것을</span>. <span class='summary-badge'>[특징 2] 자석과 벨크로 사용</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>단추 잠그기 힘든 사람들을 위해서 단추 대신 자석이나 찍찍이를 달아 놨어. 덕분에 옷 입고 벗는 게 훨씬 수월해졌지.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[구문] <b>making it easier to put on</b>: 능동의 현재분사 making이 이끄는 분사구문 내에 목적어 자리에는 가목적어 it을 쓰고 목적격 보어 easier 뒤에 진목적어인 to부정사 구문(to put on ~)을 둔 매우 중요한 5형식 구조임.</div></div></span></span> Other features include the use of magnets and Velcro <span class="vocab-container"><span class="vocab-sub">~을 대신하여(=instead of)</span><span class="vocab-text">in place of</span></span> buttons, <span class="visual-exam-target" style="border-bottom: 2px dashed #f44336; background-color: rgba(244, 67, 54, 0.15);"><span class="visual-exam-label" style="background-color: #f44336;">어법주의</span>making it easier to put on and take off clothing</span>. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S4 (Feature 3): 고무줄 허리띠, 조절 가능 소매 (장애인의 **독립적(independently)** 착탈 허용)</b></span>
+                            </span>
+                        </span><span class="interactive-num" onclick="toggleBubble(this)">❹<span class="translation-bubble"><div class="bubble-eng">❹ <span class="syntax-box S-box">It</span> also <span class="syntax-box V-box">incorporates</span> <span class="syntax-box O-box">traits</span> <span class="slash">/</span> like stretchy waistbands and adjustable sleeves <span class="slash">/</span> to <span class="syntax-box V-box">allow</span> <span class="syntax-box O-box">individuals with disabilities</span> <span class="slash">/</span> to <span class="syntax-box V-box">dress</span> independently.</div><div class="bubble-kor">❹ <span class="S-text">그것은(이 옷은)</span> 또한 <span class="O-text">특징들을</span> <span class="V-text">포함한다</span> <span class="slash">/</span> 신축성 있는 허리띠와 조절 가능한 소매들과 같은 <span class="slash">/</span> <span class="O-text">장애가 있는 개인들이</span> <span class="V-text">허락하기 위해</span> <span class="slash">/</span> 독립적으로 <span class="V-text">옷을 입도록</span>. <span class='summary-badge'>[특징 3] 독립적 착탈 지원</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>또 밴딩 처리된 고무줄 바지나 소매 길이를 조절할 수 있게 만들어서, 장애가 있는 분들도 남의 도움 없이 스스로 옷을 입을 수 있게 배려했어.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[어법] <b>to allow individuals ... to dress</b>: 5형식 동사 allow는 목적격 보어로 to부정사(to dress)를 취함.</div></div></span></span> It also incorporates traits like stretchy waistbands and adjustable sleeves to allow individuals with disabilities to <span class="visual-exam-target" style="border-bottom: 2px dashed #4caf50; background-color: rgba(76, 175, 80, 0.15);"><span class="visual-exam-label" style="background-color: #4caf50;">빈칸출제</span>dress <span class="vocab-container"><span class="vocab-sub">독립적으로</span><span class="vocab-text">independently</span></span></span>. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S5 (Target): 수혜 대상의 확장 - 임산부, 거동 불편 노인, **일시적(temporary)</b>** 부상자에게도 유익함</span>
+                            </span>
+                        </span><span class="interactive-num" onclick="toggleBubble(this)">❺<span class="translation-bubble"><div class="bubble-eng">❺ <span class="syntax-box S-box">This type of clothing</span> <span class="syntax-box V-box">is</span> also <span class="syntax-box C-box">beneficial</span> <span class="slash">/</span> for pregnant women, older adults <span class="slash">/</span> who <span class="syntax-box V-box">may experience</span> <span class="syntax-box O-box">mobility issues</span>, <span class="slash">/</span> and individuals <span class="slash">/</span> with temporary injuries or medical conditions.</div><div class="bubble-kor">❺ <span class="S-text">이러한 유형의 의류는</span> 또한 <span class="C-text">유익하다</span> <span class="slash">/</span> 임산부들, 노인들을 위해 <span class="slash">/</span> <span class="O-text">이동성 문제들을</span> <span class="V-text">겪을지도 모르는</span>, <span class="slash">/</span> 그리고 개인들을 위해 <span class="slash">/</span> 일시적인 부상이나 의학적 상태(질환)를 가진. <span class='summary-badge'>[효과] 수혜 대상의 확장</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>이렇게 만든 옷이 장애인한테만 좋게? 배가 나온 임산부, 몸이 쑤시는 할머니 할아버지, 심지어 팔 부러져서 깁스한 사람한테도 진짜 편하고 유익해!</div></div></span></span> This type of clothing is also beneficial for pregnant women, older adults who may experience mobility issues, and individuals with <span class="visual-exam-target" style="border-bottom: 2px dashed #ff9800; background-color: rgba(255, 152, 0, 0.15);"><span class="visual-exam-label" style="background-color: #ff9800;">변형출제</span><span class="vocab-container"><span class="vocab-sub">일시적인</span><span class="vocab-text">temporary</span></span></span> injuries or medical conditions. <span style="position: absolute; right: 0; width: 26%; z-index: 10;">
+                            <span class="logic-flow-card" style="display: block; background-color: #f5f5f5; border-color: #e0e0e0; color: #333; font-family: 'D2Coding', sans-serif; padding: 4px 6px; margin: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-size: 9.5px; letter-spacing: -0.8px; border-radius: 6px; border-left: 3px solid #1565c0; word-break: keep-all; white-space: normal; text-align: left; line-height: 1.2; transform: translateY(-2px);">
+                                <span class="logic-desc" style="font-weight: 800;"><b>S6 (Conclusion): 종합 - 보편적 설계 의류는 **모든 신체 조건(all abilities)</b>**을 가진 착용자의 편의와 독립성을 증진함</span>
+                            </span>
+                        </span><span class="interactive-num" onclick="toggleBubble(this)">❻<span class="translation-bubble"><div class="bubble-eng">❻ <span class="star-yellow">★</span>Overall, <span class="slash">/</span> <span class="syntax-box S-box"><span class="highlight-subject">universal design clothing</span></span> <span class="syntax-box V-box">promotes</span> <span class="syntax-box O-box">increased comfort, convenience, independence, and improved mobility and flexibility</span> <span class="slash">/</span> for wearers of all abilities.</div><div class="bubble-kor">❻ <span class="star-yellow">★</span>전반적으로, <span class="slash">/</span> <span class="S-text"><span class="highlight-subject">보편적 설계 의류는</span></span> <span class="O-text">증가된 편안함, 편리함, 독립성, 그리고 향상된 이동성과 유연성을</span> <span class="V-text">증진시킨다</span> <span class="slash">/</span> 모든 능력을 가진 착용자들을 위해. <span class='summary-badge'>[결론] 모두의 편의와 독립성 증진</span></div><div class="bubble-easy"><span class="easy-label">쉬운풀이</span><div>결론! 패션에 적용된 유니버설 디자인은 특정 소수만이 아니라, 어떤 신체 조건을 가졌든 '모든' 사람의 편안함과 독립성을 높여주는 착한 디자인이야.</div></div><div class="bubble-tip"><span class="syntax-label">구문팁</span><div>[어휘] <b>wearers of all abilities</b>: 직역하면 '모든 능력을 가진 착용자들'이지만, 문맥상 장애 유무나 신체적 조건의 '다양성'을 포괄하는 매우 중요한 표현임.</div></div></span></span> <span class="star-yellow">★</span>Overall, <span class="highlight-subject">universal design clothing</span> promotes increased comfort, convenience, independence, and improved mobility and flexibility for <span class="visual-exam-target" style="border-bottom: 2px dashed #4caf50; background-color: rgba(76, 175, 80, 0.15);"><span class="visual-exam-label" style="background-color: #4caf50;">빈칸출제</span>wearers of all abilities</span>.</div></div>
+
+        <span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">Vocabulary</span>
+        
+        <div class="sec-vocab">
+            <div class="v-header">
+                <div class="cell col-chk">Chk</div>
+                <div class="cell col-word">Word</div>
+                <div class="cell col-mean">Mean & Syn / Ant</div>
+                <div class="cell col-context">Context</div>
+                <div class="cell col-chunk">Chunk Example</div>
+            </div>
+            <div class="v-list">
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">utilize</span><div class="word-pron">[유틸라이즈]</div><div class="word-ety">utilis(유용한) + ize(~하게 만들다) = 유용하게 만들다 -> 활용하다</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">활용하다, 이용하다</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>use / employ</div><div class="rel-item item-ant"><span class="bg-ant">반</span>neglect / ignore</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>utility (유용성, 공공시설)</div></div></div>
+                <div class="cell col-context"><span class="vm-context">문맥: 기존에 건축이나 교통 시스템에서 유용하게 쓰여 오다</span></div>
+                <div class="cell col-chunk"><span class="vch-en">has been <span class="c-hl">utilized</span> in architecture</span><br><span class="vch-ko">건축에서 활용되어 왔다</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">integrate</span><div class="word-pron">[인터그레이트]</div><div class="word-ety">integer(완전한) + ate(동사형 접미사) = 완전하게 하나로 만들다 -> 통합하다</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">통합하다, 접목하다</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>incorporate / combine</div><div class="rel-item item-ant"><span class="bg-ant">반</span>separate / divide</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>interrogate (심문하다)</div></div></div>
+                <div class="cell col-context"><span class="vm-context">문맥: 옷을 만들 때 신축성 있는 소재 등의 특징을 하나로 합쳐서 넣다</span></div>
+                <div class="cell col-chunk"><span class="vch-en"><span class="c-hl">integrates</span> stretchable and breathable materials</span><br><span class="vch-ko">신축성 있고 통기성 있는 재료를 통합한다</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">stretchable</span><div class="word-pron">[스트레처블]</div><div class="word-ety">stretch(늘어나다) + able(~할 수 있는)</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">신축성 있는, 늘어나는</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>elastic / flexible</div><div class="rel-item item-ant"><span class="bg-ant">반</span>rigid / stiff</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>sketchy (대략적인)</div></div></div>
+                <div class="cell col-context"><span class="vm-context">문맥: 당기면 늘어나서 움직이기 편한 소재</span></div>
+                <div class="cell col-chunk"><span class="vch-en"><span class="c-hl">stretchable</span> and breathable materials</span><br><span class="vch-ko">신축성 있고 통기성 있는 재료</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">breathable</span><div class="word-pron">[브리더블]</div><div class="word-ety">breath(숨) + able(~할 수 있는) = 숨 쉴 수 있는 -> 통기성이 있는</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">통기성이 있는</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>ventilated / airy</div><div class="rel-item item-ant"><span class="bg-ant">반</span>airtight / stifling</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>breakable (깨지기 쉬운)</div></div></div>
+                <div class="cell col-context"><span class="vm-context">문맥: 공기가 잘 통해서 땀이 차지 않고 쾌적한</span></div>
+                <div class="cell col-chunk"><span class="vch-en">stretchable and <span class="c-hl">breathable</span> materials</span><br><span class="vch-ko">신축성 있고 통기성 있는 재료</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">mobility</span><div class="word-pron">[모빌러티]</div><div class="word-ety">mobilis(움직일 수 있는) + ity(명사형 접미사)</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">이동성, 기동성</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>movement / flexibility</div><div class="rel-item item-ant"><span class="bg-ant">반</span>immobility / stiffness</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>nobility (귀족)</div></div></div>
+                <div class="cell col-context"><span class="vm-context">문맥: 몸을 움직이거나 이동하기 편한 정도</span></div>
+                <div class="cell col-chunk"><span class="vch-en">enhancing comfort and <span class="c-hl">mobility</span></span><br><span class="vch-ko">편안함과 이동성을 향상시키며</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">in place of</span><div class="word-pron">[인 플레이스 오브]</div><div class="word-ety">None</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">~을 대신하여</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>instead of / replacing</div><div class="rel-item item-ant"><span class="bg-ant">반</span>in addition to</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>in spite of (~에도 불구하고)</div></div></div>
+                <div class="cell col-context"><span class="vm-context">문맥: 기존의 단추를 빼고 그 자리에 자석 등을 쓰다</span></div>
+                <div class="cell col-chunk"><span class="vch-en"><span class="c-hl">in place of</span> buttons</span><br><span class="vch-ko">단추를 대신하여</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">trait</span><div class="word-pron">[트레이트]</div><div class="word-ety">tractus(끌어내다) = 끌어낸 선 -> 얼굴의 생김새 -> 특징</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">특성, 특징</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>characteristic / feature</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>trail (흔적, 오솔길)</div></div></div>
+                <div class="cell col-context"><span class="vm-context">문맥: 고무줄 허리띠 등 옷이 가진 유용한 성질</span></div>
+                <div class="cell col-chunk"><span class="vch-en">incorporates <span class="c-hl">traits</span> like stretchy waistbands</span><br><span class="vch-ko">신축성 있는 허리띠와 같은 특징들을 포함한다</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">independently</span><div class="word-pron">[인디펜던틀리]</div><div class="word-ety">in(부정) + depend(의존하다) + ent + ly = 의존하지 않게 -> 독립적으로</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">독립적으로, 남의 도움 없이</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>autonomously / on one's own</div><div class="rel-item item-ant"><span class="bg-ant">반</span>dependently / rely on others</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>indefinitely (무기한으로)</div></div></div>
+                <div class="cell col-context"><span class="vm-context">문맥: 타인의 도움 없이 스스로 옷을 입고 벗을 수 있는</span></div>
+                <div class="cell col-chunk"><span class="vch-en">dress <span class="c-hl">independently</span></span><br><span class="vch-ko">독립적으로 옷을 입다</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">temporary</span><div class="word-pron">[템퍼레리]</div><div class="word-ety">tempus(시간) + ary(~와 관련된) = 일정 시간 동안만의 -> 일시적인</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">일시적인, 임시의</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>momentary / short-term</div><div class="rel-item item-ant"><span class="bg-ant">반</span>permanent / everlasting</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>contemporary (동시대의)</div></div></div>
+                <div class="cell col-context"><span class="vm-context">문맥: 영구적인 장애가 아니라 잠시 다쳐서 깁스 등을 한 상태</span></div>
+                <div class="cell col-chunk"><span class="vch-en">individuals with <span class="c-hl">temporary</span> injuries</span><br><span class="vch-ko">일시적인 부상을 가진 개인들</span></div>
+            </div>
+            
+            <div class="v-row">
+                <div class="cell col-chk"><div class="chk-box"></div></div>
+                <div class="cell col-word"><span class="word-txt">promote</span><div class="word-pron">[프로모트]</div><div class="word-ety">pro(앞으로) + movere(움직이다) = 앞으로 나아가게 하다 -> 증진하다</div></div>
+                <div class="cell col-mean"><span class="vm-kor" style="font-size: 13.5px;">증진하다, 촉진하다</span><div class="rel-box"><div class="rel-item item-syn"><span class="bg-syn">유</span>encourage / advance</div><div class="rel-item item-ant"><span class="bg-ant">반</span>hinder / prevent</div><div class="rel-item item-conf" style="width:100%; margin-top:2px;"><span class="bg-conf">혼</span>prompt (즉각적인)</div></div></div>
+                <div class="cell col-context"><span class="vm-context">문맥: 편안함이나 독립성 등을 더 높아지게 만들다</span></div>
+                <div class="cell col-chunk"><span class="vch-en"><span class="c-hl">promotes</span> increased comfort</span><br><span class="vch-ko">증가된 편안함을 증진시킨다</span></div>
+            </div>
+            </div>
+        </div>
+        
+
+        <span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">Key Sentences Analysis</span>
+        <table class="analysis-table">
+            <colgroup><col width="12%"> <col width="10%"> <col width="35%"> <col width="25%"> <col width="18%"></colgroup>
+            <thead><tr><th style="text-align:center;">출처</th><th style="text-align:center;">종류</th><th style="text-align:center;">영어 문장</th><th style="text-align:center;">한글 해석</th><th style="text-align:center;">선정 사유</th></tr></thead>
+            <tbody><tr><td style='text-align:center; color:#555;'>[본문]</td><td style='text-align:center; font-weight:bold; color:#0d47a1;'>주제문</td><td style='font-family:Times New Roman; font-size:14px; text-align:left;'>While universal design has been utilized in architecture and transportation systems for some time, a newer application is in the fashion industry.</td><td style='font-size:13px; text-align:left;'>보편적 설계가 얼마 동안 건축과 교통 체계에서 활용되어 온 반면, 더 새로운 적용은 패션 산업에 있다.</td><td style='font-size:12px; color:#555; text-align:left;'>[접속사 While <span class="slash">/</span> 화제 전환] 글의 중심 소재가 기존의 건축/교통에서 '패션 산업'으로 새롭게 전환됨을 선언하는 도입부이자 주제문입니다.</td></tr><tr><td style='text-align:center; color:#555;'>[본문]</td><td style='text-align:center; font-weight:bold; color:#0d47a1;'>핵심 구문</td><td style='font-family:Times New Roman; font-size:14px; text-align:left;'>Other features include the use of magnets and Velcro in place of buttons, <span style="color:#d32f2f; font-weight:bold;">making it easier to</span> put on and take off clothing.</td><td style='font-size:13px; text-align:left;'>다른 특징들은 단추 대신 자석과 벨크로를 사용하는 것을 포함하며, 이는 옷을 입고 벗는 것을 더 쉽게 만든다.</td><td style='font-size:12px; color:#555; text-align:left;'>[분사구문 <span class="slash">/</span> 가목적어-진목적어] 콤마 뒤에 능동의 분사구문 <span style="color:#d32f2f; font-weight:bold;">making</span>이 쓰였고, 그 안에서 가목적어 <span style="color:#d32f2f; font-weight:bold;">it</span>과 진목적어 <span style="color:#d32f2f; font-weight:bold;">to put on ~</span> 구문이 사용된 매우 중요한 서술형 및 어법 출제 포인트입니다.</td></tr><tr><td style='text-align:center; color:#555;'>[본문]</td><td style='text-align:center; font-weight:bold; color:#0d47a1;'>재진술</td><td style='font-family:Times New Roman; font-size:14px; text-align:left;'>Overall, universal design clothing promotes increased comfort, convenience, independence, and improved mobility and flexibility for wearers of <span style="color:#d32f2f; font-weight:bold;">all abilities</span>.</td><td style='font-size:13px; text-align:left;'>전반적으로, 보편적 설계 의류는 모든 능력(신체 조건)을 가진 착용자들을 위해 증가된 편안함, 편리함, 독립성, 그리고 향상된 이동성과 유연성을 증진시킨다.</td><td style='font-size:12px; color:#555; text-align:left;'>[결론 <span class="slash">/</span> 핵심어 요약] 패션에 적용된 보편적 설계의 이점들을 총망라하여 요약해 주는 결론 문장으로, 특정 장애인이 아닌 <span style="color:#d32f2f; font-weight:bold;">all abilities</span>를 위한 것이라는 보편적 설계의 철학을 잘 보여줍니다.</td></tr></tbody>
+        </table>
+
+        <span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">True / False 문제 분석</span>
+        
+                <div style="margin-bottom:10px; border:1px solid #e0e0e0; border-radius:6px; padding:12px; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                    <div style="display:flex; align-items:flex-start; margin-bottom:6px;">
+                        <div><span style='color:white; background-color:#c62828; padding:2px 8px; border-radius:4px; font-weight:bold; font-family:var(--font-eng); margin-right:8px;'>F</span></div>
+                        <div style="flex:1;">
+                            <div style="font-family:var(--font-eng); font-size:15px; font-weight:bold; color:#222;">The primary focus of universal design in the fashion industry is to enhance aesthetic appeal rather than improving comfort or mobility.</div>
+                            <div style="font-size:13.5px; color:#555; margin-top:2px;">패션 산업에서 보편적 설계의 주요 초점은 편안함이나 이동성을 향상시키기보다는 미적 매력을 높이는 데 있다.</div>
+                        </div>
+                    </div>
+                    <div style="background:#f5f5f5; padding:8px 10px; border-radius:4px; font-size:12.5px; color:#333; border-left:3px solid #c62828; line-height:1.4;">
+                        💡 <b>해설:</b> 지문 2번 문장에서 신축성 있고 통기성 있는 재료를 통합하여 '편안함과 이동성을 향상시킨다(enhancing comfort and mobility)'고 명시했으므로 미적 매력에 초점을 맞춘다는 설명은 오답입니다.
+                    </div>
+                </div>
+                
+                <div style="margin-bottom:10px; border:1px solid #e0e0e0; border-radius:6px; padding:12px; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                    <div style="display:flex; align-items:flex-start; margin-bottom:6px;">
+                        <div><span style='color:white; background-color:#2e7d32; padding:2px 8px; border-radius:4px; font-weight:bold; font-family:var(--font-eng); margin-right:8px;'>T</span></div>
+                        <div style="flex:1;">
+                            <div style="font-family:var(--font-eng); font-size:15px; font-weight:bold; color:#222;">Traditional buttons are often replaced by magnets and Velcro in universal design clothing to facilitate the process of getting dressed.</div>
+                            <div style="font-size:13.5px; color:#555; margin-top:2px;">보편적 설계 의류에서는 옷을 입는 과정을 용이하게 하기 위해 전통적인 단추가 종종 자석과 벨크로로 대체된다.</div>
+                        </div>
+                    </div>
+                    <div style="background:#f5f5f5; padding:8px 10px; border-radius:4px; font-size:12.5px; color:#333; border-left:3px solid #2e7d32; line-height:1.4;">
+                        💡 <b>해설:</b> 지문 3번 문장의 'the use of magnets and Velcro in place of buttons, making it easier to put on and take off clothing' 내용과 정확히 일치합니다.
+                    </div>
+                </div>
+                
+                <div style="margin-bottom:10px; border:1px solid #e0e0e0; border-radius:6px; padding:12px; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                    <div style="display:flex; align-items:flex-start; margin-bottom:6px;">
+                        <div><span style='color:white; background-color:#c62828; padding:2px 8px; border-radius:4px; font-weight:bold; font-family:var(--font-eng); margin-right:8px;'>F</span></div>
+                        <div style="flex:1;">
+                            <div style="font-family:var(--font-eng); font-size:15px; font-weight:bold; color:#222;">Features like stretchy waistbands and adjustable sleeves are incorporated exclusively to assist individuals with permanent physical disabilities.</div>
+                            <div style="font-size:13.5px; color:#555; margin-top:2px;">신축성 있는 허리띠와 조절 가능한 소매 같은 특징들은 영구적인 신체 장애가 있는 개인들을 돕기 위해 배타적으로 통합되었다.</div>
+                        </div>
+                    </div>
+                    <div style="background:#f5f5f5; padding:8px 10px; border-radius:4px; font-size:12.5px; color:#333; border-left:3px solid #c62828; line-height:1.4;">
+                        💡 <b>해설:</b> 지문 5번 문장에서 이러한 의류가 장애인뿐만 아니라 임산부, 노인, 일시적인 부상을 입은 사람(individuals with temporary injuries)에게도 유익하다고 했으므로 '영구적인 장애인에게만 배타적으로(exclusively)' 적용된다는 것은 틀린 내용입니다.
+                    </div>
+                </div>
+                
+                <div style="margin-bottom:10px; border:1px solid #e0e0e0; border-radius:6px; padding:12px; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                    <div style="display:flex; align-items:flex-start; margin-bottom:6px;">
+                        <div><span style='color:white; background-color:#2e7d32; padding:2px 8px; border-radius:4px; font-weight:bold; font-family:var(--font-eng); margin-right:8px;'>T</span></div>
+                        <div style="flex:1;">
+                            <div style="font-family:var(--font-eng); font-size:15px; font-weight:bold; color:#222;">Clothing designed with universal design aims to foster independence by allowing wearers to dress themselves without external assistance.</div>
+                            <div style="font-size:13.5px; color:#555; margin-top:2px;">보편적 설계를 바탕으로 디자인된 의류는 착용자가 외부의 도움 없이 스스로 옷을 입을 수 있게 함으로써 독립성을 기르는 것을 목표로 한다.</div>
+                        </div>
+                    </div>
+                    <div style="background:#f5f5f5; padding:8px 10px; border-radius:4px; font-size:12.5px; color:#333; border-left:3px solid #2e7d32; line-height:1.4;">
+                        💡 <b>해설:</b> 지문 4번 문장의 'allow individuals... to dress independently'와 6번 문장의 'promotes... independence'를 정확하게 의역한 맞는 문장입니다.
+                    </div>
+                </div>
+                
+
+        <span class="table-label" style="display:block; margin-top:30px; margin-bottom:10px; font-weight:bold;">영영 풀이 (English Definitions)</span>
+        
+            <table class="analysis-table">
+                <colgroup><col width="20%"><col width="50%"><col width="30%"></colgroup>
+                <thead><tr><th>Word</th><th>Definition</th><th>Translation</th></tr></thead>
+                <tbody><tr><td class='vocab-word-bold' style='text-align:center;'>utilize</td><td style='text-align:left; font-family:var(--font-eng); font-size:14.5px;'>to make practical and effective use of something.</td><td style='text-align:left; font-size:13.5px; color:#444;'>무언가를 실용적이고 효과적으로 사용하다.</td></tr><tr><td class='vocab-word-bold' style='text-align:center;'>integrate</td><td style='text-align:left; font-family:var(--font-eng); font-size:14.5px;'>to combine one thing with another so that they become a whole.</td><td style='text-align:left; font-size:13.5px; color:#444;'>하나가 다른 것과 결합하여 전체가 되게 하다.</td></tr><tr><td class='vocab-word-bold' style='text-align:center;'>stretchable</td><td style='text-align:left; font-family:var(--font-eng); font-size:14.5px;'>capable of being made longer or wider without tearing or breaking.</td><td style='text-align:left; font-size:13.5px; color:#444;'>찢어지거나 부러지지 않고 더 길거나 넓게 늘어날 수 있는.</td></tr><tr><td class='vocab-word-bold' style='text-align:center;'>breathable</td><td style='text-align:left; font-family:var(--font-eng); font-size:14.5px;'>allowing air to pass through easily, especially of clothing material.</td><td style='text-align:left; font-size:13.5px; color:#444;'>특히 옷의 소재가 공기가 쉽게 통과하도록 허용하는.</td></tr><tr><td class='vocab-word-bold' style='text-align:center;'>mobility</td><td style='text-align:left; font-family:var(--font-eng); font-size:14.5px;'>the ability to move or be moved freely and easily.</td><td style='text-align:left; font-size:13.5px; color:#444;'>자유롭고 쉽게 움직이거나 이동될 수 있는 능력.</td></tr><tr><td class='vocab-word-bold' style='text-align:center;'>in place of</td><td style='text-align:left; font-family:var(--font-eng); font-size:14.5px;'>as a substitute or replacement for.</td><td style='text-align:left; font-size:13.5px; color:#444;'>~에 대한 대체물이나 교체품으로서.</td></tr><tr><td class='vocab-word-bold' style='text-align:center;'>trait</td><td style='text-align:left; font-family:var(--font-eng); font-size:14.5px;'>a distinguishing quality or characteristic.</td><td style='text-align:left; font-size:13.5px; color:#444;'>구별되는 품질이나 특성.</td></tr><tr><td class='vocab-word-bold' style='text-align:center;'>independently</td><td style='text-align:left; font-family:var(--font-eng); font-size:14.5px;'>without outside help; unaided.</td><td style='text-align:left; font-size:13.5px; color:#444;'>외부의 도움 없이; 보조 없이.</td></tr><tr><td class='vocab-word-bold' style='text-align:center;'>temporary</td><td style='text-align:left; font-family:var(--font-eng); font-size:14.5px;'>lasting for only a limited period of time; not permanent.</td><td style='text-align:left; font-size:13.5px; color:#444;'>제한된 기간 동안만 지속되는; 영구적이지 않은.</td></tr><tr><td class='vocab-word-bold' style='text-align:center;'>promote</td><td style='text-align:left; font-family:var(--font-eng); font-size:14.5px;'>to support or actively encourage (a cause, venture, etc.); further the progress of.</td><td style='text-align:left; font-size:13.5px; color:#444;'>(대의, 벤처 사업 등을) 지지하거나 적극적으로 장려하다; ~의 진행을 촉진하다.</td></tr></tbody>
+            </table>
+            
+    </div>
+</div>
+
+<script>
+function toggleBubble(element) {
+    const all = document.querySelectorAll('.interactive-num');
+    const wasActive = element.classList.contains('active');
+    all.forEach(el => el.classList.remove('active'));
+    if (!wasActive) {
+        element.classList.add('active');
+    }
+}
+
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('.interactive-num')) {
+        const all = document.querySelectorAll('.interactive-num');
+        all.forEach(el => el.classList.remove('active'));
+    }
+});
+
+let currentZIndex = 1000;
+
+function toggleModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal.style.display === 'block') {
+        modal.style.display = 'none';
+    } else {
+        currentZIndex++;
+        modal.style.zIndex = currentZIndex;
+        modal.style.display = 'block';
+    }
+}
+</script>
+
+</body>
+</html>
